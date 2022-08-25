@@ -61,7 +61,7 @@ export default class HomeScreen extends Component {
 
         return (
             <ScrollView>
-                <View className="flex w-full h-full items-center">
+                <View className="flex w-full bg-white h-full items-center">
                     <StatusBar barStyle="light-content" />
                     <View className="w-full h-2/2 items-center bg-[#5aa272] rounded-b-3xl p-4">
                         <View className="flex flex-row items-center w-full justify-between">
@@ -71,15 +71,15 @@ export default class HomeScreen extends Component {
                                 <Ionicons name="notifications-outline" size={35} color={"white"} />
                             </View>
                         </View>
-                        <View className="mt-5 w-full flex flex-row rounded-lg">
+                        <View className="mt-5 w-full flex flex-row items-center rounded-lg bg-white p-4">
+                            <Image source={ImagesContent.search} className="w-4 h-4 ml-2 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
                             <TextInput
-                                className="w-full bg-white rounded-lg p-4"
+                                onPressIn={() => navigation.navigate('Search Therapist')}
                                 underlineColorAndroid="transparent"
                                 placeholder="Search health isuue, doctor..."
                                 placeholderTextColor="grey"
                                 autoCapitalize="none"
                             />
-                            {/* <Image source={ImagesContent.link} className="w-4 h-4" style={styles.searchView} resizeMode='contain' /> */}
                         </View>
                         <View className="flex flex-row pt-5 gap-1">
                             <Text className="text-md font-bold text-white"> Need professional help? </Text>
@@ -102,7 +102,7 @@ export default class HomeScreen extends Component {
                             }
                         </View>
                     </View>
-                    <View className="w-full h-1/2 items-center bg-white rounded-b-3xl p-4">
+                    <View className="flex w-full items-center bg-white rounded-b-3xl p-4">
                         <View className="flex flex-row items-center w-full justify-between">
                             <View className="flex flex-row">
                                 <Text className="text-2xl font-bold">Our</Text>
@@ -110,7 +110,7 @@ export default class HomeScreen extends Component {
                             </View>
                             <Text>SEE ALL</Text>
                         </View>
-                        <View className="w-full h-56">
+                        <View className="w-full h-60">
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 <View style={{ flexDirection: 'row' }} className="gap-3 mt-3">
                                     {
@@ -125,7 +125,6 @@ export default class HomeScreen extends Component {
                                                             <Text className="text-sm font-bold text-white">{data.fn}</Text>
                                                             <Text className="text-sm font-bold text-white">{data.ln}</Text>
                                                         </View>
-
                                                     </View>
                                                     <View className=" items-center w-28 mt-1 justify-center">
                                                         <Text className="text-sm">{data.disc}</Text>
@@ -176,7 +175,7 @@ export default class HomeScreen extends Component {
                             <Text className="text-sm text-grey-300">Choose what suits you </Text>
                         </View>
                         <View className="mt-3 w-full h-54">
-                            <ScrollView horizontal={true}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 <View style={{ flexDirection: 'row' }} className="gap-3">
                                     {
                                         arr.map((data) => {
@@ -202,7 +201,7 @@ export default class HomeScreen extends Component {
                             <Text>SEE ALL</Text>
                         </View>
                         <View className="mt-3 w-full h-54">
-                            <ScrollView horizontal={true}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 <View style={{ flexDirection: 'row' }} className="gap-3">
                                     {
                                         arr.map((data) => {

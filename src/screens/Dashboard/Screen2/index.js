@@ -54,7 +54,7 @@ export default class Screen2 extends Component {
 
         return (
             <ScrollView>
-                <View className="flex w-full h-full">
+                <View className="flex w-full h-full bg-white">
                     <StatusBar barStyle="light-content" />
                     <View className="w-full h-2/2 items-center bg-[#5aa272] rounded-b-3xl p-4">
                         <View className="flex flex-row items-center w-full justify-between">

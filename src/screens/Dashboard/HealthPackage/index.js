@@ -21,11 +21,11 @@ const HealthPackage = () => {
             <Text className="text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Text>
           </View>
         </View>
-        <View className=" flex flex-row justify-between ml-5 mr-5">
+        <View className=" flex flex-row justify-between ml-3 mr-8">
           {
             arr.map((data) => {
               return (
-                <View className="flex flex-row items-center justify-between p-5 mt-2">
+                <View className="flex flex-row items-center justify-between p-5">
                   <View className="items-center">
                     <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
                     <Text className="mt-2 text-sm">Available</Text>
@@ -44,7 +44,7 @@ const HealthPackage = () => {
               return (
                 <View className="flex flex-row p-2 gap-2 items-center mt-2">
                   <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                  <Text className="pl-5 pr-5 text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Text>
+                  <Text className="pl-3 pr-5 text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Text>
                 </View>
               )
             })

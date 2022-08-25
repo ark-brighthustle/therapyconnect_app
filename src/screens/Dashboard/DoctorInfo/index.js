@@ -14,7 +14,7 @@ const DoctorInfo = () => {
         <View className="flex bg-white p-5 h-62" style={{ borderBottomWidth: 2, borderBottomColor: "#EBF4F3" }}>
           <View className="flex flex-row gap-10">
             <View className="w-24 h-24 rounded-full bg-red-500" />
-            <View className="w-2/3">
+            <View className="w-2/4">
               <Text className="text-xl font-bold">Dr. Mariam Garcia</Text>
               <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
                 <Text className="text-sm font-bold text-white">Allopathic</Text>
@@ -31,7 +31,7 @@ const DoctorInfo = () => {
               <Text className="text-sm">Next Available</Text>
               <Text className="text-lg font-bold">10:00 PM, Today</Text>
             </View>
-            <TouchableOpacity className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 h-12 p-3">
+            <TouchableOpacity className="flex flex-row justify-between items-center rounded-lg ml-2 bg-red-500 w-52 h-12 p-3">
               <Text className="text-md font-bold text-white">CONSULT NOW</Text>
               <Text className="text-md font-bold text-white">₹400</Text>
             </TouchableOpacity>

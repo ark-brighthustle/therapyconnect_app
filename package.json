@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-picker/picker": "^2.4.4",
     "@react-navigation/drawer": "^6.4.3",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.7.0",
@@ -18,11 +19,13 @@
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
     "react-native": "0.69.4",
+    "react-native-calendars": "^1.1288.2",
     "react-native-gesture-bottom-sheet": "^1.1.0",
     "react-native-gesture-handler": "^2.5.0",
     "react-native-image-slider-show": "^1.0.3",
     "react-native-paper": "^4.12.4",
     "react-native-reanimated": "~2.9.1",
+    "react-native-select-dropdown": "^2.0.4",
     "react-native-vector-icons": "^9.2.0",
     "tailwindcss-react-native": "^1.7.10"
   },

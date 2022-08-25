@@ -51,7 +51,7 @@ const ConsultantPhysician = () => {
                                                             <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
                                                         </TouchableOpacity>
                                                     </View>
-                                                    <View className="w-2/3">
+                                                    <View className="w-2/4">
                                                         <Text className="text-xl font-bold">Dr. Mariam Garcia</Text>
                                                         <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
                                                             <Text className="text-sm font-bold text-white">Allopathic</Text>
@@ -69,7 +69,7 @@ const ConsultantPhysician = () => {
                                                         <Text className="text-lg font-bold">10:00 PM, Today</Text>
                                                     </View>
                                                     <TouchableOpacity
-                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 h-12 p-3"
+                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
                                                         onPress={() => { this.BottomSheet.show() }}
                                                     >
                                                         <Text className="text-md font-bold text-white">CONSULT NOW</Text>
