@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { ImagesContent } from '../../../constants/images'
+import { Colors } from '../../../constants/colors'
 
 const HealthyLife = () => {
   const arr = [0, 1]
@@ -52,8 +53,8 @@ const styles = StyleSheet.create({
   firstView: {
     borderWidth: 1,
     padding: 20,
-    borderColor: "#EBF4F3",
-    backgroundColor: "#F6FAF8",
+    borderColor: Colors.borderColor,
+    backgroundColor: Colors.cardColor,
     borderRadius: 5
   }
 })

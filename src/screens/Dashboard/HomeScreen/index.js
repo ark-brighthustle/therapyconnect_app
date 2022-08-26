@@ -1,12 +1,14 @@
 import { Text, View, StatusBar, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import Feather from 'react-native-vector-icons/Feather'
-import { Searchbar } from 'react-native-paper'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { ImagesContent } from '../../../constants/images'
 import axios from 'axios'
 import config from '../../../config'
-import { useNavigation } from '@react-navigation/native'
+import SelectDropdown from 'react-native-select-dropdown'
+import { getWidth } from '../../../components/Dimensions'
+import { Colors } from '../../../constants/colors'
 
 export default class HomeScreen extends Component {
 
@@ -50,6 +52,8 @@ export default class HomeScreen extends Component {
             { fn: "Wellness", ln: "Solution", img: ImagesContent.wellness_sol },
         ]
 
+        const countries = ["Ahmedabad", "Surat", "Goa", "Delhi", "Rajkot"]
+
         const arr1 = [
             { img: ImagesContent.online_consul, fn: "Online", ln: "Consultation", disc: "Video Audio Chat" },
             { img: ImagesContent.offline_consul, fn: "Offline", ln: "Consultation", disc: "At Clinic Home Visit" },
@@ -67,7 +71,30 @@ export default class HomeScreen extends Component {
                         <View className="flex flex-row items-center w-full justify-between">
                             <Feather name="menu" size={35} color={"white"} />
                             <View className="flex flex-row items-center justify-around gap-2">
-                                <Text className="text-xl font-bold text-white">Ahmedabad</Text>
+                                <SelectDropdown
+                                    defaultValue={'Ahmedabad'}
+                                    buttonStyle={{ backgroundColor: "" }}
+                                    buttonTextStyle={styles.buttonText}
+                                    data={countries}
+                                    dropdownStyle={styles.dropStyle}
+                                    dropdownIconPosition="right"
+                                    renderDropdownIcon={isOpened => {
+                                        return (
+                                            <View>
+                                                <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={Colors.white} size={18} />
+                                            </View>
+                                        );
+                                    }}
+                                    onSelect={(selectedItem, index) => {
+                                        console.log(selectedItem, index)
+                                    }}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                        return selectedItem
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                        return item
+                                    }}
+                                />
                                 <Ionicons name="notifications-outline" size={35} color={"white"} />
                             </View>
                         </View>
@@ -254,16 +281,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#5aa272',
         padding: 10
     },
-    // searchView: {
-    //     position: "absolute",
-    //     top: 2,
-    //     left: 0,
-    //     backgroundColor: "white",
-    //     tintColor: "red",
-    //     right: 0,
-    //     bottom: 0,
-    //     width: 20,
-    //     height: 20,
-    //     padding: 5
-    // }
+    buttonText: {
+        textAlign: 'left',
+        marginLeft: getWidth("15%"),
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.white
+    },
+    dropStyle: {
+        borderRadius: 10,
+        width: "40%",
+        marginLeft: getWidth("10%")
+    }
 })
