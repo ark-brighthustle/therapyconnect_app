@@ -10,12 +10,13 @@ import HealthyLife from '../screens/Dashboard/HealthyLife';
 import SlotPatient from '../screens/Dashboard/SlotPatient';
 import SearchTherapist from '../screens/Dashboard/SearchTherapist';
 import Demo from '../screens/Dashboard/Demo';
+import ChatScreen from '../screens/Dashboard/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="Chat Screen">
       <Stack.Screen name="Demo" component={Demo} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
@@ -36,6 +37,8 @@ const AppStack = () => {
       <Stack.Screen name="Search Therapist" component={SearchTherapist}
         options={{ headerStyle: { backgroundColor: '#5aa272' }, headerTitle: "Search Therapist", headerTitleStyle: { color: 'white' }, headerTintColor: 'white' }}
       />
+      <Stack.Screen name="Chat Screen" component={ChatScreen} options={{ headerShown: false }} />
+
       {/* headerBackground: { backgroundColor: '#5aa272' } */}
     </Stack.Navigator>
   )

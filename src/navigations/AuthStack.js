@@ -3,6 +3,7 @@ import React from 'react'
 import Login from '../screens/Auth/Login';
 import Signup from '../screens/Auth/Signup';
 import SplashScreen from '../screens/Auth/SplashScreen';
+import HomeScreen from '../screens/Dashboard/HomeScreen';
 import AppStack from './AppStack';
 
 const Stack = createNativeStackNavigator();
