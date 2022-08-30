@@ -27,6 +27,7 @@
     "react-native-paper": "^4.12.4",
     "react-native-reanimated": "~2.9.1",
     "react-native-select-dropdown": "^2.0.4",
+    "react-native-svg": "12.3.0",
     "react-native-vector-icons": "^9.2.0",
     "tailwindcss-react-native": "^1.7.10"
   },

@@ -18,8 +18,10 @@ const SplashScreen = ({ navigation }) => {
                     <Image source={ImagesContent.Logo1} resizeMode="contain" className="w-52 h-52" />
                     {/* <Image source={ImagesContent.Logo} resizeMode="contain" className="w-60 h-60" /> */}
                 </ImageBackground>
-                <View style={{ position: "absolute", bottom: getHeight("2%"), left: 0, right: 0, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text className="text-md font-bold text-end text-white">Hand Crafted by @Therapy Connect</Text>
+                <View style={styles.container}>
+                    <Text className="text-md font-bold text-end text-white">
+                        Hand Crafted by @Therapy Connect
+                    </Text>
                 </View>
             </View>
         );
@@ -30,4 +32,13 @@ const SplashScreen = ({ navigation }) => {
 
 export default SplashScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        position: "absolute",
+        bottom: getHeight("2%"),
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})

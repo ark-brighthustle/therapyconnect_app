@@ -5,7 +5,9 @@ import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { getHeight, getWidth } from '../../../components/Dimensions'
 import { ImagesContent } from '../../../constants/images';
-import { useNavigation } from '@react-navigation/native';
+import SelectDropdown from 'react-native-select-dropdown'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { Colors } from '../../../constants/colors'
 
 export default class Screen2 extends Component {
 
@@ -51,6 +53,7 @@ export default class Screen2 extends Component {
 
         const { navigation } = this.props;
         const arr = [0, 1, 2, 3]
+        const countries = ["Ahmedabad", "Surat", "Goa", "Delhi", "Rajkot"]
 
         return (
             <ScrollView>
@@ -60,19 +63,42 @@ export default class Screen2 extends Component {
                         <View className="flex flex-row items-center w-full justify-between">
                             <Feather name="menu" size={35} color={"white"} onPress={() => toggleDrawer()} />
                             <View className="flex flex-row items-center justify-around gap-2">
-                                <Text className="text-xl font-bold text-white">Ahmedabad</Text>
+                                <SelectDropdown
+                                    defaultValue={'Ahmedabad'}
+                                    buttonStyle={{ backgroundColor: "" }}
+                                    buttonTextStyle={styles.buttonText}
+                                    data={countries}
+                                    dropdownStyle={styles.dropStyle}
+                                    dropdownIconPosition="right"
+                                    renderDropdownIcon={isOpened => {
+                                        return (
+                                            <View>
+                                                <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={Colors.white} size={18} />
+                                            </View>
+                                        );
+                                    }}
+                                    onSelect={(selectedItem, index) => {
+                                        console.log(selectedItem, index)
+                                    }}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                        return selectedItem
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                        return item
+                                    }}
+                                />
                                 <Ionicons name="notifications-outline" size={35} color={"white"} />
                             </View>
                         </View>
-                        <View className="mt-5 mb-3 w-full flex flex-row rounded-lg">
+                        <View className="mt-5 w-full flex flex-row items-center rounded-lg bg-white p-4">
+                            <Image source={ImagesContent.search} className="w-4 h-4 ml-2 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
                             <TextInput
-                                className="w-full bg-white rounded-lg p-4"
+                                onPressIn={() => navigation.navigate('Search Therapist')}
                                 underlineColorAndroid="transparent"
                                 placeholder="Search health isuue, doctor..."
                                 placeholderTextColor="grey"
                                 autoCapitalize="none"
                             />
-                            {/* <Image source={ImagesContent.link} className="w-4 h-4" style={styles.searchView} resizeMode='contain' /> */}
                         </View>
                     </View>
                     <View className="bg-white">
@@ -130,5 +156,17 @@ const styles = StyleSheet.create({
     scroll: {
         width: getWidth("20%"),
         height: getHeight("")
+    },
+    buttonText: {
+        textAlign: 'left',
+        marginLeft: getWidth("10%"),
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.white
+    },
+    dropStyle: {
+        borderRadius: 10,
+        width: "45%",
+        marginLeft: getWidth("10%")
     }
 })
