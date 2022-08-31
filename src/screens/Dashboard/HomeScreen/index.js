@@ -16,13 +16,32 @@ export default class HomeScreen extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            searchText: "",
+            searchService: "",
             healthConcern: [],
+            searchTherapists: "",
             knowTherapy: [],
-            healthArticle: []
+            searchTherapy: "",
+            healthArticle: [],
+            selectLocation: [],
         }
     }
 
     componentDidMount = () => {
+        axios.get(config.BASE_URL + '/locations?sort=id:desc&populate=*')
+            .then((response) => {
+                var count = Object.keys(response.data.data).length;
+                // let drop_down_data1 = [];
+                for (var i = 0; i < count; i++) {
+                    console.log(response.data.data[i].label)
+                    // drop_down_data.push(response.data.data[i].label);
+                    this.state.selectLocation.push(response.data.data[i].label);
+                    // this.setState({ drop_down_data });
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
         axios.get(config.BASE_URL + '/health-concerns?sort=id:asc&populate[icon]=*&pagination[pageSize]=12')
             .then((response) => {
@@ -56,14 +75,55 @@ export default class HomeScreen extends Component {
             navigation.navigate('Screen2');
         };
 
+        const onSearchSubmit = () => {
+            // console.log("My Value", this.state.searchText);
+            navigation.navigate('Search Therapist', { name: this.state.searchText, value: "simpleText" });
+        }
+
+        // const onSelectService = async (i, value) => {
+        //     // console.log("service index", i);
+        //     // console.log("service value1", value1);
+        //     // console.log("service value2", value2);
+
+        //     // var value = value1 + " " + value2
+        //     // console.log("service value", value);
+
+        //     await this.setState({
+        //         searchService: value,
+        //     })
+        //     console.log("search service value", this.state.searchService);
+        //     navigation.navigate('Search Therapist', { name: this.state.searchService, value: "consultation" });
+        //     // navigation.navigate('Search Therapist', this.state.searchService);
+
+        //     // await this.setState({
+        //     //     searchText: this.state.searchService
+        //     // })
+        //     // console.log("search Text value", this.state.searchText);
+
+        // }
+
+        const onSelectTherapists = async (i, value) => {
+            await this.setState({
+                searchTherapists: value,
+            })
+            // console.log("search therapists value", this.state.searchTherapists);
+            navigation.navigate('Search Therapist', { name: this.state.searchTherapists, value: "healthConcern" });
+        }
+
+        const onSelectTherapy = async (i, value) => {
+            await this.setState({
+                searchTherapy: value,
+            })
+            // console.log("search therapy value", this.state.searchTherapy);
+            navigation.navigate('Search Therapist', { name: this.state.searchTherapy, value: "therapy" });
+        }
+
         const arr = [
             { fn: "Health", ln: "Package", img: ImagesContent.health_package },
             { fn: "Book", ln: "Diagnostics", img: ImagesContent.bookDiagonistics },
             { fn: "Order", ln: "Medicine", img: ImagesContent.order_medicine },
             { fn: "Wellness", ln: "Solution", img: ImagesContent.wellness_sol },
         ]
-
-        const countries = ["Ahmedabad", "Surat", "Goa", "Delhi", "Rajkot"]
 
         const arr1 = [
             { img: ImagesContent.online_consul, fn: "Online", ln: "Consultation", disc: "Video Audio Chat" },
@@ -82,10 +142,13 @@ export default class HomeScreen extends Component {
                             <Feather name="menu" size={35} color={"white"} />
                             <View className="flex flex-row items-center justify-around gap-2">
                                 <SelectDropdown
-                                    defaultValue={'Ahmedabad'}
+                                    // placeholder={'Surat'}
+
+                                    // defaultValue={'Surat'}
                                     buttonStyle={{ backgroundColor: "" }}
                                     buttonTextStyle={styles.buttonText}
-                                    data={countries}
+                                    // data={countries}
+                                    data={this.state.selectLocation}
                                     dropdownStyle={styles.dropStyle}
                                     dropdownIconPosition="right"
                                     renderDropdownIcon={isOpened => {
@@ -111,11 +174,15 @@ export default class HomeScreen extends Component {
                         <View className="mt-5 w-full flex flex-row items-center rounded-lg bg-white p-4">
                             <Image source={ImagesContent.search} className="w-4 h-4 ml-2 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
                             <TextInput
-                                onPressIn={() => navigation.navigate('Search Therapist')}
+                                // onPressIn={() => navigation.navigate('Search Therapist')}
                                 underlineColorAndroid="transparent"
                                 placeholder="Search health isuue, doctor..."
                                 placeholderTextColor="grey"
                                 autoCapitalize="none"
+                                onChangeText={(text) => this.setState({ searchText: text })}
+                                value={this.state.searchText}
+                                onSubmitEditing={() => onSearchSubmit()}
+                            // defaultValue={text}
                             />
                         </View>
                         <View className="flex flex-row pt-5 gap-1">
@@ -151,9 +218,12 @@ export default class HomeScreen extends Component {
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 <View style={{ flexDirection: 'row' }} className="gap-3 mt-3">
                                     {
-                                        arr1.map((data) => {
+                                        arr1.map((data, index) => {
                                             return (
-                                                <View style={[styles.main, { alignItems: 'center' }]}>
+                                                <TouchableOpacity
+                                                    style={[styles.main, { alignItems: 'center' }]}
+                                                // onPress={() => onSelectService(index, data.disc)}
+                                                >
                                                     <View>
                                                         <View style={styles.firstView}>
                                                             <Image source={data.img} style={styles.firstView} resizeMode='contain' />
@@ -166,7 +236,7 @@ export default class HomeScreen extends Component {
                                                     <View className=" items-center w-28 mt-1 justify-center">
                                                         <Text className="text-sm">{data.disc}</Text>
                                                     </View>
-                                                </View>
+                                                </TouchableOpacity>
                                             );
                                         })
                                     }
@@ -189,7 +259,10 @@ export default class HomeScreen extends Component {
                                     // console.log("my data", data.label);
                                     // console.log("my icons", data.icon.url);
                                     return (
-                                        <View className="items-center">
+                                        <TouchableOpacity
+                                            className="items-center"
+                                            onPress={() => onSelectTherapists(index, data.label)}
+                                        >
                                             <View className="w-20 h-20 items-center justify-center">
                                                 <SvgUri
                                                     width="50%"
@@ -200,7 +273,7 @@ export default class HomeScreen extends Component {
                                             <View style={{ width: 60 }} className="flex items-center">
                                                 <Text className="text-black text-center text-sm">{data.label}</Text>
                                             </View>
-                                        </View>
+                                        </TouchableOpacity>
                                     );
                                 })
                             }
@@ -219,9 +292,12 @@ export default class HomeScreen extends Component {
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 <View style={{ flexDirection: 'row' }} className="gap-3">
                                     {
-                                        this.state.knowTherapy.map((data) => {
+                                        this.state.knowTherapy.map((data, index) => {
                                             return (
-                                                <View style={styles.main}>
+                                                <TouchableOpacity
+                                                    style={styles.main}
+                                                    onPress={() => onSelectTherapy(index, data.label)}
+                                                >
                                                     <View style={styles.secondView}>
                                                         <View className="w-20 h-20 justify-center items-center">
                                                             <SvgUri
@@ -233,7 +309,7 @@ export default class HomeScreen extends Component {
                                                         <Text className="text-lg font-bold text-white mt-3 p-1">{data.label}</Text>
                                                         <Text className="text-md text-white p-1">{data.tagline}</Text>
                                                     </View>
-                                                </View>
+                                                </TouchableOpacity>
                                             );
                                         })
                                     }
@@ -267,7 +343,7 @@ export default class HomeScreen extends Component {
                         </View>
                     </View>
                 </View >
-            </ScrollView>
+            </ScrollView >
         )
     }
 }
@@ -305,14 +381,14 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'left',
-        marginLeft: getWidth("10%"),
+        // marginLeft: getWidth("10%"),
         fontSize: 18,
         fontWeight: "bold",
         color: Colors.white
     },
     dropStyle: {
         borderRadius: 10,
-        width: "45%",
-        marginLeft: getWidth("10%")
+        width: "55%",
+        // marginLeft: getWidth("10%")
     }
 })
