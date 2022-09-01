@@ -10,8 +10,6 @@ export default function App() {
     <NavigationContainer>
       <TailwindProvider>
         <AppStack />
-        {/* <AuthStack /> */}
-        {/* <Demo /> */}
       </TailwindProvider>
     </NavigationContainer>
   );

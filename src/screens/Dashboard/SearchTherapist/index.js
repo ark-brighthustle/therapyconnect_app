@@ -15,31 +15,38 @@ export default class SearchTherapist extends Component {
         super(props)
         this.state = {
             selectLocation: [],
+            selectTabLocation: "",
+            searchLocationValue: "",
+
             selectTherapy: [],
             selectTabTherapy: -1,
             searchTherapyValue: "",
+
             consultMode: [],
             selectTabConsult: "",
             searchConsultValue: "",
+
             healthConcern: [],
+            selectTabHealth: "",
             searchHealthValue: "",
+
             totalCount: "",
             dynamicArray: [],
             searchName: props.route.params.name,
             searchValue: props.route.params.value,
-            newValue: 0
+            newValue: []
         }
     }
 
     componentDidMount = () => {
         axios.get(config.BASE_URL + '/locations?sort=id:desc&populate=*')
-            .then((response) => {
+            .then(async (response) => {
                 var count = Object.keys(response.data.data).length;
                 // let drop_down_data1 = [];
                 for (var i = 0; i < count; i++) {
-                    console.log(response.data.data[i].label)
+                    // console.log(response.data.data[i].label)
                     // drop_down_data.push(response.data.data[i].label);
-                    this.state.selectLocation.push(response.data.data[i].label);
+                    await this.state.selectLocation.push(response.data.data[i].label);
                     // this.setState({ drop_down_data });
                 }
             })
@@ -74,23 +81,21 @@ export default class SearchTherapist extends Component {
                 console.log(error);
             });
 
-        if (this.state.searchValue === "healthConcern") {
-            console.log("in health concern", this.state.searchName);
+        if (this.state.searchValue === "Health Concern") {
             axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[healthConcerns][label][$eq]=" + this.state.searchName)
                 .then(async (response) => {
                     var count = Object.keys(response.data.data).length;
-                    this.setState({ totalCount: count, dynamicArray: response.data.data })
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
         }
-        else if (this.state.searchValue === "therapy") {
-            console.log("in therapy");
+        else if (this.state.searchValue === "Therapy") {
             axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchName)
                 .then(async (response) => {
                     var count = Object.keys(response.data.data).length;
-                    this.setState({ totalCount: count, dynamicArray: response.data.data })
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -100,26 +105,255 @@ export default class SearchTherapist extends Component {
         //     console.log("in location");
         // }
         else if (this.state.searchValue === "simpleText") {
-            console.log("In other")
+            // console.log("In other")
+        }
+
+        if (this.state.searchValue == "Location" && this.state.searchValue == "Therapy") {
+            console.log("you are select location and therapy");
         }
     }
 
     render() {
+
+        const onSelect = () => {
+
+            var checkArr12 = [1, 2]
+            var contain12 = checkArr12.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain12) {
+                console.log("you are select location and therapy");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city]=" + this.state.searchLocationValue + "&filters[therapy][label][$eq]=" + this.state.searchTherapyValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            totalCount: count,
+                            dynamicArray: response.data.data,
+                            searchName: this.state.searchLocationValue + " and " + this.state.searchTherapyValue,
+                            searchValue: "Location and Therapy"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr13 = [1, 3]
+            var contain13 = checkArr13.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain13) {
+                console.log("you are select location and consulting mode");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            totalCount: count,
+                            dynamicArray: response.data.data,
+                            searchName: this.state.searchLocationValue + " and " + this.state.searchConsultValue,
+                            searchValue: "Location and Consulting Mode"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr14 = [1, 4]
+            var contain14 = checkArr14.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain14) {
+                console.log("you are select location and health concern");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            totalCount: count,
+                            dynamicArray: response.data.data,
+                            searchName: this.state.searchLocationValue + " and " + this.state.searchHealthValue,
+                            searchValue: "Location and Health Concern"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr23 = [2, 3]
+            var contain23 = checkArr23.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain23) {
+                console.log("you are select therapy and consulting mode");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            dynamicArray: response.data.data,
+                            totalCount: count,
+                            searchName: this.state.searchTherapyValue + " and " + this.state.searchConsultValue,
+                            searchValue: "Therapy and Consulting Mode"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr24 = [2, 4]
+            var contain24 = checkArr24.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain24) {
+                console.log("you are select therapy and health concern");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[healthConcerns][label][$eq]=" + this.state.healthConcern)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            dynamicArray: response.data.data,
+                            totalCount: count,
+                            searchName: this.state.searchTherapyValue + " and " + this.state.searchHealthValue,
+                            searchValue: "Therapy and Health Concern"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr34 = [3, 4]
+            var contain34 = checkArr34.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain34) {
+                console.log("you are select consulting mode and health concern");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue + "&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            dynamicArray: response.data.data,
+                            totalCount: count,
+                            searchName: this.state.searchConsultValue + " and " + this.state.searchHealthValue,
+                            searchValue: "Consulting Mode and Health Concern"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr123 = [1, 2, 3]
+            var contain123 = checkArr123.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain123) {
+                console.log("you are select location, therapy and consulting mode");
+                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
+                    .then(async (response) => {
+                        var count = Object.keys(response.data.data).length;
+                        await this.setState({
+                            totalCount: "",
+                            dynamicArray: "",
+                            dynamicArray: response.data.data,
+                            totalCount: count,
+                            searchName: this.state.searchLocationValue + " , " + this.state.searchTherapyValue + " and " + this.state.searchConsultValue,
+                            searchValue: "Location, Therapy and Consulting Mode"
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            var checkArr234 = [2, 3, 4]
+            var contain234 = checkArr234.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain234) {
+                console.log("you are select therapy, consulting mode and health concern");
+            }
+
+            var checkArr124 = [1, 2, 4]
+            var contain124 = checkArr124.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain124) {
+                console.log("you are select location, therapy and health concern");
+            }
+
+            var checkArr134 = [1, 3, 4]
+            var contain134 = checkArr134.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain134) {
+                console.log("you are select location, consulting mode and health concern");
+            }
+
+            var checkArr1234 = [1, 2, 3, 4]
+            var contain1234 = checkArr1234.every(value => {
+                return this.state.newValue.includes(value)
+            })
+            if (contain1234) {
+                console.log("you are select location, therapy, consulting mode and health concern");
+            }
+        }
+
+        const onSelectLocation = async (value, i) => {
+            await this.setState({
+                selectTabLocation: i,
+                searchLocationValue: value,
+                searchName: value,
+                searchValue: "Location",
+                // newValue: 1
+            })
+
+            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue)
+                .then(async (response) => {
+                    var count = Object.keys(response.data.data).length;
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            this.state.newValue.push(1);
+            console.log("new Value", this.state.newValue);
+            onSelect()
+        }
+
         const onSelectTherapy = async (i, value) => {
             await this.setState({
                 selectTabTherapy: i,
                 searchTherapyValue: value,
                 searchName: value,
-                newValue: 1
+                searchValue: "Therapy",
+                // newValue: 2
             })
+
             axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue)
-                .then((response) => {
+                .then(async (response) => {
                     var count = Object.keys(response.data.data).length;
-                    this.setState({ totalCount: count, dynamicArray: response.data.data })
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+            this.state.newValue.push(2);
+            console.log("new Value", this.state.newValue);
+            onSelect()
         }
 
         const onSelectConsult = async (i, value) => {
@@ -127,14 +361,49 @@ export default class SearchTherapist extends Component {
                 selectTabConsult: i,
                 searchConsultValue: value,
                 searchName: value,
-                newValue: 2
+                searchValue: "Consulting Mode",
+                // newValue: 3
             })
+            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
+                .then(async (response) => {
+                    var count = Object.keys(response.data.data).length;
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            this.state.newValue.push(3);
+            console.log("new Value", this.state.newValue);
+            onSelect()
+        }
+
+        const onSelectHealth = async (value, i) => {
+            await this.setState({
+                selectTabHealth: i,
+                searchHealthValue: value,
+                searchName: value,
+                searchValue: "Health Concern",
+                // newValue: 4
+            })
+
+            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
+                .then(async (response) => {
+                    var count = Object.keys(response.data.data).length;
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            this.state.newValue.push(4);
+            console.log("new Value", this.state.newValue);
+            onSelect()
         }
 
         return (
             <ScrollView>
                 <View className="flex w-full h-full bg-white">
-                    <View className="mt-8 ml-5 h-20 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
+                    <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
                         <Text className="text-lg font-bold text-white">
                             Total {this.state.totalCount} Doctors found for {this.state.searchName} of {this.state.searchValue}
                         </Text>
@@ -149,9 +418,10 @@ export default class SearchTherapist extends Component {
                             data={this.state.selectLocation}
                             dropdownStyle={{ borderRadius: 10 }}
                             dropdownIconPosition="right"
-                            onSelect={(selectedItem, index) => {
-                                console.log(selectedItem, index)
-                            }}
+                            // onSelect={(selectedItem, index) => {
+                            //     console.log(selectedItem, index)
+                            // }}
+                            onSelect={(selectedItem, index) => onSelectLocation(selectedItem, index)}
                             renderDropdownIcon={isOpened => {
                                 return (
                                     <View className="mr-5">
@@ -230,13 +500,7 @@ export default class SearchTherapist extends Component {
                             data={this.state.healthConcern}
                             dropdownStyle={{ borderRadius: 10 }}
                             dropdownIconPosition="right"
-                            onSelect={async (selectedItem, index) => {
-                                // console.log("select health concern value", selectedItem, index)
-                                await this.setState({
-                                    searchHealthValue: selectedItem
-                                })
-                                console.log("search health value", this.state.searchHealthValue)
-                            }}
+                            onSelect={(selectedItem, index) => onSelectHealth(selectedItem, index)}
                             renderDropdownIcon={isOpened => {
                                 return (
                                     <View className="mr-5">

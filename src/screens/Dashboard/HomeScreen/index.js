@@ -33,7 +33,7 @@ export default class HomeScreen extends Component {
                 var count = Object.keys(response.data.data).length;
                 // let drop_down_data1 = [];
                 for (var i = 0; i < count; i++) {
-                    console.log(response.data.data[i].label)
+                    // console.log(response.data.data[i].label)
                     // drop_down_data.push(response.data.data[i].label);
                     this.state.selectLocation.push(response.data.data[i].label);
                     // this.setState({ drop_down_data });
@@ -107,7 +107,7 @@ export default class HomeScreen extends Component {
                 searchTherapists: value,
             })
             // console.log("search therapists value", this.state.searchTherapists);
-            navigation.navigate('Search Therapist', { name: this.state.searchTherapists, value: "healthConcern" });
+            navigation.navigate('Search Therapist', { name: this.state.searchTherapists, value: "Health Concern" });
         }
 
         const onSelectTherapy = async (i, value) => {
@@ -115,7 +115,7 @@ export default class HomeScreen extends Component {
                 searchTherapy: value,
             })
             // console.log("search therapy value", this.state.searchTherapy);
-            navigation.navigate('Search Therapist', { name: this.state.searchTherapy, value: "therapy" });
+            navigation.navigate('Search Therapist', { name: this.state.searchTherapy, value: "Therapy" });
         }
 
         const arr = [
