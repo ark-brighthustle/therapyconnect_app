@@ -24,6 +24,7 @@ export default class HomeScreen extends Component {
             searchTherapy: "",
             healthArticle: [],
             selectLocation: [],
+            searchLocation: "",
         }
     }
 
@@ -102,6 +103,14 @@ export default class HomeScreen extends Component {
 
         // }
 
+        const onSelectLocation = async (value, i) => {
+            await this.setState({
+                searchLocation: value,
+            })
+            // console.log("search therapists value", this.state.searchTherapists);
+            navigation.navigate('Search Therapist', { name: this.state.searchLocation, value: "Location" });
+        }
+
         const onSelectTherapists = async (i, value) => {
             await this.setState({
                 searchTherapists: value,
@@ -142,12 +151,8 @@ export default class HomeScreen extends Component {
                             <Feather name="menu" size={35} color={"white"} />
                             <View className="flex flex-row items-center justify-around gap-2">
                                 <SelectDropdown
-                                    // placeholder={'Surat'}
-
-                                    // defaultValue={'Surat'}
                                     buttonStyle={{ backgroundColor: "" }}
                                     buttonTextStyle={styles.buttonText}
-                                    // data={countries}
                                     data={this.state.selectLocation}
                                     dropdownStyle={styles.dropStyle}
                                     dropdownIconPosition="right"
@@ -160,6 +165,7 @@ export default class HomeScreen extends Component {
                                     }}
                                     onSelect={(selectedItem, index) => {
                                         console.log(selectedItem, index)
+                                        onSelectLocation(selectedItem, index)
                                     }}
                                     buttonTextAfterSelection={(selectedItem, index) => {
                                         return selectedItem

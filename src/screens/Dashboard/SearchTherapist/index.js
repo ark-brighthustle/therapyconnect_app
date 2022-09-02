@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'
 import { getHeight, getWidth } from '../../../components/Dimensions'
 import { Colors } from '../../../constants/colors'
@@ -13,6 +13,9 @@ export default class SearchTherapist extends Component {
 
     constructor(props) {
         super(props)
+        this.SelectRef = createRef(null)
+        this.SelectRef1 = createRef(null)
+
         this.state = {
             selectLocation: [],
             selectTabLocation: "",
@@ -34,7 +37,10 @@ export default class SearchTherapist extends Component {
             dynamicArray: [],
             searchName: props.route.params.name,
             searchValue: props.route.params.value,
-            newValue: []
+            newValue: [],
+
+            updateTotalFilter: 0,
+            selectedFilters: []
         }
     }
 
@@ -101,303 +107,214 @@ export default class SearchTherapist extends Component {
                     console.log(error);
                 });
         }
-        // else if (this.state.searchValue === "location") {
-        //     console.log("in location");
-        // }
+        else if (this.state.searchValue === "Location") {
+            console.log("in location");
+        }
         else if (this.state.searchValue === "simpleText") {
             // console.log("In other")
-        }
-
-        if (this.state.searchValue == "Location" && this.state.searchValue == "Therapy") {
-            console.log("you are select location and therapy");
         }
     }
 
     render() {
 
+        const fetchData1 = async (url1) => {
+            console.log("url", config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true" + url1);
+            await axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true" + url1)
+                .then((response) => {
+                    var count = response.data.data.length;
+                    console.log("My Count", count);
+                    this.setState({
+                        totalCount: "",
+                        dynamicArray: [],
+                        totalCount: count,
+                        dynamicArray: response.data.data,
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        const fetchData = async (url) => {
+            console.log("url", config.BASE_URL + "/doctor-registerations?populate=*" + url);
+            await axios.get(config.BASE_URL + "/doctor-registerations?populate=*" + url)
+                .then((response) => {
+                    var count = response.data.data.length;
+                    console.log("My Count", count);
+                    this.setState({
+                        totalCount: "",
+                        dynamicArray: [],
+                        totalCount: count,
+                        dynamicArray: response.data.data,
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
         const onSelect = () => {
-
-            var checkArr12 = [1, 2]
-            var contain12 = checkArr12.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain12) {
-                console.log("you are select location and therapy");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city]=" + this.state.searchLocationValue + "&filters[therapy][label][$eq]=" + this.state.searchTherapyValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            totalCount: count,
-                            dynamicArray: response.data.data,
-                            searchName: this.state.searchLocationValue + " and " + this.state.searchTherapyValue,
-                            searchValue: "Location and Therapy"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+            var url = "";
+            var totalFilter = this.state.selectedFilters
+            var filters = []
+            if (totalFilter.length > 0) {
+                totalFilter.forEach(value => {
+                    if (value == "THERAPY") {
+                        var tempUrl = "&filters[therapy][label][$eq]=" + this.state.searchTherapyValue;
+                        filters.push(tempUrl)
+                    }
+                    if (value == 'LOCATION') {
+                        var tempUrl = "&filters[city][$eq]=" + this.state.searchLocationValue;
+                        filters.push(tempUrl)
+                    }
+                    if (value == 'CONSULT') {
+                        var tempUrl = "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue;
+                        filters.push(tempUrl)
+                    }
+                    if (value == 'HEALTH') {
+                        var tempUrl = "[healthConcerns][label][$eq]=" + this.state.searchHealthValue;
+                        filters.push(tempUrl)
+                    }
+                })
             }
-
-            var checkArr13 = [1, 3]
-            var contain13 = checkArr13.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain13) {
-                console.log("you are select location and consulting mode");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            totalCount: count,
-                            dynamicArray: response.data.data,
-                            searchName: this.state.searchLocationValue + " and " + this.state.searchConsultValue,
-                            searchValue: "Location and Consulting Mode"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+            if (filters.length > 0) {
+                var newItem = ""
+                filters.forEach((item) => {
+                    newItem = newItem + item
+                    url = newItem
+                })
             }
-
-            var checkArr14 = [1, 4]
-            var contain14 = checkArr14.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain14) {
-                console.log("you are select location and health concern");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            totalCount: count,
-                            dynamicArray: response.data.data,
-                            searchName: this.state.searchLocationValue + " and " + this.state.searchHealthValue,
-                            searchValue: "Location and Health Concern"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            var checkArr23 = [2, 3]
-            var contain23 = checkArr23.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain23) {
-                console.log("you are select therapy and consulting mode");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            dynamicArray: response.data.data,
-                            totalCount: count,
-                            searchName: this.state.searchTherapyValue + " and " + this.state.searchConsultValue,
-                            searchValue: "Therapy and Consulting Mode"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            var checkArr24 = [2, 4]
-            var contain24 = checkArr24.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain24) {
-                console.log("you are select therapy and health concern");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[healthConcerns][label][$eq]=" + this.state.healthConcern)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            dynamicArray: response.data.data,
-                            totalCount: count,
-                            searchName: this.state.searchTherapyValue + " and " + this.state.searchHealthValue,
-                            searchValue: "Therapy and Health Concern"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            var checkArr34 = [3, 4]
-            var contain34 = checkArr34.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain34) {
-                console.log("you are select consulting mode and health concern");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue + "&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            dynamicArray: response.data.data,
-                            totalCount: count,
-                            searchName: this.state.searchConsultValue + " and " + this.state.searchHealthValue,
-                            searchValue: "Consulting Mode and Health Concern"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            var checkArr123 = [1, 2, 3]
-            var contain123 = checkArr123.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain123) {
-                console.log("you are select location, therapy and consulting mode");
-                axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue + "&filters[therapy][label][$eq]=" + this.state.searchTherapyValue + "&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
-                    .then(async (response) => {
-                        var count = Object.keys(response.data.data).length;
-                        await this.setState({
-                            totalCount: "",
-                            dynamicArray: "",
-                            dynamicArray: response.data.data,
-                            totalCount: count,
-                            searchName: this.state.searchLocationValue + " , " + this.state.searchTherapyValue + " and " + this.state.searchConsultValue,
-                            searchValue: "Location, Therapy and Consulting Mode"
-                        })
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            var checkArr234 = [2, 3, 4]
-            var contain234 = checkArr234.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain234) {
-                console.log("you are select therapy, consulting mode and health concern");
-            }
-
-            var checkArr124 = [1, 2, 4]
-            var contain124 = checkArr124.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain124) {
-                console.log("you are select location, therapy and health concern");
-            }
-
-            var checkArr134 = [1, 3, 4]
-            var contain134 = checkArr134.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain134) {
-                console.log("you are select location, consulting mode and health concern");
-            }
-
-            var checkArr1234 = [1, 2, 3, 4]
-            var contain1234 = checkArr1234.every(value => {
-                return this.state.newValue.includes(value)
-            })
-            if (contain1234) {
-                console.log("you are select location, therapy, consulting mode and health concern");
-            }
+            fetchData(url)
         }
 
         const onSelectLocation = async (value, i) => {
+            var filterName = "LOCATION"
             await this.setState({
+                totalCount: "",
+                dynamicArray: [],
                 selectTabLocation: i,
                 searchLocationValue: value,
                 searchName: value,
                 searchValue: "Location",
                 // newValue: 1
             })
-
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[city][$eq]=" + this.state.searchLocationValue)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+            if (this.state.selectedFilters.length > 0) {
+                var selectedF = this.state.selectedFilters;
+                var isAvailable = 0
+                selectedF.forEach((item) => {
+                    if (item === filterName) {
+                        isAvailable++
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            this.state.newValue.push(1);
-            console.log("new Value", this.state.newValue);
+                if (isAvailable !== 1) {
+                    this.state.selectedFilters.push(filterName)
+                }
+            } else {
+                this.state.selectedFilters.push(filterName)
+            }
             onSelect()
         }
 
         const onSelectTherapy = async (i, value) => {
+            var filterName = "THERAPY"
+            console.log("index", i);
             await this.setState({
+                totalCount: "",
+                dynamicArray: [],
                 selectTabTherapy: i,
                 searchTherapyValue: value,
                 searchName: value,
                 searchValue: "Therapy",
                 // newValue: 2
             })
-
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchTherapyValue)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+            if (this.state.selectedFilters.length > 0) {
+                var selectedF = this.state.selectedFilters;
+                var isAvailable = 0
+                selectedF.forEach((item) => {
+                    if (item === filterName) {
+                        isAvailable++
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            this.state.newValue.push(2);
-            console.log("new Value", this.state.newValue);
+                if (isAvailable !== 1) {
+                    this.state.selectedFilters.push(filterName)
+                }
+            } else {
+                this.state.selectedFilters.push(filterName)
+            }
+            console.log("tab", this.state.selectTabTherapy);
             onSelect()
         }
 
         const onSelectConsult = async (i, value) => {
+            var filterName = "CONSULT"
             await this.setState({
+                totalCount: "",
+                dynamicArray: [],
                 selectTabConsult: i,
                 searchConsultValue: value,
                 searchName: value,
                 searchValue: "Consulting Mode",
                 // newValue: 3
             })
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[deliveryModes][label][$eq]=" + this.state.searchConsultValue)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+            if (this.state.selectedFilters.length > 0) {
+                var selectedF = this.state.selectedFilters;
+                var isAvailable = 0
+                selectedF.forEach((item) => {
+                    if (item === filterName) {
+                        isAvailable++
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            this.state.newValue.push(3);
-            console.log("new Value", this.state.newValue);
+                if (isAvailable !== 1) {
+                    this.state.selectedFilters.push(filterName)
+                }
+            } else {
+                this.state.selectedFilters.push(filterName)
+            }
             onSelect()
         }
 
         const onSelectHealth = async (value, i) => {
+            var filterName = "HEALTH"
             await this.setState({
+                totalCount: "",
+                dynamicArray: [],
                 selectTabHealth: i,
                 searchHealthValue: value,
                 searchName: value,
                 searchValue: "Health Concern",
-                // newValue: 4
             })
-
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+            if (this.state.selectedFilters.length > 0) {
+                var selectedF = this.state.selectedFilters;
+                var isAvailable = 0
+                selectedF.forEach((item) => {
+                    if (item === filterName) {
+                        isAvailable++
+                    }
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            this.state.newValue.push(4);
-            console.log("new Value", this.state.newValue);
+                if (isAvailable !== 1) {
+                    this.state.selectedFilters.push(filterName)
+                }
+            } else {
+                this.state.selectedFilters.push(filterName)
+            }
             onSelect()
+        }
+
+        const onClear = () => {
+            this.SelectRef.current.reset(),
+                this.SelectRef1.current.reset(),
+                this.setState({
+                    totalCount: "",
+                    dynamicArray: [],
+                    searchName: "",
+                    searchValue: "",
+                    searchLocationValue: "",
+                    searchTherapyValue: "",
+                    searchConsultValue: "",
+                    searchHealthValue: "",
+                    selectTabTherapy: -1,
+                    selectTabConsult: ""
+                })
         }
 
         return (
@@ -405,22 +322,25 @@ export default class SearchTherapist extends Component {
                 <View className="flex w-full h-full bg-white">
                     <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
                         <Text className="text-lg font-bold text-white">
-                            Total {this.state.totalCount} Doctors found for {this.state.searchName} of {this.state.searchValue}
+                            Total {this.state.totalCount} Doctors found.
                         </Text>
                     </View>
                     <View className="mt-8 ml-5">
-                        <Text className="text-lg font-bold">Select location</Text>
+                        <View className="flex flex-row justify-between mr-5 items-center">
+                            <Text className="text-lg font-bold">Select location</Text>
+                            <TouchableOpacity onPress={() => onClear()}>
+                                <Text className="text-md text-red-500 font-bold">Clear</Text>
+                            </TouchableOpacity>
+                        </View>
                         <SelectDropdown
-                            // defaultValue={'Ahmedabad'}
+                            ref={this.SelectRef}
+                            defaultButtonText='Select location'
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
                             // data={countries}
                             data={this.state.selectLocation}
                             dropdownStyle={{ borderRadius: 10 }}
                             dropdownIconPosition="right"
-                            // onSelect={(selectedItem, index) => {
-                            //     console.log(selectedItem, index)
-                            // }}
                             onSelect={(selectedItem, index) => onSelectLocation(selectedItem, index)}
                             renderDropdownIcon={isOpened => {
                                 return (
@@ -494,6 +414,8 @@ export default class SearchTherapist extends Component {
                     <View className="mt-7 ml-5">
                         <Text className="text-lg font-bold">Select health concern</Text>
                         <SelectDropdown
+                            ref={this.SelectRef1}
+                            defaultButtonText='Select health concern'
                             // defaultValue={'Skin Problems'}
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
