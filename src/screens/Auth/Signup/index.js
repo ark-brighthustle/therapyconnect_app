@@ -174,7 +174,7 @@ const Signup = ({ navigation }) => {
                             </View>
                             <View style={{ alignItems: "flex-end" }}>
                                 <TouchableOpacity
-                                    className="mt-5 items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
+                                    className="items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
                                     onPress={() => onClick()}>
                                     <Text className="text-md font-bold text-white">Signup</Text>
                                 </TouchableOpacity>

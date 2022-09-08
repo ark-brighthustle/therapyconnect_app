@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+'use strict';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import React, { Component, createRef } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'
 import { getHeight, getWidth } from '../../../components/Dimensions'
@@ -8,11 +9,13 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import axios from 'axios'
 import config from '../../../config'
 import { SvgUri } from 'react-native-svg'
+import { ImagesContent } from '../../../constants/images';
 
 export default class SearchTherapist extends Component {
 
     constructor(props) {
         super(props)
+        this.scrollView = createRef()
         this.SelectRef = createRef(null)
         this.SelectRef1 = createRef(null)
 
@@ -33,27 +36,44 @@ export default class SearchTherapist extends Component {
             selectTabHealth: "",
             searchHealthValue: "",
 
-            totalCount: "",
+            totalCount: 0,
             dynamicArray: [],
+            searchIndex: props.route.params.index,
             searchName: props.route.params.name,
             searchValue: props.route.params.value,
             newValue: [],
+            searchFilter: props.route.params.filter,
 
             updateTotalFilter: 0,
             selectedFilters: []
         }
     }
 
+    apiCall = async (url) => {
+        console.log("url", config.BASE_URL + "/doctor-registerations?populate=*" + url);
+        await axios.get(config.BASE_URL + "/doctor-registerations?populate=*" + url)
+            .then((response) => {
+                var count = response.data.data.length;
+                console.log("My Count", count);
+                this.setState({
+                    totalCount: "",
+                    dynamicArray: [],
+                    totalCount: count,
+                    dynamicArray: response.data.data,
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     componentDidMount = () => {
+        // this.uploadComment();
         axios.get(config.BASE_URL + '/locations?sort=id:desc&populate=*')
             .then(async (response) => {
                 var count = Object.keys(response.data.data).length;
-                // let drop_down_data1 = [];
                 for (var i = 0; i < count; i++) {
-                    // console.log(response.data.data[i].label)
-                    // drop_down_data.push(response.data.data[i].label);
                     await this.state.selectLocation.push(response.data.data[i].label);
-                    // this.setState({ drop_down_data });
                 }
             })
             .catch(function (error) {
@@ -87,55 +107,31 @@ export default class SearchTherapist extends Component {
                 console.log(error);
             });
 
-        if (this.state.searchValue === "Health Concern") {
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[healthConcerns][label][$eq]=" + this.state.searchName)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+        if (this.state.searchValue === "Location") {
+            this.setState({
+                searchLocationValue: this.state.searchName,
+                selectTabLocation: this.state.searchIndex,
+            })
+        }
+        else if (this.state.searchValue === "Health Concern") {
+            this.setState({
+                searchHealthValue: this.state.searchName,
+                selectTabHealth: this.state.searchIndex,
+            })
         }
         else if (this.state.searchValue === "Therapy") {
-            axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true&filters[therapy][label][$eq]=" + this.state.searchName)
-                .then(async (response) => {
-                    var count = Object.keys(response.data.data).length;
-                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            this.setState({
+                searchTherapyValue: this.state.searchName,
+                selectTabTherapy: this.state.searchIndex,
+            })
         }
-        else if (this.state.searchValue === "Location") {
-            console.log("in location");
-        }
-        else if (this.state.searchValue === "simpleText") {
-            // console.log("In other")
-        }
+        this.apiCall(this.state.searchFilter)
     }
 
     render() {
 
-        const fetchData1 = async (url1) => {
-            console.log("url", config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true" + url1);
-            await axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[verified]=true" + url1)
-                .then((response) => {
-                    var count = response.data.data.length;
-                    console.log("My Count", count);
-                    this.setState({
-                        totalCount: "",
-                        dynamicArray: [],
-                        totalCount: count,
-                        dynamicArray: response.data.data,
-                    })
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-
         const fetchData = async (url) => {
+
             console.log("url", config.BASE_URL + "/doctor-registerations?populate=*" + url);
             await axios.get(config.BASE_URL + "/doctor-registerations?populate=*" + url)
                 .then((response) => {
@@ -172,7 +168,7 @@ export default class SearchTherapist extends Component {
                         filters.push(tempUrl)
                     }
                     if (value == 'HEALTH') {
-                        var tempUrl = "[healthConcerns][label][$eq]=" + this.state.searchHealthValue;
+                        var tempUrl = "&filters[healthConcerns][label][$eq]=" + this.state.searchHealthValue;
                         filters.push(tempUrl)
                     }
                 })
@@ -187,17 +183,33 @@ export default class SearchTherapist extends Component {
             fetchData(url)
         }
 
-        const onSelectLocation = async (value, i) => {
-            var filterName = "LOCATION"
-            await this.setState({
-                totalCount: "",
-                dynamicArray: [],
-                selectTabLocation: i,
-                searchLocationValue: value,
-                searchName: value,
-                searchValue: "Location",
-                // newValue: 1
-            })
+        const onSelectCommon = async (value, i, filterName) => {
+            console.log("My F", filterName);
+
+            if (filterName === "LOCATION") {
+                await this.setState({
+                    selectTabLocation: i,
+                    searchLocationValue: value,
+                })
+            }
+            else if (filterName === "THERAPY") {
+                await this.setState({
+                    selectTabTherapy: i,
+                    searchTherapyValue: value,
+                })
+            }
+            else if (filterName === "CONSULT") {
+                await this.setState({
+                    selectTabConsult: i,
+                    searchConsultValue: value,
+                })
+            }
+            else if (filterName === "HEALTH") {
+                await this.setState({
+                    selectTabHealth: i,
+                    searchHealthValue: value,
+                })
+            }
             if (this.state.selectedFilters.length > 0) {
                 var selectedF = this.state.selectedFilters;
                 var isAvailable = 0
@@ -215,99 +227,11 @@ export default class SearchTherapist extends Component {
             onSelect()
         }
 
-        const onSelectTherapy = async (i, value) => {
-            var filterName = "THERAPY"
-            console.log("index", i);
-            await this.setState({
-                totalCount: "",
-                dynamicArray: [],
-                selectTabTherapy: i,
-                searchTherapyValue: value,
-                searchName: value,
-                searchValue: "Therapy",
-                // newValue: 2
-            })
-            if (this.state.selectedFilters.length > 0) {
-                var selectedF = this.state.selectedFilters;
-                var isAvailable = 0
-                selectedF.forEach((item) => {
-                    if (item === filterName) {
-                        isAvailable++
-                    }
-                })
-                if (isAvailable !== 1) {
-                    this.state.selectedFilters.push(filterName)
-                }
-            } else {
-                this.state.selectedFilters.push(filterName)
-            }
-            console.log("tab", this.state.selectTabTherapy);
-            onSelect()
-        }
-
-        const onSelectConsult = async (i, value) => {
-            var filterName = "CONSULT"
-            await this.setState({
-                totalCount: "",
-                dynamicArray: [],
-                selectTabConsult: i,
-                searchConsultValue: value,
-                searchName: value,
-                searchValue: "Consulting Mode",
-                // newValue: 3
-            })
-            if (this.state.selectedFilters.length > 0) {
-                var selectedF = this.state.selectedFilters;
-                var isAvailable = 0
-                selectedF.forEach((item) => {
-                    if (item === filterName) {
-                        isAvailable++
-                    }
-                })
-                if (isAvailable !== 1) {
-                    this.state.selectedFilters.push(filterName)
-                }
-            } else {
-                this.state.selectedFilters.push(filterName)
-            }
-            onSelect()
-        }
-
-        const onSelectHealth = async (value, i) => {
-            var filterName = "HEALTH"
-            await this.setState({
-                totalCount: "",
-                dynamicArray: [],
-                selectTabHealth: i,
-                searchHealthValue: value,
-                searchName: value,
-                searchValue: "Health Concern",
-            })
-            if (this.state.selectedFilters.length > 0) {
-                var selectedF = this.state.selectedFilters;
-                var isAvailable = 0
-                selectedF.forEach((item) => {
-                    if (item === filterName) {
-                        isAvailable++
-                    }
-                })
-                if (isAvailable !== 1) {
-                    this.state.selectedFilters.push(filterName)
-                }
-            } else {
-                this.state.selectedFilters.push(filterName)
-            }
-            onSelect()
-        }
-
-        const onClear = () => {
+        const onClear = async () => {
             this.SelectRef.current.reset(),
                 this.SelectRef1.current.reset(),
-                this.setState({
-                    totalCount: "",
-                    dynamicArray: [],
-                    searchName: "",
-                    searchValue: "",
+                await this.setState({
+                    selectedFilters: [],
                     searchLocationValue: "",
                     searchTherapyValue: "",
                     searchConsultValue: "",
@@ -315,10 +239,23 @@ export default class SearchTherapist extends Component {
                     selectTabTherapy: -1,
                     selectTabConsult: ""
                 })
+
+            await axios.get(config.BASE_URL + '/doctor-registerations?populate=*&filters[verified]=true&_sort[0]=review:desc')
+                .then(async (response) => {
+                    var count = response.data.data.length;
+                    await this.setState({ totalCount: count, dynamicArray: response.data.data })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
 
         return (
-            <ScrollView>
+            <ScrollView ref={this.scrollView}
+                onContentSizeChange={() => this.scrollView.current.scrollTo({ x: 0, y: 650, animated: true })
+                    // this.scrollView.current.scrollToEnd({ animated: true })
+                }
+            >
                 <View className="flex w-full h-full bg-white">
                     <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
                         <Text className="text-lg font-bold text-white">
@@ -334,14 +271,14 @@ export default class SearchTherapist extends Component {
                         </View>
                         <SelectDropdown
                             ref={this.SelectRef}
-                            defaultButtonText='Select location'
+                            defaultButtonText={this.state.searchLocationValue}
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
                             // data={countries}
                             data={this.state.selectLocation}
                             dropdownStyle={{ borderRadius: 10 }}
                             dropdownIconPosition="right"
-                            onSelect={(selectedItem, index) => onSelectLocation(selectedItem, index)}
+                            onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "LOCATION")}
                             renderDropdownIcon={isOpened => {
                                 return (
                                     <View className="mr-5">
@@ -368,7 +305,7 @@ export default class SearchTherapist extends Component {
                                             <View className="gap-1 items-center" style={{ marginRight: getWidth("3%") }}>
                                                 <TouchableOpacity
                                                     className="w-16 h-16 items-center justify-center border-2 rounded-full"
-                                                    onPress={() => onSelectTherapy(index, data.label)}
+                                                    onPress={() => onSelectCommon(data.label, index, "THERAPY")}
                                                     style={{ borderColor: this.state.selectTabTherapy == index ? Colors.headerColor : Colors.white }}
                                                 >
                                                     <SvgUri
@@ -396,7 +333,7 @@ export default class SearchTherapist extends Component {
                                         return (
                                             <TouchableOpacity
                                                 style={[styles.body, { backgroundColor: this.state.selectTabConsult === index ? Colors.headerColor : Colors.cardColor }]}
-                                                onPress={() => onSelectConsult(index, data.label)}
+                                                onPress={() => onSelectCommon(data.label, index, "CONSULT")}
                                             >
                                                 <Text
                                                     className="text-md font-bold"
@@ -415,14 +352,14 @@ export default class SearchTherapist extends Component {
                         <Text className="text-lg font-bold">Select health concern</Text>
                         <SelectDropdown
                             ref={this.SelectRef1}
-                            defaultButtonText='Select health concern'
+                            defaultButtonText={this.state.searchHealthValue}
                             // defaultValue={'Skin Problems'}
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
                             data={this.state.healthConcern}
                             dropdownStyle={{ borderRadius: 10 }}
                             dropdownIconPosition="right"
-                            onSelect={(selectedItem, index) => onSelectHealth(selectedItem, index)}
+                            onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "HEALTH")}
                             renderDropdownIcon={isOpened => {
                                 return (
                                     <View className="mr-5">
@@ -444,7 +381,7 @@ export default class SearchTherapist extends Component {
                                 <Text className="text-xl font-bold text-[#5aa272]">Recent</Text>
                                 <Text className="text-xl font-bold text-black">Therapists</Text>
                             </View>
-                            <Text className="text-sm mt-1 font-semibold text-[#99A3A4]">109+ doctors available for online consulatation</Text>
+                            <Text className="text-sm mt-1 font-semibold text-[#99A3A4]">{this.state.totalCount} doctors available for {this.state.searchValue}</Text>
                         </View>
                         <ScrollView>
                             <View className="flex w-full h-full">
@@ -455,21 +392,23 @@ export default class SearchTherapist extends Component {
                                                 <View className="flex bg-white p-5 h-62" style={styles.borderContent}>
                                                     <View className="flex flex-row items-center gap-10">
                                                         <View className="items-center">
-                                                            <View className="w-24 h-24 rounded-full bg-red-500" />
+                                                            <View className="w-24 h-24 rounded-full bg-red-500">
+                                                                <Image source={ImagesContent.Logo} className="w-24 h-24 rounded-full" resizeMode="contain" />
+                                                            </View>
                                                             <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
                                                                 <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
                                                             </TouchableOpacity>
                                                         </View>
                                                         <View className="w-2/4">
                                                             <Text className="text-xl font-bold">{data.firstName}</Text>
-                                                            <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
-                                                                <Text className="text-sm font-bold text-white">Allopathic</Text>
+                                                            <TouchableOpacity className="mt-1 rounded-lg p-1 items-center justify-center bg-[#5aa272]">
+                                                                <Text className="text-sm font-bold text-white">{data.therapy.label}</Text>
                                                             </TouchableOpacity>
                                                             <View className="flex flex-row items-center gap-1 mt-1">
                                                                 <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                                                <Text className="text-md font-bold">4A, SSG Vadodara, Guj.</Text>
+                                                                <Text className="text-md font-bold">{data.city}, {data.state}</Text>
                                                             </View>
-                                                            <Text className="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</Text>
+                                                            <Text className="mt-2 text-md">{data.degree.label}</Text>
                                                         </View>
                                                     </View>
                                                     <View className="flex flex-row items-center justify-between mt-8">
@@ -482,7 +421,7 @@ export default class SearchTherapist extends Component {
                                                             onPress={() => { this.BottomSheet.show() }}
                                                         >
                                                             <Text className="text-md font-bold text-white">CONSULT NOW</Text>
-                                                            <Text className="text-md font-bold text-white">₹400</Text>
+                                                            <Text className="text-md font-bold text-white">₹{data.deliveryModesFee[2]}</Text>
                                                         </TouchableOpacity>
                                                     </View>
                                                 </View>
@@ -495,7 +434,7 @@ export default class SearchTherapist extends Component {
                         </ScrollView>
                     </View>
                 </View>
-            </ScrollView >
+            </ScrollView>
         )
     }
 }

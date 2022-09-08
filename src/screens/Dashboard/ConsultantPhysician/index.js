@@ -16,7 +16,7 @@ const ConsultantPhysician = () => {
     return (
         <View>
             <View className="h-full w-full">
-                <View style={styles.main}>
+                {/* <View style={styles.main}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
                             arr.map((data) => {
@@ -28,7 +28,7 @@ const ConsultantPhysician = () => {
                             })
                         }
                     </ScrollView>
-                </View>
+                </View> */}
                 <View className="h-full pt-2 bg-[#E5E7E9]">
                     <View className="p-4">
                         <View className="flex flex-row items-center gap-2">
@@ -70,7 +70,7 @@ const ConsultantPhysician = () => {
                                                     </View>
                                                     <TouchableOpacity
                                                         className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
-                                                        onPress={() => { this.BottomSheet.show() }}
+                                                    // onPress={() => { this.BottomSheet.show() }}
                                                     >
                                                         <Text className="text-md font-bold text-white">CONSULT NOW</Text>
                                                         <Text className="text-md font-bold text-white">₹400</Text>
@@ -86,7 +86,7 @@ const ConsultantPhysician = () => {
                     </ScrollView>
                 </View>
             </View>
-            <BottomSheet
+            {/* <BottomSheet
                 draggable={false}
                 // hasDraggableIcon
                 radius={20}
@@ -122,7 +122,7 @@ const ConsultantPhysician = () => {
                         <Text className="text-md font-bold text-white">Pay ₹400</Text>
                     </TouchableOpacity>
                 </View>
-            </BottomSheet>
+            </BottomSheet> */}
         </View>
     )
 }

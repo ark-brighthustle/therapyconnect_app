@@ -1,90 +1,126 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { ImagesContent } from '../../../constants/images'
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image } from 'react-native'
+import React, { Component } from 'react'
+import Slideshow from "react-native-image-slider-show";
+import { getHeight, getWidth } from '../../../components/Dimensions'
+import { ImagesContent } from '../../../constants/images';
+import { Colors } from '../../../constants/colors'
 
-const HealthPackage = () => {
-  const navigation = useNavigation()
-  const arr = [0, 1, 2]
-  const arr1 = [0, 1, 2, 3, 4]
-  return (
-    <ScrollView>
-      <View className="flex w-full h-full bg-white">
-        <StatusBar barStyle="light-content" />
-        <View>
-          <View className="w-full h-56 bg-red-500" />
-        </View>
-        <View className="p-6 mt-3">
-          <Text className="text-2xl font-bold text-black">24x7 Family Caring System</Text>
-          <View className="mt-5">
-            <Text className="text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Text>
-          </View>
-        </View>
-        <View className=" flex flex-row justify-between ml-3 mr-8">
-          {
-            arr.map((data) => {
-              return (
-                <View className="flex flex-row items-center justify-between p-5">
-                  <View className="items-center">
-                    <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                    <Text className="mt-2 text-sm">Available</Text>
-                    <Text className="mt-1 text-sm">24x7</Text>
-                  </View>
-                  <View className="w-0.5 ml-10 h-12 bg-[#D3D3D3]" />
-                </View>
-              )
-            })
-          }
-        </View>
-        <View className="p-6 mt-3">
-          <Text className="text-2xl font-bold text-black">How it works</Text>
-          {
-            arr1.map((data) => {
-              return (
-                <View className="flex flex-row p-2 gap-2 items-center mt-2">
-                  <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                  <Text className="pl-3 pr-5 text-sm">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</Text>
-                </View>
-              )
-            })
-          }
-        </View>
-        <View className="p-6">
-          <Text className="text-2xl font-bold text-black">Testimonials</Text>
-          <View className="p-6">
-            <View className="w-full h-56 bg-red-500" />
-          </View>
-        </View>
-        <View className="p-6">
-          <Text className="text-2xl font-bold text-black">Frequently Asked Questions</Text>
-          <View className="pt-2">
-            {
-              arr1.map((data) => {
-                return (
-                  <View>
-                    <View className="flex flex-row items-center justify-between pt-5">
-                      <Text className="text-lg">Who are Therapy connect Doctors? </Text>
-                      <AntDesign name="right" size={20} color={"#696969"} />
+export default class HealthPackage extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            position: 1,
+            interval: null,
+            dataSource: [
+                {
+                    // title: 'Title 1',
+                    // caption: 'Caption 1',
+                    url: ImagesContent.order_medicine1,
+                }, {
+                    // title: 'Title 2',
+                    // caption: 'Caption 2',
+                    url: ImagesContent.wellness_sol1,
+                }, {
+                    // title: 'Title 3',
+                    // caption: 'Caption 3',
+                    url: ImagesContent.order_medicine1,
+                },
+            ],
+        };
+    }
+
+    componentWillMount() {
+        this.setState({
+            interval: setInterval(() => {
+                this.setState({
+                    position: this.state.position === this.state.dataSource.length ? 0 : this.state.position + 1
+                });
+            }, 2000)
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval);
+    }
+
+    render() {
+
+        const { navigation } = this.props;
+        const arr = [0, 1, 2, 3]
+        const countries = ["Ahmedabad", "Surat", "Goa", "Delhi", "Rajkot"]
+
+        return (
+            <ScrollView>
+                <View className="flex w-full h-full bg-white">
+                    <StatusBar barStyle="light-content" />
+                    <View className="bg-white">
+                        <View style={{ padding: 15 }}>
+                            <Slideshow
+                                containerStyle={styles.sliderContainer}
+                                dataSource={this.state.dataSource}
+                                position={this.state.position}
+                                onPositionChanged={position => this.setState({ position })}
+                            />
+                        </View>
+                        <View className="mt-3 pl-5 items-start w-full">
+                            <View className="flex flex-row">
+                                <Text className="text-2xl font-bold">Popular</Text>
+                                <Text className="text-2xl font-bold text-[#5aa272]"> packages</Text>
+                            </View>
+                            <View className="mt-1">
+                                <Text className="text-sm text-grey-50">Private online consultations with verified Doctors</Text>
+                            </View>
+                        </View>
+                        <View className="p-5 gap-3">
+                            {
+                                arr.map((data) => {
+                                    return (
+                                        <View className="p-5 items-start  bg-[#F6FAF8] rounded-lg">
+                                            <View className="flex flex-row justify-center items-center gap-10">
+                                                <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
+                                                <View className="gap-1">
+                                                    <Text className="text-xl font-bold">Holistic health package</Text>
+                                                    <Text className="text-sm text-grey-100">A care package for all</Text>
+                                                </View>
+                                            </View>
+                                            <View className="flex flex-row items-start mt-6 w-full justify-between">
+                                                <View className="gap-0.5">
+                                                    <Text className="text-xl font-bold">₹ 850</Text>
+                                                    <Text className="text-sm text-grey-100">per month</Text>
+                                                </View>
+                                                <TouchableOpacity className="bg-[#FF4500] w-32 h-10 rounded-xl items-center justify-center" onPress={() => navigation.navigate('Package Details')}>
+                                                    <Text className="text-md font-bold text-white">Explore</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    );
+                                })
+                            }
+                        </View>
                     </View>
-                    <View className="w-full h-0.5 mt-5 bg-[#D3D3D3]" />
-                  </View>
-                )
-              })
-            }
-          </View>
-        </View>
-        <View className="p-5">
-          <TouchableOpacity className="bg-[#FF4500] w-full h-20 rounded-xl items-center justify-center" onPress={() => navigation.navigate('Consultant Physician')}>
-            <Text className="text-lg font-bold text-white">GET UNLIMITED CONSULTATIONS</Text>
-            <Text className="text-sm font-semibold text-white">Packages start at ₹399</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
-  )
+                </View>
+            </ScrollView>
+        )
+    }
 }
 
-export default HealthPackage
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    scroll: {
+        width: getWidth("20%"),
+        height: getHeight("")
+    },
+    buttonText: {
+        textAlign: 'left',
+        // marginLeft: getWidth("10%"),
+        fontSize: 18,
+        fontWeight: "bold",
+        color: Colors.white
+    },
+    dropStyle: {
+        borderRadius: 10,
+        width: "50%",
+        // marginLeft: getWidth("10%")
+    }
+})
