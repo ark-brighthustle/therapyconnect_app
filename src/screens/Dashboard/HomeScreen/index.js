@@ -99,6 +99,41 @@ export default class HomeScreen extends Component {
             navigation.navigate('Search Therapist', { name: this.state.searchTherapy, index: this.state.searchTherapyIndex, value: "Therapy", filter: "&filters[therapy][label][$eq]=" + this.state.searchTherapy });
         }
 
+        const onlineConsult = (i) => {
+            console.log("index", i);
+            if (i === 0) {
+                navigation.navigate('Online Consultation')
+            }
+            else if (i === 1) {
+                navigation.navigate('Offline Consultation')
+            }
+            else if (i === 2) {
+                navigation.navigate('Order Medicines')
+            }
+            else if (i === 3) {
+                navigation.navigate('Book Diagnostics')
+            }
+            else if (i === 4) {
+                navigation.navigate('Wellness Solutions')
+            }
+        }
+
+        const onPackage = (i) => {
+            console.log("index", i);
+            if (i === 0) {
+                navigation.navigate('Health Package')
+            }
+            else if (i === 1) {
+                navigation.navigate('Book Diagnostics')
+            }
+            else if (i === 2) {
+                navigation.navigate('Order Medicines')
+            }
+            else if (i === 3) {
+                navigation.navigate('Wellness Solutions')
+            }
+        }
+
         const arr = [
             { fn: "Health", ln: "Package", img: ImagesContent.health_package },
             { fn: "Book", ln: "Diagnostics", img: ImagesContent.bookDiagonistics },
@@ -169,9 +204,12 @@ export default class HomeScreen extends Component {
                 </View>
                 <View className="flex flex-row w-full bg-[#5aa272] p-4 rounded-b-3xl justify-center">
                     {
-                        arr.map((data) => {
+                        arr.map((data, index) => {
                             return (
-                                <TouchableOpacity className="p-3 items-center justify-center" onPress={() => navigation.navigate('Health Package')}>
+                                <TouchableOpacity
+                                    className="p-3 items-center justify-center"
+                                    onPress={() => onPackage(index)}
+                                >
                                     <View className="w-16 h-16 rounded-full bg-[#2b4d36] items-center justify-center">
                                         <Image source={data.img} className="w-8 h-8" resizeMode='contain' />
                                     </View>
@@ -182,13 +220,10 @@ export default class HomeScreen extends Component {
                         })
                     }
                 </View>
-                <View className="flex w-full items-center bg-white rounded-b-3xl p-4">
-                    <View className="flex flex-row items-center w-full justify-between">
-                        <View className="flex flex-row">
-                            <Text className="text-2xl font-bold">Our</Text>
-                            <Text className="text-2xl font-bold text-[#5aa272]"> true services</Text>
-                        </View>
-                        <Text>SEE ALL</Text>
+                <View className="flex w-full bg-white rounded-b-3xl p-4">
+                    <View className="flex flex-row">
+                        <Text className="text-2xl font-bold">Our</Text>
+                        <Text className="text-2xl font-bold text-[#5aa272]"> true services</Text>
                     </View>
                     <View className="w-full h-60">
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -198,7 +233,7 @@ export default class HomeScreen extends Component {
                                         return (
                                             <TouchableOpacity
                                                 style={[styles.main, { alignItems: 'center' }]}
-                                                onPress={() => navigation.navigate('Consultant Physician')}
+                                                onPress={() => onlineConsult(index)}
                                             >
                                                 <View>
                                                     <View style={styles.firstView}>
@@ -254,12 +289,11 @@ export default class HomeScreen extends Component {
                             })
                         }
                     </View>
-                    <View className="flex mt-5 flex-row items-center w-full justify-between">
-                        <View className="flex flex-row">
+                    <View className="flex mt-5 w-full">
+                        <View className="flex items-center flex-row">
                             <Text className="text-2xl font-bold">Know Your</Text>
                             <Text className="text-2xl font-bold text-[#5aa272]"> therapy</Text>
                         </View>
-                        <Text>SEE ALL</Text>
                     </View>
                     <View className="mt-2 mb-4 items-start w-full">
                         <Text className="text-sm text-grey-300">Choose what suits you </Text>
@@ -292,12 +326,11 @@ export default class HomeScreen extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View className="flex mt-5 flex-row items-center w-full justify-between">
-                        <View className="flex flex-row">
+                    <View className="flex mt-5 w-full">
+                        <View className="flex flex-row items-center">
                             <Text className="text-2xl font-bold">Health</Text>
                             <Text className="text-2xl font-bold text-[#5aa272]"> articles</Text>
                         </View>
-                        <Text>SEE ALL</Text>
                     </View>
                     <View className="mt-3 w-full h-54">
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

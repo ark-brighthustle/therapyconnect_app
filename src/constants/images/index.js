@@ -19,4 +19,7 @@ export const ImagesContent = {
     order_medicine1: require('../../assets/images/order_medicines.png'),
     book_diag: require('../../assets/images/book_diag.png'),
     wellness_sol1: require('../../assets/images/wellness_sol.png'),
+
+    // images for package details
+    package_img: require('../../assets/images/packageImg.jpeg'),
 };

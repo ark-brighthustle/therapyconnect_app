@@ -1,30 +1,28 @@
 import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import Slideshow from "react-native-image-slider-show";
-import { getHeight, getWidth } from '../../../components/Dimensions'
 import { ImagesContent } from '../../../constants/images';
 import { Colors } from '../../../constants/colors'
+import config from '../../../config';
+import axios from 'axios';
+import { SvgUri } from 'react-native-svg'
 
 export default class HealthPackage extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             position: 1,
             interval: null,
+            health_package: [],
             dataSource: [
                 {
-                    // title: 'Title 1',
-                    // caption: 'Caption 1',
                     url: ImagesContent.order_medicine1,
                 }, {
                     // title: 'Title 2',
                     // caption: 'Caption 2',
                     url: ImagesContent.wellness_sol1,
                 }, {
-                    // title: 'Title 3',
-                    // caption: 'Caption 3',
                     url: ImagesContent.order_medicine1,
                 },
             ],
@@ -39,6 +37,14 @@ export default class HealthPackage extends Component {
                 });
             }, 2000)
         });
+
+        axios.get(config.BASE_URL + '/health-packages?sort=id:asc&populate[packageImage]=*')
+            .then((response) => {
+                this.setState({ health_package: response.data.data })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     componentWillUnmount() {
@@ -46,11 +52,7 @@ export default class HealthPackage extends Component {
     }
 
     render() {
-
         const { navigation } = this.props;
-        const arr = [0, 1, 2, 3]
-        const countries = ["Ahmedabad", "Surat", "Goa", "Delhi", "Rajkot"]
-
         return (
             <ScrollView>
                 <View className="flex w-full h-full bg-white">
@@ -75,22 +77,29 @@ export default class HealthPackage extends Component {
                         </View>
                         <View className="p-5 gap-3">
                             {
-                                arr.map((data) => {
+                                this.state.health_package.map((data) => {
                                     return (
                                         <View className="p-5 items-start  bg-[#F6FAF8] rounded-lg">
-                                            <View className="flex flex-row justify-center items-center gap-10">
-                                                <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                                                <View className="gap-1">
-                                                    <Text className="text-xl font-bold">Holistic health package</Text>
-                                                    <Text className="text-sm text-grey-100">A care package for all</Text>
+                                            <View className="flex flex-row justify-center items-center gap-7">
+                                                <SvgUri
+                                                    width="25%"
+                                                    height="50%"
+                                                    uri={config.IMAGE_URL + data.packageImage.url}
+                                                />
+                                                <View className="w-3/5 gap-1">
+                                                    <Text className="text-xl font-bold">{data.packageName}</Text>
+                                                    <Text className="text-sm text-grey-100">{data.packageTitle}</Text>
                                                 </View>
                                             </View>
-                                            <View className="flex flex-row items-start mt-6 w-full justify-between">
+                                            <View className="flex flex-row items-center mt-6 w-full justify-between p-2">
                                                 <View className="gap-0.5">
                                                     <Text className="text-xl font-bold">₹ 850</Text>
                                                     <Text className="text-sm text-grey-100">per month</Text>
                                                 </View>
-                                                <TouchableOpacity className="bg-[#FF4500] w-32 h-10 rounded-xl items-center justify-center" onPress={() => navigation.navigate('Package Details')}>
+                                                <TouchableOpacity
+                                                    className="bg-[#FF4500] w-32 h-10 rounded-xl items-center justify-center"
+                                                    onPress={() => navigation.navigate('Package Details', { id: data.id })}
+                                                >
                                                     <Text className="text-md font-bold text-white">Explore</Text>
                                                 </TouchableOpacity>
                                             </View>
@@ -107,13 +116,8 @@ export default class HealthPackage extends Component {
 }
 
 const styles = StyleSheet.create({
-    scroll: {
-        width: getWidth("20%"),
-        height: getHeight("")
-    },
     buttonText: {
         textAlign: 'left',
-        // marginLeft: getWidth("10%"),
         fontSize: 18,
         fontWeight: "bold",
         color: Colors.white
@@ -121,6 +125,5 @@ const styles = StyleSheet.create({
     dropStyle: {
         borderRadius: 10,
         width: "50%",
-        // marginLeft: getWidth("10%")
     }
 })
