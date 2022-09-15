@@ -15,6 +15,7 @@ import OfflineConsult from '../screens/Dashboard/OfflineConsult';
 import BookDiagnostics from '../screens/Dashboard/BookDiagnostics';
 import OrderMedicines from '../screens/Dashboard/OrderMedicines';
 import WellnessSolutions from '../screens/Dashboard/WellnessSolutions';
+import MoreTherapists from '../screens/Dashboard/MoreTherapists';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,15 @@ const AppStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Therapists"
+        component={MoreTherapists}
+        options={{
+          headerStyle: { backgroundColor: '#5aa272' },
+          headerTitleStyle: { color: 'white' },
+          headerTintColor: 'white'
+        }}
       />
       <Stack.Screen
         name="Health Package"

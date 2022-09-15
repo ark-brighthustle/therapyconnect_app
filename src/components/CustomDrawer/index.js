@@ -3,32 +3,31 @@ import React from 'react'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Colors } from '../../constants/colors'
 import { getHeight, getWidth } from '../Dimensions'
-// import { ImagesContent } from '../../constants/images'
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-// import { useNavigation } from '@react-navigation/native'
+import { ImagesContent } from '../../constants/images'
+import { useNavigation } from '@react-navigation/native'
 
 const CustomDrawer = (props) => {
-    // const navigation = useNavigation();
+    const navigation = useNavigation();
     return (
         <View style={styles.container}>
             {/* <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}> */}
-            {/* <View style={styles.headerContent}>
+            <View style={styles.headerContent}>
                 <View style={styles.header}>
-                    <Image source={ImagesContent.profileImg} style={styles.img} />
+                    <Image source={ImagesContent.search} style={styles.img} />
                     <View>
                         <Text style={styles.name}> Kathelin karle </Text>
                         <Text> Hii </Text>
                     </View>
-                    <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
+                    {/* <TouchableOpacity>
                         <MaterialIcons name="keyboard-arrow-right" size={35} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View style={[styles.header, { marginTop: getHeight("4%") }]}>
-                    <TouchableOpacity onPress={() => navigation.navigate('NotificationPage')}>
-                        <Image source={ImagesContent.notification} />
+                    <TouchableOpacity>
+                        <Image source={ImagesContent.search} />
                     </TouchableOpacity>
                     <View style={styles.header}>
-                        <TouchableOpacity onPress={() => navigation.navigate('Wallet')}>
+                        <TouchableOpacity>
                             <Text style={styles.text}>Wallet  </Text>
                         </TouchableOpacity>
                         <View style={styles.textContent}>
@@ -36,32 +35,32 @@ const CustomDrawer = (props) => {
                         </View>
                     </View>
                 </View>
-            </View> */}
+            </View>
             <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent} showsVerticalScrollIndicator={false}>
                 <View style={styles.mainContent}>
                     <DrawerItemList {...props} />
                 </View>
             </DrawerContentScrollView>
-            {/* <View style={styles.footer}>
-                <TouchableOpacity onPress={() => { }} style={styles.touch}>
-                    <Image source={ImagesContent.referEarn} />
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.touch}>
+                    <Image source={ImagesContent.search} />
                     <Text style={[styles.text2, { color: Colors.borderColor }]}> Refer & Earn </Text>
                 </TouchableOpacity>
-            </View> */}
-            {/* <View style={styles.footer}>
-                <TouchableOpacity onPress={() => { }} style={styles.touch}>
-                    <Image source={ImagesContent.help} />
+            </View>
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.touch}>
+                    <Image source={ImagesContent.search} />
                     <Text style={styles.text2}> Help </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }} style={styles.touch1}>
-                    <Image source={ImagesContent.tCApply} />
+                <TouchableOpacity style={styles.touch1}>
+                    <Image source={ImagesContent.search} />
                     <Text style={[styles.text2, { marginLeft: getWidth("1.5%") }]}> T&C Apply </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => { }} style={styles.touch2}>
-                    <Image source={ImagesContent.settings} />
+                <TouchableOpacity style={styles.touch2}>
+                    <Image source={ImagesContent.search} />
                     <Text style={[styles.text2, { marginLeft: getWidth("3.5%") }]}> Settings </Text>
                 </TouchableOpacity>
-            </View> */}
+            </View>
         </View>
     )
 }

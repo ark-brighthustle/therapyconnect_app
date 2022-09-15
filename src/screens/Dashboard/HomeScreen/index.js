@@ -9,6 +9,7 @@ import config from '../../../config'
 import SelectDropdown from 'react-native-select-dropdown'
 import { Colors } from '../../../constants/colors'
 import { SvgUri } from 'react-native-svg'
+import { DrawerActions } from '@react-navigation/native'
 
 export default class HomeScreen extends Component {
 
@@ -70,6 +71,12 @@ export default class HomeScreen extends Component {
 
     render() {
         const { navigation } = this.props;
+
+        // const toggleDrawer = () => {
+        //     console.log("toggleDrawer", this.props.navigation.dispatch(DrawerActions.toggleDrawer()));
+        //     // navigation.dispatch(DrawerActions.toggleDrawer());
+        //     navigation.navigate('Root')
+        // };
 
         const onSearchSubmit = () => {
             navigation.navigate('Search Therapist', { value: "Simple Text", filter: "&filters[verified]=true&filters[$or][0][city][$containsi]=" + this.state.searchText + "&filters[$or][1][therapy][label][$containsi]=" + this.state.searchText + "&filters[$or][2][deliveryModes][label][$containsi]=" + this.state.searchText + "&filters[$or][3][healthConcerns][label][$containsi]=" + this.state.searchText });
@@ -154,7 +161,7 @@ export default class HomeScreen extends Component {
                 {/* <View className="flex w-full h-full bg-white items-center"> */}
                 <StatusBar barStyle="light-content" />
                 <View className="flex flex-row bg-[#5aa272] pl-4 pr-4 pt-3 pb-3 items-center w-full justify-between">
-                    <Feather name="menu" size={35} color={"white"} />
+                    <Feather name="menu" size={35} color={"white"} onPress={() => toggleDrawer()} />
                     <View className="flex flex-row items-center justify-around gap-2">
                         <SelectDropdown
                             buttonStyle={{ backgroundColor: "" }}
@@ -245,7 +252,7 @@ export default class HomeScreen extends Component {
                                                     </View>
                                                 </View>
                                                 <View className=" items-center w-28 mt-1 justify-center">
-                                                    <Text className="text-sm">{data.disc}</Text>
+                                                    <Text className="text-sm text-center">{data.disc}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         );
@@ -259,7 +266,9 @@ export default class HomeScreen extends Component {
                             <Text className="text-2xl font-bold">Consult top</Text>
                             <Text className="text-2xl font-bold text-[#5aa272]"> therapists</Text>
                         </View>
-                        <Text>SEE ALL</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('Therapists')}>
+                            <Text>SEE ALL</Text>
+                        </TouchableOpacity>
                     </View>
                     <View className="mt-2 mb-4 items-start w-full">
                         <Text className="text-sm text-grey-300">Private online consultations with verified doctors. </Text>
@@ -267,8 +276,6 @@ export default class HomeScreen extends Component {
                     <View className="flex flex-row w-full justify-center gap-2" style={{ flexWrap: 'wrap' }}>
                         {
                             this.state.healthConcern.map((data, index) => {
-                                // console.log("my data", data.label);
-                                // console.log("my icons", data.icon.url);
                                 return (
                                     <TouchableOpacity
                                         className="items-center"

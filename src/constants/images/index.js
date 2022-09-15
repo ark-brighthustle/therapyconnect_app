@@ -22,4 +22,5 @@ export const ImagesContent = {
 
     // images for package details
     package_img: require('../../assets/images/packageImg.jpeg'),
+    // book1: require('../../assets/svg/book_diag.svg'),
 };
