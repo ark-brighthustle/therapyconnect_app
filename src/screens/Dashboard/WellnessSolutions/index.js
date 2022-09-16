@@ -1,6 +1,7 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SvgUri } from 'react-native-svg'
+import TextComponent from '../../../components/TextComponent';
 
 const WellnessSolutions = () => {
     return (
@@ -13,15 +14,21 @@ const WellnessSolutions = () => {
                         uri="https://therapyconnect.in/static/media/solutions.993defe2e965c88962f96cbcab09acc2.svg"
                     />
                 </View>
-                <View className="flex flex-row items-center gap-1">
-                    <Text className="text-3xl font-bold text-black">Wellness</Text>
-                    <Text className="text-3xl font-bold text-[#5aa272]">Solutions</Text>
+                <View className="flex flex-row items-center">
+                    <TextComponent className1={"text-3xl text-black mr-2"} isBold={true}>
+                        Wellness
+                    </TextComponent>
+                    <TextComponent className1={"text-3xl text-[#5aa272]"} isBold={true}>
+                        Solutions
+                    </TextComponent>
                 </View>
-                <Text className="text-lg text-center font-500 text-black">
+                <TextComponent className1={"text-lg text-center text-black"}>
                     Explore our a holistic package of wellness and care
-                </Text>
+                </TextComponent>
                 <TouchableOpacity className="pl-10 pr-10 pt-3 pb-3 rounded-lg items-center justify-center bg-red-500">
-                    <Text className="text-lg font-bold text-white">Coming Soon</Text>
+                    <TextComponent className1={"text-lg text-white"} isBold={true}>
+                        Coming Soon
+                    </TextComponent>
                 </TouchableOpacity>
             </View>
         </View>

@@ -1,5 +1,4 @@
 import { StyleSheet, Image } from 'react-native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
 
 import CustomDrawer from '../components/CustomDrawer';
@@ -11,25 +10,50 @@ import HomeScreen from '../screens/Dashboard/HomeScreen';
 import { Colors } from '../constants/colors';
 import OnlineConsult from '../screens/Dashboard/OnlineConsult';
 import OfflineConsult from '../screens/Dashboard/OfflineConsult';
+import HealthPackage from '../screens/Dashboard/HealthPackage';
+import TextComponent from '../components/TextComponent';
 
-const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const Root = () => {
     return (
         <Drawer.Navigator
             drawerContent={props => <CustomDrawer {...props} />}
-            screenOptions={{ headerShown: false, drawerActiveTintColor: Colors.borderColor }}>
+            screenOptions={{
+                drawerActiveTintColor: Colors.headerColor,
+                // drawerItemStyle: { padding: getHeight("0.5%") },
+                // drawerLabelStyle: { marginLeft: getWidth("-2.5%") }
+            }}
+        >
             <Drawer.Screen
                 name="HomeScreen"
                 component={HomeScreen}
                 options={{
-                    title: 'Home',
+                    title: () => <TextComponent>Home</TextComponent>,
+                    headerShown: false,
                     drawerIcon: ({ color }) => (
                         <Image
                             source={ImagesContent.search}
                             tintColor={color}
-                            style={styles.adjustContent}
+                            className="w-6 h-6 ml-2"
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="HealthPackage"
+                component={HealthPackage}
+                options={{
+                    // title: 'Health Package',
+                    title: () => <TextComponent>Health Package</TextComponent>,
+                    headerStyle: { backgroundColor: '#5aa272' },
+                    headerTitleStyle: { color: 'white' },
+                    headerTintColor: 'white',
+                    drawerIcon: ({ color }) => (
+                        <Image
+                            source={ImagesContent.search}
+                            tintColor={color}
+                            className="w-6 h-6 ml-2"
                         />
                     )
                 }}
@@ -38,11 +62,16 @@ const Root = () => {
                 name="OnlineConsult"
                 component={OnlineConsult}
                 options={{
-                    title: 'Online Consultation',
+                    // title: 'Online Consultation',
+                    title: () => <TextComponent>Online Consultation</TextComponent>,
+                    headerStyle: { backgroundColor: '#5aa272' },
+                    headerTitleStyle: { color: 'white' },
+                    headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
                         <Image
                             source={ImagesContent.search}
                             tintColor={color}
+                            className="w-6 h-6 ml-2"
                         />
                     )
                 }}
@@ -51,12 +80,52 @@ const Root = () => {
                 name="OfflineConsult"
                 component={OfflineConsult}
                 options={{
-                    title: 'Offline Consultation',
+                    // title: 'Offline Consultation',
+                    title: () => <TextComponent>Offline Consultation</TextComponent>,
+                    headerStyle: { backgroundColor: '#5aa272' },
+                    headerTitleStyle: { color: 'white' },
+                    headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
                         <Image
                             source={ImagesContent.search}
                             tintColor={color}
-                            style={styles.adjustContent1}
+                            className="w-6 h-6 ml-2"
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Settings"
+                component={OfflineConsult}
+                options={{
+                    // title: 'Settings',
+                    title: () => <TextComponent>Settings</TextComponent>,
+                    // headerStyle: { backgroundColor: '#5aa272' },
+                    // headerTitleStyle: { color: 'white' },
+                    // headerTintColor: 'white',
+                    drawerIcon: ({ color }) => (
+                        <Image
+                            source={ImagesContent.search}
+                            tintColor={color}
+                            className="w-6 h-6 ml-2"
+                        />
+                    )
+                }}
+            />
+            <Drawer.Screen
+                name="Logout"
+                component={OfflineConsult}
+                options={{
+                    // title: 'Logout',
+                    title: () => <TextComponent>Logout</TextComponent>,
+                    // headerStyle: { backgroundColor: '#5aa272' },
+                    // headerTitleStyle: { color: 'white' },
+                    // headerTintColor: 'white',
+                    drawerIcon: ({ color }) => (
+                        <Image
+                            source={ImagesContent.search}
+                            tintColor={color}
+                            className="w-6 h-6 ml-2"
                         />
                     )
                 }}
@@ -66,24 +135,3 @@ const Root = () => {
 }
 
 export default Root;
-
-const styles = StyleSheet.create({
-    adjustContent: {
-        marginLeft: getWidth("0.5%"),
-        marginRight: getWidth("0%")
-    },
-    adjustContent1: {
-        marginLeft: getWidth("0.5%"),
-        marginRight: getWidth("1%")
-    },
-    adjustContent2: {
-        marginLeft: getWidth("0%"),
-        marginRight: getWidth("0%"),
-    },
-    adjustContent3: {
-        marginLeft: getWidth("-3%"),
-        marginRight: getWidth("-2.5%"),
-        marginTop: getHeight("-2%"),
-        marginBottom: getHeight("-1.5%")
-    }
-})

@@ -129,6 +129,7 @@ export default class SearchTherapist extends Component {
     }
 
     render() {
+        const { navigation } = this.props;
 
         const fetchData = async (url) => {
 
@@ -392,8 +393,8 @@ export default class SearchTherapist extends Component {
                                                 <View className="flex bg-white p-5 h-62" style={styles.borderContent}>
                                                     <View className="flex flex-row items-center gap-10">
                                                         <View className="items-center">
-                                                            <View className="w-24 h-24 rounded-full bg-red-500">
-                                                                <Image source={ImagesContent.Logo} className="w-24 h-24 rounded-full" resizeMode="contain" />
+                                                            <View className="w-24 h-24 rounded-full">
+                                                                <Image source={ImagesContent.Logo2} className="w-24 h-24 rounded-full" resizeMode="contain" />
                                                             </View>
                                                             <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
                                                                 <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
@@ -418,9 +419,9 @@ export default class SearchTherapist extends Component {
                                                         </View>
                                                         <TouchableOpacity
                                                             className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
-                                                            onPress={() => { this.BottomSheet.show() }}
+                                                            onPress={() => navigation.navigate('Slot Patient')}
                                                         >
-                                                            <Text className="text-md font-bold text-white">CONSULT NOW</Text>
+                                                            <Text className="text-md font-bold text-white">STARTING FROM</Text>
                                                             <Text className="text-md font-bold text-white">₹{data.deliveryModesFee[2]}</Text>
                                                         </TouchableOpacity>
                                                     </View>

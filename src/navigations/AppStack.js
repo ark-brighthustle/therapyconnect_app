@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
+
 import HomeScreen from '../screens/Dashboard/HomeScreen';
 import HealthPackage from '../screens/Dashboard/HealthPackage';
 import Root from './Root';
@@ -16,12 +17,14 @@ import BookDiagnostics from '../screens/Dashboard/BookDiagnostics';
 import OrderMedicines from '../screens/Dashboard/OrderMedicines';
 import WellnessSolutions from '../screens/Dashboard/WellnessSolutions';
 import MoreTherapists from '../screens/Dashboard/MoreTherapists';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import TextComponent from '../components/TextComponent';
 
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="Root">
       <Stack.Screen
         name="Root"
         component={Root}
@@ -37,7 +40,12 @@ const AppStack = () => {
         component={MoreTherapists}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Therapists
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -46,7 +54,12 @@ const AppStack = () => {
         component={HealthPackage}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Health Package
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -55,7 +68,12 @@ const AppStack = () => {
         component={PackageDetails}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Package Details
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -64,7 +82,12 @@ const AppStack = () => {
         component={ConsultantPhysician}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Consultant Physician
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -73,7 +96,12 @@ const AppStack = () => {
         component={DoctorInfo}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Doctor Info
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -81,9 +109,13 @@ const AppStack = () => {
         name="Healthy Life"
         component={HealthyLife}
         options={{
-          headerTitle: "HEALTHLY LIFE #7",
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            HEALTHLY LIFE #7
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -92,8 +124,12 @@ const AppStack = () => {
         component={SlotPatient}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Select Slot & Patient",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Select Slot & Patient
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -102,8 +138,12 @@ const AppStack = () => {
         component={SearchTherapist}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Search Therapist",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Search Therapist
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -112,8 +152,12 @@ const AppStack = () => {
         component={OnlineConsult}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Online Consultation",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Online Consultation
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -122,8 +166,12 @@ const AppStack = () => {
         component={OfflineConsult}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Offline Consultation",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Offline Consultation
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -132,8 +180,12 @@ const AppStack = () => {
         component={OrderMedicines}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Order Medicines",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Order Medicines
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -142,8 +194,12 @@ const AppStack = () => {
         component={BookDiagnostics}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Book Diagnostics",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Book Diagnostics
+          </TextComponent>,
           headerTintColor: 'white'
         }}
       />
@@ -152,8 +208,13 @@ const AppStack = () => {
         component={WellnessSolutions}
         options={{
           headerStyle: { backgroundColor: '#5aa272' },
-          headerTitle: "Wellness Solutions",
-          headerTitleStyle: { color: 'white' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Wellness Solutions
+          </TextComponent>,
+          // headerTitleStyle: { color: 'white' },
           headerTintColor: 'white'
         }}
       />

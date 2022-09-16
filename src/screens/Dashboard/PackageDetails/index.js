@@ -66,9 +66,12 @@ export default class PackageDetails extends Component {
             <View className="w-full h-56 bg-red-500">
               <Image source={ImagesContent.package_img} className="w-full h-60" resizeMode="cover" />
             </View>
+            <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} className="items-center justify-center">
+              <Text className="text-3xl font-bold text-[#5aa272]">{this.state.package_details.packageName}</Text>
+            </View>
           </View>
           <View className="p-6 mt-3">
-            <Text className="text-2xl font-bold text-black">{this.state.package_details.packageName}</Text>
+            {/* <Text className="text-2xl font-bold text-black">{this.state.package_details.packageName}</Text> */}
             <View className="mt-5">
               <Text className="text-sm text-justify">{this.state.package_details.packageDescription}</Text>
             </View>

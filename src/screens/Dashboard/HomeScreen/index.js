@@ -72,11 +72,9 @@ export default class HomeScreen extends Component {
     render() {
         const { navigation } = this.props;
 
-        // const toggleDrawer = () => {
-        //     console.log("toggleDrawer", this.props.navigation.dispatch(DrawerActions.toggleDrawer()));
-        //     // navigation.dispatch(DrawerActions.toggleDrawer());
-        //     navigation.navigate('Root')
-        // };
+        const toggleDrawer = () => {
+            navigation.dispatch(DrawerActions.openDrawer())
+        };
 
         const onSearchSubmit = () => {
             navigation.navigate('Search Therapist', { value: "Simple Text", filter: "&filters[verified]=true&filters[$or][0][city][$containsi]=" + this.state.searchText + "&filters[$or][1][therapy][label][$containsi]=" + this.state.searchText + "&filters[$or][2][deliveryModes][label][$containsi]=" + this.state.searchText + "&filters[$or][3][healthConcerns][label][$containsi]=" + this.state.searchText });
