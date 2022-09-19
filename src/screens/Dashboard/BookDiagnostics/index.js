@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SvgUri } from 'react-native-svg'
+import TextComponent from '../../../components/TextComponent'
 
 const BookDiagnostics = () => {
     return (
@@ -15,14 +16,14 @@ const BookDiagnostics = () => {
                 </View>
                 <View className="justify-center items-center gap-1">
                     <View className="flex flex-row items-center gap-1">
-                        <Text className="text-3xl font-bold text-black">Book Diagnostics</Text>
-                        <Text className="text-3xl font-bold text-[#5aa272]">at</Text>
+                        <TextComponent className1="text-2xl text-black" isBold={true}>Book Diagnostics</TextComponent>
+                        <TextComponent className1="text-2xl text-[#5aa272]" isBold={true}> at</TextComponent>
                     </View>
-                    <Text className="text-4xl font-bold text-[#5aa272]">laboratory near you</Text>
+                    <TextComponent className1="text-3xl text-[#5aa272]" isBold={true}>laboratory near you</TextComponent>
                 </View>
-                <Text className="text-lg text-center font-500 text-black">Drop your sample to lab, or let the lab pick up the sample</Text>
+                <TextComponent className1="text-lg text-center text-black" isMedium={true}>Drop your sample to lab, or let the lab pick up the sample</TextComponent>
                 <TouchableOpacity className="pl-10 pr-10 pt-3 pb-3 rounded-lg items-center justify-center bg-red-500">
-                    <Text className="text-lg font-bold text-white">Coming Soon</Text>
+                    <TextComponent className1="text-lg text-white" isBold={true}>Coming Soon</TextComponent>
                 </TouchableOpacity>
             </View>
         </View>

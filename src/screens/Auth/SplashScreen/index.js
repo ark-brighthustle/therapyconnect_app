@@ -2,6 +2,7 @@ import { ImageBackground, StyleSheet, Text, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import { ImagesContent } from '../../../constants/images'
 import { getHeight } from '../../../components/Dimensions'
+import TextComponent from '../../../components/TextComponent'
 
 const SplashScreen = ({ navigation }) => {
 
@@ -16,12 +17,11 @@ const SplashScreen = ({ navigation }) => {
             <View className="w-full h-full bg-[#5ba273]">
                 <ImageBackground source={ImagesContent.splashBack} resizeMode="cover" className="w-full h-full items-center justify-center">
                     <Image source={ImagesContent.Logo1} resizeMode="contain" className="w-52 h-52" />
-                    {/* <Image source={ImagesContent.Logo} resizeMode="contain" className="w-60 h-60" /> */}
                 </ImageBackground>
                 <View style={styles.container}>
-                    <Text className="text-md font-bold text-end text-white">
+                    <TextComponent className1={"text-md text-end text-white"} isBold={true}>
                         Hand Crafted by @Therapy Connect
-                    </Text>
+                    </TextComponent>
                 </View>
             </View>
         );

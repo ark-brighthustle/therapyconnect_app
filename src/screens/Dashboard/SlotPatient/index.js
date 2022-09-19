@@ -4,8 +4,11 @@ import React from 'react'
 import { Colors } from '../../../constants/colors'
 import { Calendar } from 'react-native-calendars'
 import { getHeight, getWidth } from '../../../components/Dimensions'
+import TextComponent from '../../../components/TextComponent'
+import { useNavigation } from '@react-navigation/native'
 
 const SlotPatient = () => {
+    const navigation = useNavigation()
     const arr = [0, 1, 2, 3, 4, 5]
     const arr1 = [0, 1, 2]
 
@@ -18,25 +21,25 @@ const SlotPatient = () => {
                             <View className="items-center">
                                 <View className="w-24 h-24 rounded-full bg-red-500" />
                                 <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
-                                    <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
+                                    <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
                                 </TouchableOpacity>
                             </View>
                             <View className="w-2/4">
-                                <Text className="text-xl font-bold">Dr. Mariam Garcia</Text>
+                                <TextComponent className1="text-xl" isSemiBold={true}>Dr. Mariam Garcia</TextComponent>
                                 <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
-                                    <Text className="text-sm font-bold text-white">Allopathic</Text>
+                                    <TextComponent className1="text-sm text-white" isSemiBold={true}>Allopathic</TextComponent>
                                 </TouchableOpacity>
                                 <View className="flex flex-row items-center gap-1 mt-1">
                                     <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                    <Text className="text-md font-bold">4A, SSG Vadodara, Guj.</Text>
+                                    <TextComponent className1="text-md" isSemiBold={true}>4A, SSG Vadodara, Guj.</TextComponent>
                                 </View>
-                                <Text className="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</Text>
+                                <TextComponent className1="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</TextComponent>
                             </View>
                         </View>
                         <View className="mt-8">
                             <TouchableOpacity className="flex flex-row justify-between items-center rounded-lg bg-[#F6FAF8] w-full h-14 p-5">
-                                <Text className="text-md font-bold">Video consultation</Text>
-                                <Text className="text-md font-bold text-red-500">₹400</Text>
+                                <TextComponent className1="text-md" isSemiBold={true}>Video consultation</TextComponent>
+                                <TextComponent className1="text-md text-red-500" isSemiBold={true}>₹400</TextComponent>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -98,12 +101,12 @@ const SlotPatient = () => {
                 <View style={styles.mainView}>
                     <View className="w-full pl-5 pb-5 bg-white">
                         <View className="w-full h-14 items-center justify-center">
-                            <Text className="text-lg font-bold">Select your visiting slot</Text>
+                            <TextComponent className1="text-lg" isBold={true}>Select your visiting slot</TextComponent>
                         </View>
                         <View className="pl-4 mt-3">
                             <View className="flex flex-row items-center gap-1">
-                                <Text className="text-md font-bold">Morning</Text>
-                                <Text classname="text-md text-slate-500">(6 slots)</Text>
+                                <TextComponent className1="text-md" isSemiBold={true}>Morning</TextComponent>
+                                <TextComponent classname1={"text-md text-gray-400"}>(6 slots)</TextComponent>
                             </View>
                             <View className="mt-5">
                                 <View className="flex flex-row items-center gap-3" style={styles.wrapConent}>
@@ -111,7 +114,7 @@ const SlotPatient = () => {
                                         arr.map((data) => {
                                             return (
                                                 <TouchableOpacity style={styles.box} className="bg-[#F6FAF8]">
-                                                    <Text>09:00 AM</Text>
+                                                    <TextComponent>09:00 AM</TextComponent>
                                                 </TouchableOpacity>
                                             )
                                         })
@@ -120,8 +123,8 @@ const SlotPatient = () => {
                             </View>
                             <View className="mt-5">
                                 <View className="flex flex-row items-center gap-1">
-                                    <Text className="text-md font-bold">Evening</Text>
-                                    <Text classname="text-md text-slate-500">(3 slots)</Text>
+                                    <TextComponent className1="text-md" isSemiBold={true}>Evening</TextComponent>
+                                    <TextComponent classname1="text-md text-gray-400">(3 slots)</TextComponent>
                                 </View>
                             </View>
                             <View className="mt-5">
@@ -130,7 +133,7 @@ const SlotPatient = () => {
                                         arr1.map((data) => {
                                             return (
                                                 <TouchableOpacity style={styles.box} className="bg-[#F6FAF8]">
-                                                    <Text>09:00 AM</Text>
+                                                    <TextComponent>09:00 AM</TextComponent>
                                                 </TouchableOpacity>
                                             )
                                         })
@@ -144,10 +147,10 @@ const SlotPatient = () => {
                 <View style={styles.secondView}>
                     <View className="bg-white p-5">
                         <TouchableOpacity className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-full h-14 p-5">
-                            <Text className="text-md font-bold text-white">CONTINUE TO PAYMENT</Text>
-                            <Text className="text-md font-bold text-white">Pay ₹400</Text>
+                            <TextComponent className1="text-md text-white" isSemiBold={true}>CONTINUE TO PAYMENT</TextComponent>
+                            <TextComponent className1="text-md text-white" isSemiBold={true}>Pay ₹400</TextComponent>
                         </TouchableOpacity>
-                        <Text className="text-sm mt-2">Proceed to online and secure payment.</Text>
+                        <TextComponent className1="text-sm mt-2">Proceed to online and secure payment.</TextComponent>
                     </View>
                 </View>
             </View>

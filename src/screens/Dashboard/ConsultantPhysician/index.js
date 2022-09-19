@@ -6,6 +6,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Octicons from 'react-native-vector-icons/Octicons'
 import BottomSheet from "react-native-gesture-bottom-sheet";
 import { useNavigation } from '@react-navigation/native'
+import TextComponent from '../../../components/TextComponent'
 
 const ConsultantPhysician = () => {
 
@@ -32,10 +33,10 @@ const ConsultantPhysician = () => {
                 <View className="h-full pt-2 bg-[#E5E7E9]">
                     <View className="p-4">
                         <View className="flex flex-row items-center gap-2">
-                            <Text className="text-xl font-bold text-[#5aa272]">53 doctor(s)</Text>
-                            <Text className="text-xl font-bold text-black">found</Text>
+                            <TextComponent className1="text-xl text-[#5aa272]" isSemiBold={true}>53 doctor(s)</TextComponent>
+                            <TextComponent className1="text-xl text-black" isSemiBold={true}>found</TextComponent>
                         </View>
-                        <Text className="text-sm mt-0.5 font-semibold text-[#99A3A4]">109+ doctors available for online consulatation</Text>
+                        <TextComponent className1="text-sm mt-0.5 text-[#99A3A4]" isSemiBold={true}>109+ doctors available for online consulatation</TextComponent>
                     </View>
                     <ScrollView>
                         <View className="flex w-full h-full mb-36">
@@ -48,32 +49,32 @@ const ConsultantPhysician = () => {
                                                     <View className="items-center">
                                                         <View className="w-24 h-24 rounded-full bg-red-500" />
                                                         <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
-                                                            <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
+                                                            <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
                                                         </TouchableOpacity>
                                                     </View>
                                                     <View className="w-2/4">
-                                                        <Text className="text-xl font-bold">Dr. Mariam Garcia</Text>
+                                                        <TextComponent className1="text-xl" isSemiBold={true}>Dr. Mariam Garcia</TextComponent>
                                                         <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
-                                                            <Text className="text-sm font-bold text-white">Allopathic</Text>
+                                                            <TextComponent className1="text-sm text-white" isMedium={true}>Allopathic</TextComponent>
                                                         </TouchableOpacity>
                                                         <View className="flex flex-row items-center gap-1 mt-1">
                                                             <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                                            <Text className="text-md font-bold">4A, SSG Vadodara, Guj.</Text>
+                                                            <TextComponent className1="text-md" isSemiBold={true}>4A, SSG Vadodara, Guj.</TextComponent>
                                                         </View>
-                                                        <Text className="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</Text>
+                                                        <TextComponent className1="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</TextComponent>
                                                     </View>
                                                 </View>
                                                 <View className="flex flex-row items-center justify-between mt-8">
                                                     <View>
-                                                        <Text className="text-sm">Next Available</Text>
-                                                        <Text className="text-lg font-bold">10:00 PM, Today</Text>
+                                                        <TextComponent className1="text-sm">Next Available</TextComponent>
+                                                        <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
                                                     </View>
                                                     <TouchableOpacity
                                                         className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
                                                     // onPress={() => { this.BottomSheet.show() }}
                                                     >
-                                                        <Text className="text-md font-bold text-white">CONSULT NOW</Text>
-                                                        <Text className="text-md font-bold text-white">₹400</Text>
+                                                        <TextComponent className1="text-md text-white" isBold={true}>CONSULT NOW</TextComponent>
+                                                        <TextComponent className1="text-md text-white" isBold={true}>₹400</TextComponent>
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>

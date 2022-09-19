@@ -6,6 +6,7 @@ import { Colors } from '../../../constants/colors'
 import config from '../../../config';
 import axios from 'axios';
 import { SvgUri } from 'react-native-svg'
+import TextComponent from '../../../components/TextComponent';
 
 export default class HealthPackage extends Component {
 
@@ -68,11 +69,11 @@ export default class HealthPackage extends Component {
                         </View>
                         <View className="mt-3 pl-5 items-start w-full">
                             <View className="flex flex-row">
-                                <Text className="text-2xl font-bold">Popular</Text>
-                                <Text className="text-2xl font-bold text-[#5aa272]"> packages</Text>
+                                <TextComponent className1="text-2xl" isSemiBold={true}>Popular</TextComponent>
+                                <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> packages</TextComponent>
                             </View>
                             <View className="mt-1">
-                                <Text className="text-sm text-grey-50">Private online consultations with verified Doctors</Text>
+                                <TextComponent className1="text-sm text-gray-400">Private online consultations with verified Doctors</TextComponent>
                             </View>
                         </View>
                         <View className="p-5 gap-3">
@@ -87,20 +88,20 @@ export default class HealthPackage extends Component {
                                                     uri={config.IMAGE_URL + data.packageImage.url}
                                                 />
                                                 <View className="w-3/5 gap-1">
-                                                    <Text className="text-xl font-bold">{data.packageName}</Text>
-                                                    <Text className="text-sm text-grey-100">{data.packageTitle}</Text>
+                                                    <TextComponent className1="text-xl" isSemiBold={true}>{data.packageName}</TextComponent>
+                                                    <TextComponent className1="text-sm text-gray-500">{data.packageTitle}</TextComponent>
                                                 </View>
                                             </View>
                                             <View className="flex flex-row items-center mt-6 w-full justify-between p-2">
                                                 <View className="gap-0.5">
-                                                    <Text className="text-xl font-bold">₹ 850</Text>
-                                                    <Text className="text-sm text-grey-100">per month</Text>
+                                                    <TextComponent className1="text-xl" isSemiBold={true}>₹ 850</TextComponent>
+                                                    <TextComponent className1="text-sm text-gray-500">per month</TextComponent>
                                                 </View>
                                                 <TouchableOpacity
                                                     className="bg-[#FF4500] w-32 h-10 rounded-xl items-center justify-center"
                                                     onPress={() => navigation.navigate('Package Details', { id: data.id })}
                                                 >
-                                                    <Text className="text-md font-bold text-white">Explore</Text>
+                                                    <TextComponent className1="text-md text-white" isSemiBold={true}>Explore</TextComponent>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>

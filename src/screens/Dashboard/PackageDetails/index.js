@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { getWidth } from '../../../components/Dimensions'
 import axios from 'axios'
 import config from '../../../config'
+import TextComponent from '../../../components/TextComponent'
 
 export default class PackageDetails extends Component {
 
@@ -67,24 +68,24 @@ export default class PackageDetails extends Component {
               <Image source={ImagesContent.package_img} className="w-full h-60" resizeMode="cover" />
             </View>
             <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} className="items-center justify-center">
-              <Text className="text-3xl font-bold text-[#5aa272]">{this.state.package_details.packageName}</Text>
+              <TextComponent className1="text-3xl text-[#5aa272]" isSemiBold={true}>{this.state.package_details.packageName}</TextComponent>
             </View>
           </View>
           <View className="p-6 mt-3">
             {/* <Text className="text-2xl font-bold text-black">{this.state.package_details.packageName}</Text> */}
             <View className="mt-5">
-              <Text className="text-sm text-justify">{this.state.package_details.packageDescription}</Text>
+              <TextComponent className1="text-sm text-justify">{this.state.package_details.packageDescription}</TextComponent>
             </View>
           </View>
-          <View className=" flex flex-row justify-between ml-5 mr-3">
+          <View className=" flex flex-row justify-between ml-2 mr-2">
             {
               arr.map((data) => {
                 return (
                   <View className="flex flex-row items-center justify-between p-4">
                     <View className="items-center">
                       <Image source={ImagesContent.health_package} className="w-12 h-12" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                      <Text className="mt-2 text-sm">Available</Text>
-                      <Text className="mt-1 text-sm">24x7</Text>
+                      <TextComponent className1="mt-2 text-sm">Available</TextComponent>
+                      <TextComponent className1="mt-1 text-sm">24x7</TextComponent>
                     </View>
                     <View className="w-0.5 ml-10 h-12 bg-[#D3D3D3]" />
                   </View>
@@ -93,37 +94,37 @@ export default class PackageDetails extends Component {
             }
           </View>
           <View className="pl-6 pr-6 pt-6">
-            <Text className="text-2xl font-bold pb-4 text-black">Benefits</Text>
+            <TextComponent className1="text-2xl pb-4 text-black" isSemiBold={true}>Benefits</TextComponent>
             {
               this.state.package_benefits.map((data) => {
                 return (
                   <View className="flex flex-row p-2 items-center gap-2">
                     <Image source={ImagesContent.health_package} className="mt-1 w-6 h-6" style={{ tintColor: "#5aa272" }} resizeMode='contain' />
-                    <Text className="pl-3 text-sm">{data.title}</Text>
+                    <TextComponent className1="pl-3 text-sm">{data.title}</TextComponent>
                   </View>
                 )
               })
             }
           </View>
           <View className="pl-6 pr-6 pt-6">
-            <Text className="text-2xl font-bold pb-4 text-black">Terms & Conditions</Text>
+            <TextComponent className1="text-2xl pb-4 text-black" isSemiBold={true}>Terms & Conditions</TextComponent>
             {
               this.state.package_terms.map((data) => {
                 return (
                   <View className="flex flex-row p-2 gap-2 items-start">
-                    <Text className="text-5xl">•</Text>
-                    <Text className="pl-3 pr-2 text-justify text-sm">{data.title}</Text>
+                    <TextComponent className1="text-5xl">•</TextComponent>
+                    <TextComponent className1="pl-3 pr-2 text-justify text-sm">{data.title}</TextComponent>
                   </View>
                 )
               })
             }
           </View>
           <View className="p-6">
-            <Text className="text-2xl font-bold text-black">Select Month</Text>
+            <TextComponent className1="text-2xl text-black" isSemiBold={true}>Select Month</TextComponent>
             <View className="pt-4 pl-4 pr-4 w-full">
               <SelectDropdown
                 // ref={this.SelectRef}
-                defaultButtonText={'Select Month'}
+                defaultButtonText={<TextComponent>Select Month</TextComponent>}
                 buttonStyle={styles.buttonStyle}
                 buttonTextStyle={{ fontSize: 16 }}
                 data={this.state.price_month}
@@ -138,10 +139,10 @@ export default class PackageDetails extends Component {
                   );
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem
+                  return <TextComponent>{selectedItem}</TextComponent>
                 }}
                 rowTextForSelection={(item, index) => {
-                  return item
+                  return <TextComponent>{item}</TextComponent>
                 }}
               />
             </View>
@@ -151,8 +152,8 @@ export default class PackageDetails extends Component {
               className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-full p-4"
             // onPress={() => { this.BottomSheet.show() }}
             >
-              <Text className="text-lg font-bold text-white">₹{this.state.price_amount}</Text>
-              <Text className="text-lg font-bold text-white">Buy Subscription</Text>
+              <TextComponent className1="text-lg text-white" isSemiBold={true}>₹{this.state.price_amount}</TextComponent>
+              <TextComponent className1="text-lg text-white" isSemiBold={true}>Buy Subscription</TextComponent>
             </TouchableOpacity>
           </View>
         </View>

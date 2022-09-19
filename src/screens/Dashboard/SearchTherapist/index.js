@@ -10,6 +10,7 @@ import axios from 'axios'
 import config from '../../../config'
 import { SvgUri } from 'react-native-svg'
 import { ImagesContent } from '../../../constants/images';
+import TextComponent from '../../../components/TextComponent';
 
 export default class SearchTherapist extends Component {
 
@@ -22,7 +23,7 @@ export default class SearchTherapist extends Component {
         this.state = {
             selectLocation: [],
             selectTabLocation: "",
-            searchLocationValue: "",
+            searchLocationValue: "Select an option.",
 
             selectTherapy: [],
             selectTabTherapy: -1,
@@ -34,7 +35,7 @@ export default class SearchTherapist extends Component {
 
             healthConcern: [],
             selectTabHealth: "",
-            searchHealthValue: "",
+            searchHealthValue: "Select an Option.",
 
             totalCount: 0,
             dynamicArray: [],
@@ -259,20 +260,20 @@ export default class SearchTherapist extends Component {
             >
                 <View className="flex w-full h-full bg-white">
                     <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
-                        <Text className="text-lg font-bold text-white">
+                        <TextComponent className1="text-lg text-white" isBold={true}>
                             Total {this.state.totalCount} Doctors found.
-                        </Text>
+                        </TextComponent>
                     </View>
                     <View className="mt-8 ml-5">
                         <View className="flex flex-row justify-between mr-5 items-center">
-                            <Text className="text-lg font-bold">Select location</Text>
+                            <TextComponent className1="text-lg" isSemiBold={true}>Select location</TextComponent>
                             <TouchableOpacity onPress={() => onClear()}>
-                                <Text className="text-md text-red-500 font-bold">Clear</Text>
+                                <TextComponent className1="text-md text-red-500" isBold={true}>Clear</TextComponent>
                             </TouchableOpacity>
                         </View>
                         <SelectDropdown
                             ref={this.SelectRef}
-                            defaultButtonText={this.state.searchLocationValue}
+                            defaultButtonText={<TextComponent className1={"text-left text-md text-black"}>{this.state.searchLocationValue}</TextComponent>}
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
                             // data={countries}
@@ -288,15 +289,15 @@ export default class SearchTherapist extends Component {
                                 );
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
+                                return <TextComponent>{selectedItem}</TextComponent>
                             }}
                             rowTextForSelection={(item, index) => {
-                                return item
+                                return <TextComponent>{item}</TextComponent>
                             }}
                         />
                     </View>
                     <View className="mt-7 ml-5">
-                        <Text className="text-lg font-bold">Select therapy</Text>
+                        <TextComponent className1="text-lg" isSemiBold={true}>Select therapy</TextComponent>
                         <View style={styles.therapyView}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 {
@@ -315,8 +316,8 @@ export default class SearchTherapist extends Component {
                                                         uri={config.IMAGE_URL + data.icon2.url}
                                                     />
                                                 </TouchableOpacity>
-                                                <View style={{ width: getWidth("22%") }} className="flex items-center">
-                                                    <Text className="text-black text-center text-sm">{data.label}</Text>
+                                                <View style={{ width: getWidth("26%") }} className="flex items-center">
+                                                    <TextComponent className1="text-black text-center text-sm">{data.label}</TextComponent>
                                                 </View>
                                             </View>
                                         )
@@ -326,7 +327,7 @@ export default class SearchTherapist extends Component {
                         </View>
                     </View>
                     <View className="mt-5 ml-5">
-                        <Text className="text-lg font-bold">Consulting mode</Text>
+                        <TextComponent className1="text-lg" isSemiBold={true}>Consulting mode</TextComponent>
                         <View style={styles.therapyView}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 {
@@ -336,12 +337,22 @@ export default class SearchTherapist extends Component {
                                                 style={[styles.body, { backgroundColor: this.state.selectTabConsult === index ? Colors.headerColor : Colors.cardColor }]}
                                                 onPress={() => onSelectCommon(data.label, index, "CONSULT")}
                                             >
-                                                <Text
-                                                    className="text-md font-bold"
-                                                    style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
-                                                >
-                                                    {data.label}
-                                                </Text>
+                                                {this.state.selectTabConsult === index ?
+                                                    <TextComponent
+                                                        isSemiBold={true}
+                                                        className1="text-md text-white"
+                                                    // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
+                                                    >
+                                                        {data.label}
+                                                    </TextComponent>
+                                                    : <TextComponent
+                                                        isSemiBold={true}
+                                                        className1="text-md text-black"
+                                                    // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
+                                                    >
+                                                        {data.label}
+                                                    </TextComponent>
+                                                }
                                             </TouchableOpacity>
                                         )
                                     })
@@ -350,10 +361,10 @@ export default class SearchTherapist extends Component {
                         </View>
                     </View>
                     <View className="mt-7 ml-5">
-                        <Text className="text-lg font-bold">Select health concern</Text>
+                        <TextComponent className1="text-lg" isSemiBold={true}>Select health concern</TextComponent>
                         <SelectDropdown
                             ref={this.SelectRef1}
-                            defaultButtonText={this.state.searchHealthValue}
+                            defaultButtonText={<TextComponent>{this.state.searchHealthValue}</TextComponent>}
                             // defaultValue={'Skin Problems'}
                             buttonStyle={styles.dropContent}
                             buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
@@ -369,20 +380,20 @@ export default class SearchTherapist extends Component {
                                 );
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
+                                return <TextComponent>{selectedItem}</TextComponent>
                             }}
                             rowTextForSelection={(item, index) => {
-                                return item
+                                return <TextComponent>{item}</TextComponent>
                             }}
                         />
                     </View>
                     <View className="mt-8 bg-[#F6FAF8]">
                         <View className="p-5">
                             <View className="flex flex-row items-center gap-2">
-                                <Text className="text-xl font-bold text-[#5aa272]">Recent</Text>
-                                <Text className="text-xl font-bold text-black">Therapists</Text>
+                                <TextComponent className1="text-xl text-[#5aa272]" isSemiBold={true}>Recent </TextComponent>
+                                <TextComponent className1="text-xl text-black" isSemiBold={true}>Therapists</TextComponent>
                             </View>
-                            <Text className="text-sm mt-1 font-semibold text-[#99A3A4]">{this.state.totalCount} doctors available for {this.state.searchValue}</Text>
+                            <TextComponent className1="text-sm mt-1 text-[#99A3A4]">{this.state.totalCount} doctors available for {this.state.searchValue}</TextComponent>
                         </View>
                         <ScrollView>
                             <View className="flex w-full h-full">
@@ -397,32 +408,32 @@ export default class SearchTherapist extends Component {
                                                                 <Image source={ImagesContent.Logo2} className="w-24 h-24 rounded-full" resizeMode="contain" />
                                                             </View>
                                                             <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
-                                                                <Text className="mt-2 text-md font-bold text-red-500">View Profile</Text>
+                                                                <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
                                                             </TouchableOpacity>
                                                         </View>
                                                         <View className="w-2/4">
-                                                            <Text className="text-xl font-bold">{data.firstName}</Text>
+                                                            <TextComponent className1="text-xl" isSemiBold={true}>{data.firstName}</TextComponent>
                                                             <TouchableOpacity className="mt-1 rounded-lg p-1 items-center justify-center bg-[#5aa272]">
-                                                                <Text className="text-sm font-bold text-white">{data.therapy.label}</Text>
+                                                                <TextComponent className1="text-sm text-white" isSemiBold={true}>{data.therapy.label}</TextComponent>
                                                             </TouchableOpacity>
                                                             <View className="flex flex-row items-center gap-1 mt-1">
                                                                 <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                                                <Text className="text-md font-bold">{data.city}, {data.state}</Text>
+                                                                <TextComponent className1="text-md" isSemiBold={true}>{data.city}, {data.state}</TextComponent>
                                                             </View>
-                                                            <Text className="mt-2 text-md">{data.degree.label}</Text>
+                                                            <TextComponent className1="mt-2 text-md">{data.degree.label}</TextComponent>
                                                         </View>
                                                     </View>
                                                     <View className="flex flex-row items-center justify-between mt-8">
                                                         <View>
-                                                            <Text className="text-sm">Next Available</Text>
-                                                            <Text className="text-lg font-bold">10:00 PM, Today</Text>
+                                                            <TextComponent className1="text-sm">Next Available</TextComponent>
+                                                            <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
                                                         </View>
                                                         <TouchableOpacity
                                                             className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
                                                             onPress={() => navigation.navigate('Slot Patient')}
                                                         >
-                                                            <Text className="text-md font-bold text-white">STARTING FROM</Text>
-                                                            <Text className="text-md font-bold text-white">₹{data.deliveryModesFee[2]}</Text>
+                                                            <TextComponent className1="text-md text-white" isSemiBold={true}>STARTING FROM</TextComponent>
+                                                            <TextComponent className1="text-md text-white" isSemiBold={true}>₹{data.deliveryModesFee[2]}</TextComponent>
                                                         </TouchableOpacity>
                                                     </View>
                                                 </View>
@@ -460,9 +471,11 @@ const styles = StyleSheet.create({
     },
     body: {
         paddingHorizontal: getWidth("7%"),
-        paddingVertical: getHeight("1.3%"),
+        paddingVertical: getHeight("1%"),
         borderRadius: 20,
-        marginRight: getWidth("1.5%")
+        marginRight: getWidth("1.5%"),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     borderContent: {
         borderTopWidth: 2,

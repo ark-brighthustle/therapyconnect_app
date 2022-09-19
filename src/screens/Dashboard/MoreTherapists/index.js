@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import config from '../../../config'
 import { SvgUri } from 'react-native-svg'
+import TextComponent from '../../../components/TextComponent'
 
 export default class MoreTherapists extends Component {
     constructor(props) {
@@ -37,13 +38,13 @@ export default class MoreTherapists extends Component {
         return (
             <ScrollView>
                 <View className="flex w-full h-full bg-white">
-                    <View className="p-5">
+                    <View className="p-3 mt-2">
                         <View className="flex flex-row items-center">
-                            <Text className="text-2xl font-bold">Consult top</Text>
-                            <Text className="text-2xl font-bold text-[#5aa272]"> therapists</Text>
+                            <TextComponent className1="text-2xl" isSemiBold={true}>Consult top</TextComponent>
+                            <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> therapists</TextComponent>
                         </View>
                         <View className="mt-2 mb-4 items-start w-full">
-                            <Text className="text-sm text-grey-300">Private online consultations with verified doctors. </Text>
+                            <TextComponent className1="text-sm text-gray-400">Private online consultations with verified doctors.</TextComponent>
                         </View>
                     </View>
                     <View className="flex flex-row w-full justify-center gap-2" style={{ flexWrap: 'wrap' }}>
@@ -61,8 +62,8 @@ export default class MoreTherapists extends Component {
                                                 uri={config.IMAGE_URL + data.icon.url}
                                             />
                                         </View>
-                                        <View style={{ width: 60 }} className="flex items-center">
-                                            <Text className="text-black text-center text-sm">{data.label}</Text>
+                                        <View style={{ width: 79 }} className="flex items-center">
+                                            <TextComponent className1="text-black text-center text-sm">{data.label}</TextComponent>
                                         </View>
                                     </TouchableOpacity>
                                 );

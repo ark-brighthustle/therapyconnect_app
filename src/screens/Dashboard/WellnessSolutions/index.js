@@ -22,7 +22,7 @@ const WellnessSolutions = () => {
                         Solutions
                     </TextComponent>
                 </View>
-                <TextComponent className1={"text-lg text-center text-black"}>
+                <TextComponent className1={"text-lg text-center text-black"} isMedium={true}>
                     Explore our a holistic package of wellness and care
                 </TextComponent>
                 <TouchableOpacity className="pl-10 pr-10 pt-3 pb-3 rounded-lg items-center justify-center bg-red-500">

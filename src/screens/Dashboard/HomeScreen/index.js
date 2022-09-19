@@ -10,6 +10,8 @@ import SelectDropdown from 'react-native-select-dropdown'
 import { Colors } from '../../../constants/colors'
 import { SvgUri } from 'react-native-svg'
 import { DrawerActions } from '@react-navigation/native'
+import TextComponent from '../../../components/TextComponent'
+import { getWidth } from '../../../components/Dimensions'
 
 export default class HomeScreen extends Component {
 
@@ -24,7 +26,7 @@ export default class HomeScreen extends Component {
             searchTherapy: "",
             healthArticle: [],
             selectLocation: [],
-            searchLocation: "",
+            searchLocation: "Select an Option.",
             searchLocationIndex: "",
             searchTherapistsIndex: "",
             searchTherapyIndex: "",
@@ -162,8 +164,8 @@ export default class HomeScreen extends Component {
                     <Feather name="menu" size={35} color={"white"} onPress={() => toggleDrawer()} />
                     <View className="flex flex-row items-center justify-around gap-2">
                         <SelectDropdown
-                            buttonStyle={{ backgroundColor: "" }}
-                            buttonTextStyle={styles.buttonText}
+                            buttonStyle={{ backgroundColor: "", width: getWidth("58%") }}
+                            defaultButtonText={<TextComponent className1={"text-left text-md text-white"} isBold={true}>{this.state.searchLocation}</TextComponent>}
                             data={this.state.selectLocation}
                             dropdownStyle={styles.dropStyle}
                             dropdownIconPosition="right"
@@ -179,10 +181,14 @@ export default class HomeScreen extends Component {
                                 onSelectLocation(selectedItem, index)
                             }}
                             buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
+                                return (
+                                    <TextComponent className1={"text-left text-md text-white"} isBold={true}>{selectedItem}</TextComponent>
+                                );
                             }}
-                            rowTextForSelection={(item, index) => {
-                                return item
+                            rowTextForSelection={(item) => {
+                                return (
+                                    <TextComponent>{item}</TextComponent>
+                                );
                             }}
                         />
                         <Ionicons name="notifications-outline" size={35} color={"white"} />
@@ -202,33 +208,35 @@ export default class HomeScreen extends Component {
                         />
                     </View>
                 </View>
-                <View className="flex flex-row bg-[#5aa272] pl-4 pr-4 gap-1">
-                    <Text className="text-md font-bold text-white"> Need professional help? </Text>
-                    <Text className="text-md font-bold underline decoration-solid text-white"> Connect to our Consultant</Text>
-                    <Image source={ImagesContent.link} className="w-4 h-4" resizeMode='contain' />
+                <View className="bg-[#5aa272] gap-1 pl-4">
+                    <TextComponent className1="text-md text-start text-white" isSemiBold={true}> Need professional help?</TextComponent>
+                    <View className="flex justify-start flex-row gap-1">
+                        <TextComponent className1="text-md mr-1 underline decoration-solid text-white" isSemiBold={true}> Connect to our Consultant</TextComponent>
+                        <Image source={ImagesContent.link} className="w-4 h-4" resizeMode='contain' />
+                    </View>
                 </View>
-                <View className="flex flex-row w-full bg-[#5aa272] p-4 rounded-b-3xl justify-center">
+                <View className="flex flex-row w-full bg-[#5aa272] p-3 rounded-b-3xl justify-center">
                     {
                         arr.map((data, index) => {
                             return (
                                 <TouchableOpacity
-                                    className="p-3 items-center justify-center"
+                                    className="p-2 items-center justify-center"
                                     onPress={() => onPackage(index)}
                                 >
-                                    <View className="w-16 h-16 rounded-full bg-[#2b4d36] items-center justify-center">
+                                    <View className="w-16 h-16 mb-1 rounded-full bg-[#2b4d36] items-center justify-center">
                                         <Image source={data.img} className="w-8 h-8" resizeMode='contain' />
                                     </View>
-                                    <Text className="text-white"> {data.fn} </Text>
-                                    <Text className="text-white"> {data.ln} </Text>
+                                    <TextComponent className1="text-white" isSemiBold={true}> {data.fn} </TextComponent>
+                                    <TextComponent className1="text-white" isSemiBold={true}> {data.ln} </TextComponent>
                                 </TouchableOpacity>
                             );
                         })
                     }
                 </View>
                 <View className="flex w-full bg-white rounded-b-3xl p-4">
-                    <View className="flex flex-row">
-                        <Text className="text-2xl font-bold">Our</Text>
-                        <Text className="text-2xl font-bold text-[#5aa272]"> true services</Text>
+                    <View className="flex flex-row items-center">
+                        <TextComponent className1="text-2xl" isSemiBold={true}>Our</TextComponent>
+                        <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> true services</TextComponent>
                     </View>
                     <View className="w-full h-60">
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -245,12 +253,12 @@ export default class HomeScreen extends Component {
                                                         <Image source={data.img} style={styles.firstView} resizeMode='contain' />
                                                     </View>
                                                     <View style={styles.textView}>
-                                                        <Text className="text-sm font-bold text-white">{data.fn}</Text>
-                                                        <Text className="text-sm font-bold text-white">{data.ln}</Text>
+                                                        <TextComponent className1="text-sm text-white" isSemiBold={true}>{data.fn}</TextComponent>
+                                                        <TextComponent className1="text-sm text-white" isSemiBold={true}>{data.ln}</TextComponent>
                                                     </View>
                                                 </View>
-                                                <View className=" items-center w-28 mt-1 justify-center">
-                                                    <Text className="text-sm text-center">{data.disc}</Text>
+                                                <View className=" items-center w-32 mt-1 justify-center">
+                                                    <TextComponent className1="text-sm text-center">{data.disc}</TextComponent>
                                                 </View>
                                             </TouchableOpacity>
                                         );
@@ -259,17 +267,17 @@ export default class HomeScreen extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View className="flex mt-3 flex-row items-center w-full justify-between">
-                        <View className="flex flex-row">
-                            <Text className="text-2xl font-bold">Consult top</Text>
-                            <Text className="text-2xl font-bold text-[#5aa272]"> therapists</Text>
+                    <View className="flex flex-row items-center w-full justify-between">
+                        <View className="flex flex-row items-center">
+                            <TextComponent className1="text-2xl" isSemiBold={true}>Consult top</TextComponent>
+                            <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> therapists</TextComponent>
                         </View>
                         <TouchableOpacity onPress={() => navigation.navigate('Therapists')}>
-                            <Text>SEE ALL</Text>
+                            <TextComponent>SEE ALL</TextComponent>
                         </TouchableOpacity>
                     </View>
-                    <View className="mt-2 mb-4 items-start w-full">
-                        <Text className="text-sm text-grey-300">Private online consultations with verified doctors. </Text>
+                    <View className="mt-1 mb-4 items-start w-full">
+                        <TextComponent className1="text-sm text-gray-400">Private online consultations with verified doctors. </TextComponent>
                     </View>
                     <View className="flex flex-row w-full justify-center gap-2" style={{ flexWrap: 'wrap' }}>
                         {
@@ -286,22 +294,22 @@ export default class HomeScreen extends Component {
                                                 uri={config.IMAGE_URL + data.icon.url}
                                             />
                                         </View>
-                                        <View style={{ width: 60 }} className="flex items-center">
-                                            <Text className="text-black text-center text-sm">{data.label}</Text>
+                                        <View style={{ width: 79 }} className="flex items-center">
+                                            <TextComponent className1="text-black text-center text-sm">{data.label}</TextComponent>
                                         </View>
                                     </TouchableOpacity>
                                 );
                             })
                         }
                     </View>
-                    <View className="flex mt-5 w-full">
+                    <View className="flex mt-8 w-full">
                         <View className="flex items-center flex-row">
-                            <Text className="text-2xl font-bold">Know Your</Text>
-                            <Text className="text-2xl font-bold text-[#5aa272]"> therapy</Text>
+                            <TextComponent className1="text-2xl" isSemiBold={true}>Know Your</TextComponent>
+                            <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> therapy</TextComponent>
                         </View>
                     </View>
-                    <View className="mt-2 mb-4 items-start w-full">
-                        <Text className="text-sm text-grey-300">Choose what suits you </Text>
+                    <View className="mt-1 mb-4 items-start w-full">
+                        <TextComponent className1="text-sm text-gray-400">Choose what suits you </TextComponent>
                     </View>
                     <View className="mt-3 w-full h-56">
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -321,8 +329,8 @@ export default class HomeScreen extends Component {
                                                             uri={config.IMAGE_URL + data.icon2.url}
                                                         />
                                                     </View>
-                                                    <Text className="text-lg font-bold text-white mt-3 p-1">{data.label}</Text>
-                                                    <Text className="text-md text-white p-1">{data.tagline}</Text>
+                                                    <TextComponent className1="text-lg text-white mt-3 p-1" isSemiBold={true}>{data.label}</TextComponent>
+                                                    <TextComponent className1="text-md text-white p-1">{data.tagline}</TextComponent>
                                                 </View>
                                             </TouchableOpacity>
                                         );
@@ -331,13 +339,13 @@ export default class HomeScreen extends Component {
                             </View>
                         </ScrollView>
                     </View>
-                    <View className="flex mt-5 w-full">
+                    <View className="flex mt-8 w-full">
                         <View className="flex flex-row items-center">
-                            <Text className="text-2xl font-bold">Health</Text>
-                            <Text className="text-2xl font-bold text-[#5aa272]"> articles</Text>
+                            <TextComponent className1="text-2xl" isSemiBold={true}>Health</TextComponent>
+                            <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> articles</TextComponent>
                         </View>
                     </View>
-                    <View className="mt-3 w-full h-54">
+                    <View className="mt-4 w-full h-54">
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                             <View style={{ flexDirection: 'row' }} className="gap-3">
                                 {
@@ -347,7 +355,7 @@ export default class HomeScreen extends Component {
                                                 <View className="w-56 h-44">
                                                     <Image className="w-56 h-44" source={{ uri: config.IMAGE_URL + data.thumbnail.formats.small.url }} />
                                                 </View>
-                                                <Text className="w-56 jutify-center p-3">{data.title}</Text>
+                                                <TextComponent className1="w-56 jutify-center p-3">{data.title}</TextComponent>
                                             </TouchableOpacity>
                                         );
                                     })
@@ -357,7 +365,7 @@ export default class HomeScreen extends Component {
                     </View>
                 </View>
                 {/* </View> */}
-            </ScrollView>
+            </ScrollView >
         )
     }
 }
@@ -402,7 +410,7 @@ const styles = StyleSheet.create({
     },
     dropStyle: {
         borderRadius: 10,
-        width: "55%",
+        width: "58%",
         // marginLeft: getWidth("10%")
     }
 })

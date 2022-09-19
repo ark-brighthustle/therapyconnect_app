@@ -6,6 +6,7 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import TextComponent from '../../../components/TextComponent'
 
 const ChatScreen = () => {
     const [click, setClick] = useState(false);
@@ -16,9 +17,9 @@ const ChatScreen = () => {
                 <Ionicons name='arrow-back' size={25} color={Colors.white} />
                 <View className="items-center gap-2">
                     <View className="w-20 h-20 rounded-full bg-white" />
-                    <Text className="text-xl font-bold text-white">Dr. Mariam Garcia</Text>
+                    <TextComponent className1="text-xl text-white" isSemiBold={true}>Dr. Mariam Garcia</TextComponent>
                     <View className="w-24 h-8 rounded-lg bg-green-900 justify-center items-center">
-                        <Text className="text-sm font-bold text-white">Allopathic</Text>
+                        <TextComponent className1="text-sm text-white" isMedium={true}>Allopathic</TextComponent>
                     </View>
                 </View>
                 <Entypo name='dots-three-horizontal' size={24} color={Colors.white} />
@@ -29,10 +30,10 @@ const ChatScreen = () => {
                         <View className="flex flex-row gap-2 w-full h-20 items-center">
                             <View className="w-8 h-8 rounded-full bg-green-500" />
                             <View>
-                                <Text className="text-sm mb-1">Dr.Mariam, 8:30</Text>
+                                <TextComponent className1="text-sm mb-1">Dr.Mariam, 8:30</TextComponent>
                                 <View className="flex flex-row items-center gap-5">
                                     <View className="bg-[#F6FAF8] rounded-tr-lg rounded-br-lg rounded-bl-lg w-52 p-3">
-                                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing.</Text>
+                                        <TextComponent>Lorem ipsum dolor sit amet, consectetur adipiscing.</TextComponent>
                                     </View>
                                     <TouchableOpacity onPress={() => setClick(!click)}>
                                         <AntDesign name={click ? 'hearto' : 'heart'} size={15} color={click ? Colors.black : Colors.red} />
@@ -43,9 +44,9 @@ const ChatScreen = () => {
                     </View>
                     <View className="mt-5">
                         <View className="w-full h-20 items-end">
-                            <Text className="text-sm mb-1">Sumeet, 8:30</Text>
+                            <TextComponent className1="text-sm mb-1">Sumeet, 8:30</TextComponent>
                             <View className="bg-[#F6FAF8] rounded-tl-lg rounded-br-lg rounded-bl-lg w-64 p-3">
-                                <Text>Sed do eiusmod tempor incididunt.</Text>
+                                <TextComponent>Sed do eiusmod tempor incididunt.</TextComponent>
                             </View>
                         </View>
                     </View>
@@ -53,10 +54,10 @@ const ChatScreen = () => {
                         <View className="flex flex-row gap-2 w-full h-20 items-center">
                             <View className="w-8 h-8 rounded-full bg-green-500" />
                             <View>
-                                <Text className="text-sm mb-1">Dr.Mariam, 8:30</Text>
+                                <TextComponent className1="text-sm mb-1">Dr.Mariam, 8:30</TextComponent>
                                 <View className="flex flex-row items-center gap-5">
                                     <View className="bg-[#F6FAF8] rounded-tr-lg rounded-br-lg rounded-bl-lg w-52 p-3">
-                                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing.</Text>
+                                        <TextComponent>Lorem ipsum dolor sit amet, consectetur adipiscing.</TextComponent>
                                     </View>
                                     <TouchableOpacity onPress={() => setClick(!click)}>
                                         <AntDesign name={click ? 'hearto' : 'heart'} size={15} color={click ? Colors.black : Colors.red} />
@@ -67,9 +68,9 @@ const ChatScreen = () => {
                     </View>
                     <View className="mt-5">
                         <View className="w-full h-20 items-end">
-                            <Text className="text-sm mb-1">Sumeet, 8:30</Text>
+                            <TextComponent className1="text-sm mb-1">Sumeet, 8:30</TextComponent>
                             <View className="bg-[#F6FAF8] rounded-tl-lg rounded-br-lg rounded-bl-lg w-64 p-3">
-                                <Text>Sed do eiusmod tempor incididunt.</Text>
+                                <TextComponent>Sed do eiusmod tempor incididunt.</TextComponent>
                             </View>
                         </View>
                     </View>
@@ -77,10 +78,10 @@ const ChatScreen = () => {
                         <View className="flex flex-row gap-2 w-full h-20 items-center">
                             <View className="w-8 h-8 rounded-full bg-green-500" />
                             <View>
-                                <Text className="text-sm mb-1">Dr.Mariam, 8:30</Text>
+                                <TextComponent className1="text-sm mb-1">Dr.Mariam, 8:30</TextComponent>
                                 <View className="flex flex-row items-center gap-5">
                                     <View className="bg-[#F6FAF8] rounded-tr-lg rounded-br-lg rounded-bl-lg w-52 p-3">
-                                        <Text>Lorem ipsum dolor sit amet, consectetur adipiscing.</Text>
+                                        <TextComponent>Lorem ipsum dolor sit amet, consectetur adipiscing.</TextComponent>
                                     </View>
                                     <TouchableOpacity onPress={() => setClick(!click)}>
                                         <AntDesign name={click ? 'hearto' : 'heart'} size={15} color={click ? Colors.black : Colors.red} />
@@ -91,9 +92,9 @@ const ChatScreen = () => {
                     </View>
                     <View className="mt-5">
                         <View className="w-full h-20 items-end">
-                            <Text className="text-sm mb-1">Sumeet, 8:30</Text>
+                            <TextComponent className1="text-sm mb-1">Sumeet, 8:30</TextComponent>
                             <View className="bg-[#F6FAF8] rounded-tl-lg rounded-br-lg rounded-bl-lg w-64 p-3">
-                                <Text>Sed do eiusmod tempor incididunt.</Text>
+                                <TextComponent>Sed do eiusmod tempor incididunt.</TextComponent>
                             </View>
                         </View>
                     </View>
