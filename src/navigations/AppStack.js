@@ -17,14 +17,31 @@ import BookDiagnostics from '../screens/Dashboard/BookDiagnostics';
 import OrderMedicines from '../screens/Dashboard/OrderMedicines';
 import WellnessSolutions from '../screens/Dashboard/WellnessSolutions';
 import MoreTherapists from '../screens/Dashboard/MoreTherapists';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import TextComponent from '../components/TextComponent';
+import SplashScreen from '../screens/Auth/SplashScreen';
+import Signup from '../screens/Auth/Signup';
+import Login from '../screens/Auth/Login';
 
 const Stack = createNativeStackNavigator();
 
 const AppStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Root">
+    <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={Signup}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Root"
         component={Root}

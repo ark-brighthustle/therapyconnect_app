@@ -1,30 +1,33 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { getHeight, getWidth } from '../../../components/Dimensions'
 import { Colors } from '../../../constants/colors'
 import { useNavigation } from '@react-navigation/native'
 import TextComponent from '../../../components/TextComponent'
+import { ImagesContent } from '../../../constants/images'
 
 const OfflineConsult = () => {
     const navigation = useNavigation()
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View className="flex items-center justify-center">
-                <View style={styles.cardView} className="gap-4">
+                <View style={styles.cardView}>
+                    <Image className="w-40 h-40" source={ImagesContent.Clinic} />
                     <TextComponent className1="text-2xl text-center" isSemiBold={true}>At Clinic</TextComponent>
                     <TextComponent className1="text-md text-center mt-4">Connect with health specialist one to one</TextComponent>
                     <TouchableOpacity
-                        className="p-4 bg-red-500 rounded-xl mt-4"
+                        className="p-3 bg-red-500 rounded-xl mt-4"
                         onPress={() => navigation.navigate('Consultant Physician')}
                     >
                         <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.cardView} className="gap-4">
+                <View style={styles.cardView}>
+                    <Image className="w-40 h-40" source={ImagesContent.Home} />
                     <TextComponent className1="text-2xl text-center" isSemiBold={true}>Home Visit</TextComponent>
                     <TextComponent className1="text-md text-center mt-4">Consult with doctors on call or audio note</TextComponent>
                     <TouchableOpacity
-                        className="p-4 bg-red-500 rounded-xl mt-4"
+                        className="p-3 bg-red-500 rounded-xl mt-4"
                         onPress={() => navigation.navigate('Consultant Physician')}
                     >
                         <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
@@ -39,7 +42,7 @@ export default OfflineConsult
 
 const styles = StyleSheet.create({
     cardView: {
-        height: getHeight("30%"),
+        height: getHeight("44%"),
         marginTop: getHeight("3%"),
         marginBottom: getHeight("2%"),
         width: getWidth("86%"),

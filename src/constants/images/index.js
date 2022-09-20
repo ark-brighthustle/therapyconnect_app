@@ -23,5 +23,18 @@ export const ImagesContent = {
     // images for package details
     package_img: require('../../assets/images/packageImg.jpeg'),
     Logo2: require('../../assets/images/logo2.png'),
+
     // book1: require('../../assets/svg/book_diag.svg'),
+
+    // gifs
+    Chat: require('../../assets/gifs/chat.gif'),
+    Audio: require('../../assets/gifs/audio.gif'),
+    Video: require('../../assets/gifs/video.gif'),
+    Clinic: require('../../assets/gifs/clinic.gif'),
+    Home: require('../../assets/gifs/home.gif'),
+
+    // animations
+    Loader: require('../../assets/animations/loader.json'),
+    Loader1: require('../../assets/animations/loader1.json'),
+    Loader2: require('../../assets/animations/loader2.json'),
 };

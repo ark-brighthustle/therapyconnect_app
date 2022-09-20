@@ -26,7 +26,7 @@ const SplashScreen = ({ navigation }) => {
             </View>
         );
     }
-    navigation.navigate('Signup');
+    navigation.navigate('Root');
     return null;
 }
 
