@@ -21,6 +21,7 @@ import TextComponent from '../components/TextComponent';
 import SplashScreen from '../screens/Auth/SplashScreen';
 import Signup from '../screens/Auth/Signup';
 import Login from '../screens/Auth/Login';
+import ConnectAdvisor from '../screens/Dashboard/ConnectAdvisor';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,20 @@ const AppStack = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ConnectAdvisor"
+        component={ConnectAdvisor}
+        options={{
+          headerStyle: { backgroundColor: '#5aa272' },
+          headerTitle: () => <TextComponent
+            className1={"text-xl text-center text-white"}
+            isSemiBold={true}
+          >
+            Advisor
+          </TextComponent>,
+          headerTintColor: 'white'
+        }}
       />
       <Stack.Screen
         name="Therapists"

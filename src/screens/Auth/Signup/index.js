@@ -17,6 +17,8 @@ import {
     Poppins_600SemiBold,
     Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import axios from 'axios'
+import config from '../../../config'
 
 const Signup = ({ navigation }) => {
     const [isChecked, setChecked] = useState(false);
@@ -65,11 +67,25 @@ const Signup = ({ navigation }) => {
             setEmailError2(true);
         }
         else {
-            console.log("Successfully Registered.");
-            alert("Successfully Registered.");
-            navigation.navigate('Login');
+            axios.post(config.BASE_URL + '/auth/local/register', {
+                username: name,
+                email: email,
+                password: password,
+            })
+                .then(function (response) {
+                    console.log("username", response.data.user.username);
+                    console.log("email", response.data.user.email);
+                    console.log("password", response.data.user.password);
+                    alert("Successfully Registered." + " username is: " + response.data.user.username + " email is: " + response.data.user.email)
+                    navigation.navigate('Login');
+                })
+                .catch(function (error) {
+                    console.log("error3", error.response.data.error.message);
+                    alert(error.response.data.error.message)
+                });
         }
-    };
+    }
+
 
     let [fontsLoaded] = useFonts({
         Poppins_400Regular,
@@ -78,7 +94,6 @@ const Signup = ({ navigation }) => {
         Poppins_700Bold,
     });
     if (fontsLoaded) {
-
         return (
             <KeyboardAwareScrollView
                 style={{ backgroundColor: '#4c69a5' }}
@@ -96,7 +111,7 @@ const Signup = ({ navigation }) => {
                             <View className="items-end mr-5" style={{ marginTop: getHeight("-8%") }}>
                                 <TextComponent className1={"text-2xl"} isBold={true}>Signup</TextComponent>
                             </View>
-                            <View className="h-2/3 w-full justify-center gap-5" style={styles.common}>
+                            <View className="h-2/3 w-full justify-center gap-4" style={styles.common}>
                                 <View>
                                     <TextInput
                                         style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
@@ -209,7 +224,7 @@ const Signup = ({ navigation }) => {
                                         }}
                                     />
                                 </View>
-                                <View className="flex flex-row gap-2 justify-end mt-7 items-center">
+                                <View className="flex flex-row gap-2 justify-end mt-3 items-center">
                                     <Checkbox
                                         style={styles.checkbox}
                                         value={isChecked}
@@ -225,6 +240,19 @@ const Signup = ({ navigation }) => {
                                         className="items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
                                         onPress={() => onClick()}>
                                         <TextComponent className1={"text-md text-white"} isBold={true}>Signup</TextComponent>
+                                    </TouchableOpacity>
+                                </View>
+                                <View className="flex flex-row items-center justify-end gap-2">
+                                    <TextComponent className1={"text-sm"}>
+                                        Already have an account?
+                                    </TextComponent>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                        <TextComponent
+                                            className1={"ml-1 text-sm underline text-[#5ba273]"}
+                                            isBold={true}
+                                        >
+                                            Login
+                                        </TextComponent>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -257,7 +285,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     common: {
-        marginTop: getHeight("5%"),
+        marginTop: getHeight("3%"),
         marginRight: getWidth("5%")
     },
     error: {

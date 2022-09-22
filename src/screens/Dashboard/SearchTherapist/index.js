@@ -1,5 +1,5 @@
 'use strict';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { ScrollView, StyleSheet, StatusBar, TouchableOpacity, View, Image } from 'react-native'
 import React, { Component, createRef } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'
 import { getHeight, getWidth } from '../../../components/Dimensions'
@@ -11,6 +11,7 @@ import config from '../../../config'
 import { SvgUri } from 'react-native-svg'
 import { ImagesContent } from '../../../constants/images';
 import TextComponent from '../../../components/TextComponent';
+import AnimatedLoader from 'react-native-animated-loader'
 
 export default class SearchTherapist extends Component {
 
@@ -21,6 +22,7 @@ export default class SearchTherapist extends Component {
         this.SelectRef1 = createRef(null)
 
         this.state = {
+            isLoading: true,
             selectLocation: [],
             selectTabLocation: "",
             searchLocationValue: "Select an option.",
@@ -61,6 +63,7 @@ export default class SearchTherapist extends Component {
                     dynamicArray: [],
                     totalCount: count,
                     dynamicArray: response.data.data,
+                    isLoading: false,
                 })
             })
             .catch(function (error) {
@@ -76,6 +79,9 @@ export default class SearchTherapist extends Component {
                 for (var i = 0; i < count; i++) {
                     await this.state.selectLocation.push(response.data.data[i].label);
                 }
+                this.setState({
+                    isLoading: false
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -83,7 +89,10 @@ export default class SearchTherapist extends Component {
 
         axios.get(config.BASE_URL + '/therapies?sort=id:asc&populate[icon2]=*')
             .then(async (response) => {
-                await this.setState({ selectTherapy: response.data.data })
+                await this.setState({
+                    selectTherapy: response.data.data,
+                    isLoading: false
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -91,7 +100,10 @@ export default class SearchTherapist extends Component {
 
         axios.get(config.BASE_URL + '/delivery-modes')
             .then(async (response) => {
-                await this.setState({ consultMode: response.data.data })
+                await this.setState({
+                    consultMode: response.data.data,
+                    isLoading: false
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -103,6 +115,9 @@ export default class SearchTherapist extends Component {
                 for (var i = 0; i < count; i++) {
                     await this.state.healthConcern.push(response.data.data[i].label);
                 }
+                this.setState({
+                    isLoading: false
+                })
             })
             .catch(function (error) {
                 console.log(error);
@@ -133,7 +148,6 @@ export default class SearchTherapist extends Component {
         const { navigation } = this.props;
 
         const fetchData = async (url) => {
-
             console.log("url", config.BASE_URL + "/doctor-registerations?populate=*" + url);
             await axios.get(config.BASE_URL + "/doctor-registerations?populate=*" + url)
                 .then((response) => {
@@ -144,6 +158,7 @@ export default class SearchTherapist extends Component {
                         dynamicArray: [],
                         totalCount: count,
                         dynamicArray: response.data.data,
+                        isLoading: false
                     })
                 })
                 .catch(function (error) {
@@ -239,7 +254,7 @@ export default class SearchTherapist extends Component {
                     searchConsultValue: "",
                     searchHealthValue: "",
                     selectTabTherapy: -1,
-                    selectTabConsult: ""
+                    selectTabConsult: "",
                 })
 
             await axios.get(config.BASE_URL + '/doctor-registerations?populate=*&filters[verified]=true&_sort[0]=review:desc')
@@ -253,205 +268,231 @@ export default class SearchTherapist extends Component {
         }
 
         return (
-            <ScrollView ref={this.scrollView}
-                onContentSizeChange={() => this.scrollView.current.scrollTo({ x: 0, y: 650, animated: true })
-                    // this.scrollView.current.scrollToEnd({ animated: true })
-                }
-            >
-                <View className="flex w-full h-full bg-white">
-                    <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
-                        <TextComponent className1="text-lg text-white" isBold={true}>
-                            Total {this.state.totalCount} Doctors found.
-                        </TextComponent>
-                    </View>
-                    <View className="mt-8 ml-5">
-                        <View className="flex flex-row justify-between mr-5 items-center">
-                            <TextComponent className1="text-lg" isSemiBold={true}>Select location</TextComponent>
-                            <TouchableOpacity onPress={() => onClear()}>
-                                <TextComponent className1="text-md text-red-500" isBold={true}>Clear</TextComponent>
-                            </TouchableOpacity>
+            <View>
+                <StatusBar barStyle="light-content" />
+                {
+                    this.state.isLoading ?
+                        <View style={styles.container}>
+                            <AnimatedLoader
+                                visible={this.state.isLoading}
+                                overlayColor="rgba(255,255,255,0.75)"
+                                animationStyle={styles.lottie}
+                                source={ImagesContent.Loader1}
+                                speed={1}
+                            />
                         </View>
-                        <SelectDropdown
-                            ref={this.SelectRef}
-                            defaultButtonText={<TextComponent className1={"text-left text-md text-black"}>{this.state.searchLocationValue}</TextComponent>}
-                            buttonStyle={styles.dropContent}
-                            buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
-                            // data={countries}
-                            data={this.state.selectLocation}
-                            dropdownStyle={{ borderRadius: 10 }}
-                            dropdownIconPosition="right"
-                            onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "LOCATION")}
-                            renderDropdownIcon={isOpened => {
-                                return (
-                                    <View className="mr-5">
-                                        <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
+                        :
+                        <ScrollView ref={this.scrollView}
+                            onContentSizeChange={() => this.scrollView.current.scrollTo({ x: 0, y: 650, animated: true })
+                                // this.scrollView.current.scrollToEnd({ animated: true })
+                            }
+                        >
+                            <View className="flex w-full h-full bg-white">
+                                <View className="mt-8 ml-5 items-center justify-center ml-5 mr-5 p-2 bg-[#5aa272]">
+                                    <TextComponent className1="text-lg text-white" isBold={true}>
+                                        Total {this.state.totalCount} Doctors found.
+                                    </TextComponent>
+                                </View>
+                                <View className="mt-8 ml-5">
+                                    <View className="flex flex-row justify-between mr-5 items-center">
+                                        <TextComponent className1="text-lg" isSemiBold={true}>Select location</TextComponent>
+                                        <TouchableOpacity onPress={() => onClear()}>
+                                            <TextComponent className1="text-md text-red-500" isBold={true}>Clear</TextComponent>
+                                        </TouchableOpacity>
                                     </View>
-                                );
-                            }}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return <TextComponent>{selectedItem}</TextComponent>
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return <TextComponent>{item}</TextComponent>
-                            }}
-                        />
-                    </View>
-                    <View className="mt-7 ml-5">
-                        <TextComponent className1="text-lg" isSemiBold={true}>Select therapy</TextComponent>
-                        <View style={styles.therapyView}>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                {
-                                    this.state.selectTherapy.map((data, index) => {
-                                        // console.log("select therapy", index);
-                                        return (
-                                            <View className="gap-1 items-center" style={{ marginRight: getWidth("3%") }}>
-                                                <TouchableOpacity
-                                                    className="w-16 h-16 items-center justify-center border-2 rounded-full"
-                                                    onPress={() => onSelectCommon(data.label, index, "THERAPY")}
-                                                    style={{ borderColor: this.state.selectTabTherapy == index ? Colors.headerColor : Colors.white }}
-                                                >
-                                                    <SvgUri
-                                                        width="90%"
-                                                        height="90%"
-                                                        uri={config.IMAGE_URL + data.icon2.url}
-                                                    />
-                                                </TouchableOpacity>
-                                                <View style={{ width: getWidth("26%") }} className="flex items-center">
-                                                    <TextComponent className1="text-black text-center text-sm">{data.label}</TextComponent>
+                                    <SelectDropdown
+                                        ref={this.SelectRef}
+                                        defaultButtonText={<TextComponent className1={"text-left text-md text-black"}>{this.state.searchLocationValue}</TextComponent>}
+                                        buttonStyle={styles.dropContent}
+                                        buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
+                                        // data={countries}
+                                        data={this.state.selectLocation}
+                                        dropdownStyle={{ borderRadius: 10 }}
+                                        dropdownIconPosition="right"
+                                        onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "LOCATION")}
+                                        renderDropdownIcon={isOpened => {
+                                            return (
+                                                <View className="mr-5">
+                                                    <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
                                                 </View>
-                                            </View>
-                                        )
-                                    })
-                                }
-                            </ScrollView>
-                        </View>
-                    </View>
-                    <View className="mt-5 ml-5">
-                        <TextComponent className1="text-lg" isSemiBold={true}>Consulting mode</TextComponent>
-                        <View style={styles.therapyView}>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                {
-                                    this.state.consultMode.map((data, index) => {
-                                        return (
-                                            <TouchableOpacity
-                                                style={[styles.body, { backgroundColor: this.state.selectTabConsult === index ? Colors.headerColor : Colors.cardColor }]}
-                                                onPress={() => onSelectCommon(data.label, index, "CONSULT")}
-                                            >
-                                                {this.state.selectTabConsult === index ?
-                                                    <TextComponent
-                                                        isSemiBold={true}
-                                                        className1="text-md text-white"
-                                                    // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
-                                                    >
-                                                        {data.label}
-                                                    </TextComponent>
-                                                    : <TextComponent
-                                                        isSemiBold={true}
-                                                        className1="text-md text-black"
-                                                    // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
-                                                    >
-                                                        {data.label}
-                                                    </TextComponent>
-                                                }
-                                            </TouchableOpacity>
-                                        )
-                                    })
-                                }
-                            </ScrollView>
-                        </View>
-                    </View>
-                    <View className="mt-7 ml-5">
-                        <TextComponent className1="text-lg" isSemiBold={true}>Select health concern</TextComponent>
-                        <SelectDropdown
-                            ref={this.SelectRef1}
-                            defaultButtonText={<TextComponent>{this.state.searchHealthValue}</TextComponent>}
-                            // defaultValue={'Skin Problems'}
-                            buttonStyle={styles.dropContent}
-                            buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
-                            data={this.state.healthConcern}
-                            dropdownStyle={{ borderRadius: 10 }}
-                            dropdownIconPosition="right"
-                            onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "HEALTH")}
-                            renderDropdownIcon={isOpened => {
-                                return (
-                                    <View className="mr-5">
-                                        <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
+                                            );
+                                        }}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            return <TextComponent>{selectedItem}</TextComponent>
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            return <TextComponent>{item}</TextComponent>
+                                        }}
+                                    />
+                                </View>
+                                <View className="mt-7 ml-5">
+                                    <TextComponent className1="text-lg" isSemiBold={true}>Select therapy</TextComponent>
+                                    <View style={styles.therapyView}>
+                                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                            {
+                                                this.state.selectTherapy.map((data, index) => {
+                                                    // console.log("select therapy", index);
+                                                    return (
+                                                        <View className="gap-1 items-center" style={{ marginRight: getWidth("3%") }}>
+                                                            <TouchableOpacity
+                                                                className="w-16 h-16 items-center justify-center border-2 rounded-full"
+                                                                onPress={() => onSelectCommon(data.label, index, "THERAPY")}
+                                                                style={{ borderColor: this.state.selectTabTherapy == index ? Colors.headerColor : Colors.white }}
+                                                            >
+                                                                <SvgUri
+                                                                    width="90%"
+                                                                    height="90%"
+                                                                    uri={config.IMAGE_URL + data.icon2.url}
+                                                                />
+                                                            </TouchableOpacity>
+                                                            <View style={{ width: getWidth("26%") }} className="flex items-center">
+                                                                <TextComponent className1="text-black text-center text-sm">{data.label}</TextComponent>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </ScrollView>
                                     </View>
-                                );
-                            }}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return <TextComponent>{selectedItem}</TextComponent>
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return <TextComponent>{item}</TextComponent>
-                            }}
-                        />
-                    </View>
-                    <View className="mt-8 bg-[#F6FAF8]">
-                        <View className="p-5">
-                            <View className="flex flex-row items-center gap-2">
-                                <TextComponent className1="text-xl text-[#5aa272]" isSemiBold={true}>Recent </TextComponent>
-                                <TextComponent className1="text-xl text-black" isSemiBold={true}>Therapists</TextComponent>
-                            </View>
-                            <TextComponent className1="text-sm mt-1 text-[#99A3A4]">{this.state.totalCount} doctors available for {this.state.searchValue}</TextComponent>
-                        </View>
-                        <ScrollView>
-                            <View className="flex w-full h-full">
-                                {
-                                    this.state.dynamicArray.map((data) => {
-                                        return (
-                                            <View>
-                                                <View className="flex bg-white p-5 h-62" style={styles.borderContent}>
-                                                    <View className="flex flex-row items-center gap-10">
-                                                        <View className="items-center">
-                                                            <View className="w-24 h-24 rounded-full">
-                                                                <Image source={ImagesContent.Logo2} className="w-24 h-24 rounded-full" resizeMode="contain" />
-                                                            </View>
-                                                            <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
-                                                                <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
-                                                            </TouchableOpacity>
-                                                        </View>
-                                                        <View className="w-2/4">
-                                                            <TextComponent className1="text-xl" isSemiBold={true}>{data.firstName}</TextComponent>
-                                                            <TouchableOpacity className="mt-1 rounded-lg p-1 items-center justify-center bg-[#5aa272]">
-                                                                <TextComponent className1="text-sm text-white" isSemiBold={true}>{data.therapy.label}</TextComponent>
-                                                            </TouchableOpacity>
-                                                            <View className="flex flex-row items-center gap-1 mt-1">
-                                                                <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                                                <TextComponent className1="text-md" isSemiBold={true}>{data.city}, {data.state}</TextComponent>
-                                                            </View>
-                                                            <TextComponent className1="mt-2 text-md">{data.degree.label}</TextComponent>
-                                                        </View>
-                                                    </View>
-                                                    <View className="flex flex-row items-center justify-between mt-8">
-                                                        <View>
-                                                            <TextComponent className1="text-sm">Next Available</TextComponent>
-                                                            <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
-                                                        </View>
+                                </View>
+                                <View className="mt-5 ml-5">
+                                    <TextComponent className1="text-lg" isSemiBold={true}>Consulting mode</TextComponent>
+                                    <View style={styles.therapyView}>
+                                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                            {
+                                                this.state.consultMode.map((data, index) => {
+                                                    return (
                                                         <TouchableOpacity
-                                                            className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
-                                                            onPress={() => navigation.navigate('Slot Patient')}
+                                                            style={[styles.body, { backgroundColor: this.state.selectTabConsult === index ? Colors.headerColor : Colors.cardColor }]}
+                                                            onPress={() => onSelectCommon(data.label, index, "CONSULT")}
                                                         >
-                                                            <TextComponent className1="text-md text-white" isSemiBold={true}>STARTING FROM</TextComponent>
-                                                            <TextComponent className1="text-md text-white" isSemiBold={true}>₹{data.deliveryModesFee[2]}</TextComponent>
+                                                            {this.state.selectTabConsult === index ?
+                                                                <TextComponent
+                                                                    isSemiBold={true}
+                                                                    className1="text-md text-white"
+                                                                // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
+                                                                >
+                                                                    {data.label}
+                                                                </TextComponent>
+                                                                : <TextComponent
+                                                                    isSemiBold={true}
+                                                                    className1="text-md text-black"
+                                                                // style={{ color: this.state.selectTabConsult === index ? Colors.white : Colors.black }}
+                                                                >
+                                                                    {data.label}
+                                                                </TextComponent>
+                                                            }
                                                         </TouchableOpacity>
-                                                    </View>
+                                                    )
+                                                })
+                                            }
+                                        </ScrollView>
+                                    </View>
+                                </View>
+                                <View className="mt-7 ml-5">
+                                    <TextComponent className1="text-lg" isSemiBold={true}>Select health concern</TextComponent>
+                                    <SelectDropdown
+                                        ref={this.SelectRef1}
+                                        defaultButtonText={<TextComponent>{this.state.searchHealthValue}</TextComponent>}
+                                        // defaultValue={'Skin Problems'}
+                                        buttonStyle={styles.dropContent}
+                                        buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
+                                        data={this.state.healthConcern}
+                                        dropdownStyle={{ borderRadius: 10 }}
+                                        dropdownIconPosition="right"
+                                        onSelect={(selectedItem, index) => onSelectCommon(selectedItem, index, "HEALTH")}
+                                        renderDropdownIcon={isOpened => {
+                                            return (
+                                                <View className="mr-5">
+                                                    <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />
                                                 </View>
-                                                <View className="h-3" />
-                                            </View>
-                                        )
-                                    })
-                                }
+                                            );
+                                        }}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            return <TextComponent>{selectedItem}</TextComponent>
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            return <TextComponent>{item}</TextComponent>
+                                        }}
+                                    />
+                                </View>
+                                <View className="mt-8 bg-[#F6FAF8]">
+                                    <View className="p-5">
+                                        <View className="flex flex-row items-center gap-2">
+                                            <TextComponent className1="text-xl text-[#5aa272]" isSemiBold={true}>Recent </TextComponent>
+                                            <TextComponent className1="text-xl text-black" isSemiBold={true}>Therapists</TextComponent>
+                                        </View>
+                                        <TextComponent className1="text-sm mt-1 text-[#99A3A4]">{this.state.totalCount} doctors available for {this.state.searchValue}</TextComponent>
+                                    </View>
+                                    <ScrollView>
+                                        <View className="flex w-full h-full">
+                                            {
+                                                this.state.dynamicArray.map((data) => {
+                                                    return (
+                                                        <View>
+                                                            <View className="flex bg-white p-5 h-62" style={styles.borderContent}>
+                                                                <View className="flex flex-row items-center gap-10">
+                                                                    <View className="items-center">
+                                                                        <View className="w-24 h-24 rounded-full">
+                                                                            <Image source={ImagesContent.Logo2} className="w-24 h-24 rounded-full" resizeMode="contain" />
+                                                                        </View>
+                                                                        <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
+                                                                            <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                                    <View className="w-2/4">
+                                                                        <TextComponent className1="text-xl" isSemiBold={true}>{data.firstName}</TextComponent>
+                                                                        <TouchableOpacity className="mt-1 rounded-lg p-1 items-center justify-center bg-[#5aa272]">
+                                                                            <TextComponent className1="text-sm text-white" isSemiBold={true}>{data.therapy.label}</TextComponent>
+                                                                        </TouchableOpacity>
+                                                                        <View className="flex flex-row items-center gap-1 mt-1">
+                                                                            <Entypo name="location-pin" size={25} color={Colors.headerColor} />
+                                                                            <TextComponent className1="text-md" isSemiBold={true}>{data.city}, {data.state}</TextComponent>
+                                                                        </View>
+                                                                        <TextComponent className1="mt-2 text-md">{data.degree.label}</TextComponent>
+                                                                    </View>
+                                                                </View>
+                                                                <View className="flex flex-row items-center justify-between mt-8">
+                                                                    <View>
+                                                                        <TextComponent className1="text-sm">Next Available</TextComponent>
+                                                                        <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
+                                                                    </View>
+                                                                    <TouchableOpacity
+                                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
+                                                                        onPress={() => navigation.navigate('Slot Patient')}
+                                                                    >
+                                                                        <TextComponent className1="text-md text-white" isSemiBold={true}>STARTING FROM</TextComponent>
+                                                                        <TextComponent className1="text-md text-white" isSemiBold={true}>₹{data.deliveryModesFee[2]}</TextComponent>
+                                                                    </TouchableOpacity>
+                                                                </View>
+                                                            </View>
+                                                            <View className="h-3" />
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                    </ScrollView>
+                                </View>
                             </View>
                         </ScrollView>
-                    </View>
-                </View>
-            </ScrollView>
+                }
+            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: Colors.white,
+        width: getWidth("100%"),
+        height: getHeight("100%"),
+    },
+    lottie: {
+        width: getWidth("50%"),
+        height: getHeight("50%"),
+        resizeMode: "cover",
+    },
     dropContent: {
         marginTop: getHeight("1%"),
         width: getWidth("90%"),

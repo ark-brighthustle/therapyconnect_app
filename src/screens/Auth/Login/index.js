@@ -6,6 +6,7 @@ import { Colors } from '../../../constants/colors'
 import Entypo from 'react-native-vector-icons/Entypo'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextComponent from '../../../components/TextComponent'
+import { useNavigation } from '@react-navigation/native'
 
 import {
   useFonts,
@@ -14,8 +15,11 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import axios from 'axios'
+import config from '../../../config'
 
-const Login = ({ navigation }) => {
+const Login = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(true);
@@ -42,9 +46,21 @@ const Login = ({ navigation }) => {
       setEmailError2(true);
     }
     else {
-      console.log("Login Successful.");
-      alert("Login Successful.");
-      navigation.navigate('AppStack');
+      axios.post(config.BASE_URL + '/auth/local', {
+        identifier: email,
+        password: password,
+      })
+        .then(function (response) {
+          console.log("email", response.data.user.email);
+          console.log("password", response.data.user.password);
+          alert("Login Successful.");
+          navigation.navigate('Root');
+        })
+        .catch(function (error) {
+          console.log("error2", error.response.data);
+          console.log("error3", error.response.data.error.message);
+          alert(error.response.data.error.message)
+        });
     }
   };
 
@@ -122,6 +138,19 @@ const Login = ({ navigation }) => {
                     className="mt-5 items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
                     onPress={() => onClick()}>
                     <TextComponent className1={"text-md text-white"} isBold={true}>Login</TextComponent>
+                  </TouchableOpacity>
+                </View>
+                <View className="flex flex-row items-center justify-end gap-2">
+                  <TextComponent className1={"text-sm"}>
+                    Create an account?
+                  </TextComponent>
+                  <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+                    <TextComponent
+                      className1={"ml-1 text-sm underline text-[#5ba273]"}
+                      isBold={true}
+                    >
+                      Signup
+                    </TextComponent>
                   </TouchableOpacity>
                 </View>
               </View>

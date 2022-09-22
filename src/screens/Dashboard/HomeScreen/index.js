@@ -173,13 +173,15 @@ export default class HomeScreen extends Component {
                 <StatusBar barStyle="light-content" />
                 {
                     this.state.isLoading ?
-                        <AnimatedLoader
-                            visible={this.state.isLoading}
-                            overlayColor="rgba(255,255,255,0.75)"
-                            animationStyle={styles.lottie}
-                            source={ImagesContent.Loader1}
-                            speed={1}
-                        />
+                        <View style={styles.container}>
+                            <AnimatedLoader
+                                visible={this.state.isLoading}
+                                overlayColor="rgba(255,255,255,0.75)"
+                                animationStyle={styles.lottie}
+                                source={ImagesContent.Loader1}
+                                speed={1}
+                            />
+                        </View>
                         :
                         <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]} contentContainerStyle={{ backgroundColor: Colors.white }}>
                             <View className="flex flex-row bg-[#5aa272] pl-4 pr-4 pt-3 pb-3 items-center w-full justify-between">
@@ -232,10 +234,13 @@ export default class HomeScreen extends Component {
                             </View>
                             <View className="bg-[#5aa272] gap-1 pl-4">
                                 <TextComponent className1="text-md text-start text-white" isSemiBold={true}> Need professional help?</TextComponent>
-                                <View className="flex justify-start flex-row gap-1">
+                                <TouchableOpacity 
+                                className="flex justify-start flex-row gap-1"
+                                onPress={() => navigation.navigate('ConnectAdvisor')}
+                                >
                                     <TextComponent className1="text-md mr-1 underline decoration-solid text-white" isSemiBold={true}>Connect to our Consultant</TextComponent>
                                     <Image source={ImagesContent.link} className="w-4 h-4" resizeMode='contain' />
-                                </View>
+                                </TouchableOpacity>
                             </View>
                             <View className="flex flex-row w-full bg-[#5aa272] p-3 rounded-b-3xl justify-center">
                                 {
@@ -394,10 +399,15 @@ export default class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: Colors.white,
+        width: getWidth("100%"),
+        height: getHeight("100%"),
+    },
     lottie: {
         width: getWidth("50%"),
-        height: getHeight("100%"),
-        resizeMode: "cover"
+        height: getHeight("50%"),
+        resizeMode: "cover",
     },
     main: {
         marginTop: "3%",
