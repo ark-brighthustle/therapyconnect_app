@@ -226,7 +226,7 @@ const Signup = ({ navigation }) => {
                                 </View>
                                 <View className="flex flex-row gap-2 justify-end mt-3 items-center">
                                     <Checkbox
-                                        style={styles.checkbox}
+                                        // style={styles.checkbox}
                                         value={isChecked}
                                         onValueChange={setChecked}
                                         color={isChecked ? '#5ba273' : undefined}
