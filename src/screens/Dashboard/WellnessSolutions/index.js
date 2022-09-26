@@ -7,7 +7,7 @@ import { getHeight, getWidth } from '../../../components/Dimensions';
 import { Colors } from '../../../constants/colors';
 import { ImagesContent } from '../../../constants/images';
 
-class WellnessSolutions extends Component {
+export default class WellnessSolutions extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -62,8 +62,6 @@ class WellnessSolutions extends Component {
         )
     }
 }
-
-export default WellnessSolutions
 
 const styles = StyleSheet.create({
     container: {

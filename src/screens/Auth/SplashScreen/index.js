@@ -15,11 +15,22 @@ const SplashScreen = ({ navigation }) => {
     if (!timePassed) {
         return (
             <View className="w-full h-full bg-[#5ba273]">
-                <ImageBackground source={ImagesContent.splashBack} resizeMode="cover" className="w-full h-full items-center justify-center">
-                    <Image source={ImagesContent.Logo1} resizeMode="contain" className="w-52 h-52" />
+                <ImageBackground
+                    source={ImagesContent.splashBack}
+                    resizeMode="cover"
+                    className="w-full h-full items-center justify-center"
+                >
+                    <Image
+                        source={ImagesContent.Logo1}
+                        resizeMode="contain"
+                        className="w-52 h-52"
+                    />
                 </ImageBackground>
                 <View style={styles.container}>
-                    <TextComponent className1={"text-md text-end text-white"} isBold={true}>
+                    <TextComponent
+                        className1={"text-md text-end text-white"}
+                        isBold={true}
+                    >
                         Hand Crafted by @Therapy Connect
                     </TextComponent>
                 </View>

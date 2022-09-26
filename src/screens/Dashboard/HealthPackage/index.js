@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, View, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import Slideshow from "react-native-image-slider-show";
 import { ImagesContent } from '../../../constants/images';

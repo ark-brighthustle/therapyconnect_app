@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { Component } from 'react'
 import { getHeight, getWidth } from '../../../components/Dimensions'
 import { Colors } from '../../../constants/colors'
@@ -14,7 +14,7 @@ export default class OnlineConsult extends Component {
         }
     }
     render() {
-        const navigation = this.props;
+        const { navigation } = this.props;
         return (
             <View>
                 {this.state.isLoading ?

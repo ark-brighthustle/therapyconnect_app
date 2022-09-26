@@ -1,4 +1,4 @@
-import { Text, View, StatusBar, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, StatusBar, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -170,7 +170,10 @@ export default class HomeScreen extends Component {
 
         return (
             <View>
-                <StatusBar barStyle="light-content" />
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor={Colors.headerColor}
+                />
                 {
                     this.state.isLoading ?
                         <View style={styles.container}>
@@ -183,7 +186,11 @@ export default class HomeScreen extends Component {
                             />
                         </View>
                         :
-                        <ScrollView showsVerticalScrollIndicator={false} stickyHeaderIndices={[0]} contentContainerStyle={{ backgroundColor: Colors.white }}>
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            stickyHeaderIndices={[0]}
+                            contentContainerStyle={{ backgroundColor: Colors.white }}
+                        >
                             <View className="flex flex-row bg-[#5aa272] pl-4 pr-4 pt-3 pb-3 items-center w-full justify-between">
                                 <Feather name="menu" size={35} color={"white"} onPress={() => toggleDrawer()} />
                                 <View className="flex flex-row items-center justify-around gap-2">
@@ -234,9 +241,9 @@ export default class HomeScreen extends Component {
                             </View>
                             <View className="bg-[#5aa272] gap-1 pl-4">
                                 <TextComponent className1="text-md text-start text-white" isSemiBold={true}> Need professional help?</TextComponent>
-                                <TouchableOpacity 
-                                className="flex justify-start flex-row gap-1"
-                                onPress={() => navigation.navigate('ConnectAdvisor')}
+                                <TouchableOpacity
+                                    className="flex justify-start flex-row gap-1"
+                                    onPress={() => navigation.navigate('ConnectAdvisor')}
                                 >
                                     <TextComponent className1="text-md mr-1 underline decoration-solid text-white" isSemiBold={true}>Connect to our Consultant</TextComponent>
                                     <Image source={ImagesContent.link} className="w-4 h-4" resizeMode='contain' />
@@ -300,7 +307,7 @@ export default class HomeScreen extends Component {
                                         <TextComponent className1="text-2xl text-[#5aa272]" isSemiBold={true}> therapists</TextComponent>
                                     </View>
                                     <TouchableOpacity onPress={() => navigation.navigate('Therapists')}>
-                                        <TextComponent>SEE ALL</TextComponent>
+                                        <TextComponent className1={"text-sm"} isMedium={true}>SEE ALL</TextComponent>
                                     </TouchableOpacity>
                                 </View>
                                 <View className="mt-1 mb-4 items-start w-full">
@@ -378,11 +385,19 @@ export default class HomeScreen extends Component {
                                             {
                                                 this.state.healthArticle.map((data) => {
                                                     return (
-                                                        <TouchableOpacity style={styles.main} onPress={() => navigation.navigate('Healthy Life')}>
+                                                        <TouchableOpacity
+                                                            style={styles.main}
+                                                            onPress={() => navigation.navigate('Healthy Life', { id: data.id })}
+                                                        >
                                                             <View className="w-56 h-44">
-                                                                <Image className="w-56 h-44" source={{ uri: config.IMAGE_URL + data.thumbnail.formats.small.url }} />
+                                                                <Image
+                                                                    className="w-56 h-44"
+                                                                    source={{ uri: config.IMAGE_URL + data.thumbnail.formats.small.url }}
+                                                                />
                                                             </View>
-                                                            <TextComponent className1="w-56 jutify-center p-3">{data.title}</TextComponent>
+                                                            <TextComponent className1="w-56 jutify-center p-3">
+                                                                {data.title}
+                                                            </TextComponent>
                                                         </TouchableOpacity>
                                                     );
                                                 })

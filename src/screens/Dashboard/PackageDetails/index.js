@@ -1,4 +1,4 @@
-import { Text, View, ScrollView, StatusBar, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, ScrollView, StatusBar, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'
 import { ImagesContent } from '../../../constants/images'

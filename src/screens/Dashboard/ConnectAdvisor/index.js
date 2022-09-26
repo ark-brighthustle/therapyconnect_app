@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { Component } from 'react'
 import TextComponent from '../../../components/TextComponent'
 import { Colors } from '../../../constants/colors'
@@ -6,6 +6,8 @@ import { getHeight, getWidth } from '../../../components/Dimensions'
 import Checkbox from 'expo-checkbox';
 import SelectDropdown from 'react-native-select-dropdown'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import config from '../../../config'
+import Axios from '../../../components/Axios'
 
 export default class ConnectAdvisor extends Component {
 
@@ -13,14 +15,25 @@ export default class ConnectAdvisor extends Component {
         super(props)
         this.state = {
             isChecked: false,
+            checkError: false,
             name: "",
+            nameError: false,
             address: "",
+            addressError: false,
             contact: "",
+            contactError: false,
+            contactError2: false,
             email: "",
+            emailError: false,
+            emailError2: false,
             message: "",
+            messageError: false,
             genderValue: "",
+            genderError: false,
             healthConcernValue: "",
+            healthError: false,
             therapyValue: "",
+            therapyError: false,
         }
     }
 
@@ -32,16 +45,106 @@ export default class ConnectAdvisor extends Component {
         }
 
         const onClick = () => {
-            console.log("In Click");
-            console.log("name ", this.state.name);
-            console.log("gender ", this.state.genderValue);
-            console.log("address ", this.state.address);
-            console.log("contact ", this.state.contact);
-            console.log("email ", this.state.email);
-            console.log("health concern ", this.state.healthConcernValue);
-            console.log("therapy ", this.state.therapyValue);
-            console.log("message ", this.state.message);
-            console.log("check ", this.state.isChecked);
+            // console.log("In Click");
+            // console.log("name ", this.state.name);
+            // console.log("gender ", this.state.genderValue);
+            // console.log("address ", this.state.address);
+            // console.log("contact ", this.state.contact);
+            // console.log("email ", this.state.email);
+            // console.log("health concern ", this.state.healthConcernValue);
+            // console.log("therapy ", this.state.therapyValue);
+            // console.log("message ", this.state.message);
+            // console.log("check ", this.state.isChecked);
+
+            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+            if (
+                this.state.name == "" ||
+                this.state.genderValue == "" ||
+                this.state.address == "" ||
+                this.state.contact == "" ||
+                this.state.email == "" ||
+                this.state.healthConcernValue == "" ||
+                this.state.therapyValue == "" ||
+                this.state.message == "" ||
+                this.state.isChecked == false
+            ) {
+                if (this.state.name == "") {
+                    this.setState({
+                        nameError: true
+                    })
+                }
+                else if (this.state.genderValue == "") {
+                    this.setState({
+                        genderError: true
+                    })
+                }
+                else if (this.state.address == "") {
+                    this.setState({
+                        addressError: true
+                    })
+                }
+                else if (this.state.contact == "") {
+                    this.setState({
+                        contactError: true
+                    })
+                }
+                else if (this.state.contact.length != 10) {
+                    this.setState({
+                        contactError2: true
+                    })
+                }
+                else if (this.state.email == "") {
+                    this.setState({
+                        emailError: true
+                    })
+                }
+                else if (reg.test(this.state.email) === false) {
+                    this.setState({
+                        emailError2: true
+                    })
+                }
+                else if (this.state.healthConcernValue == "") {
+                    this.setState({
+                        healthError: true
+                    })
+                }
+                else if (this.state.therapyValue == "") {
+                    this.setState({
+                        therapyError: true
+                    })
+                }
+                else if (this.state.message == "") {
+                    this.setState({
+                        messageError: true
+                    })
+                }
+                else if (this.state.isChecked == false) {
+                    this.setState({
+                        checkError: true
+                    })
+                }
+            }
+            else {
+                // Axios.post(config.BASE_URL + '/advisor-connects', {
+                //     fullname: this.state.name,
+                //     gender: this.state.genderValue,
+                //     address: this.state.address,
+                //     contact: this.state.contact,
+                //     email: this.state.email,
+                //     healthConcern: this.state.healthConcernValue,
+                //     therapy: this.state.therapyValue,
+                //     message: this.state.message
+                // })
+                //     .then(function (response) {
+                //         console.log("response", response);
+                //         alert("Successfully Registered.")
+                //         // navigation.navigate('Login');
+                //     })
+                //     .catch(function (error) {
+                //         console.log("error3", error.response.data);
+                //         alert(error.response.data.error.message)
+                //     });
+            }
         }
 
         const gender = ["Female", "Male"]
@@ -59,12 +162,19 @@ export default class ConnectAdvisor extends Component {
                         <View className="p-3 gap-3">
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Full Name</TextComponent>
-                                <TextInput
-                                    style={styles.inputContent}
-                                    placeholder='Enter your name'
-                                    onChangeText={text => this.setState({ name: text })}
-                                    value={this.state.name}
-                                />
+                                <View>
+                                    <TextInput
+                                        style={styles.inputContent}
+                                        placeholder='Enter your name'
+                                        onChangeText={text => this.setState({ name: text, nameError: false })}
+                                        value={this.state.name}
+                                    />
+                                    {this.state.nameError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Your Full Name.
+                                        </TextComponent>
+                                    }
+                                </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Gender</TextComponent>
@@ -78,7 +188,8 @@ export default class ConnectAdvisor extends Component {
                                         dropdownIconPosition="right"
                                         onSelect={(selectedItem, index) => {
                                             this.setState({
-                                                genderValue: selectedItem
+                                                genderValue: selectedItem,
+                                                genderError: false
                                             })
                                         }}
                                         renderDropdownIcon={isOpened => {
@@ -97,36 +208,72 @@ export default class ConnectAdvisor extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.genderError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please select Gender.
+                                        </TextComponent>
+                                    }
                                 </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Address</TextComponent>
-                                <TextInput
-                                    style={styles.inputContent}
-                                    placeholder='Enter full address'
-                                    onChangeText={text => { this.setState({ address: text }) }}
-                                    value={this.state.address}
-                                />
+                                <View>
+                                    <TextInput
+                                        style={styles.inputContent}
+                                        placeholder='Enter full address'
+                                        onChangeText={text => { this.setState({ address: text, addressError: false }) }}
+                                        value={this.state.address}
+                                    />
+                                    {this.state.addressError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Your Full Address.
+                                        </TextComponent>
+                                    }
+                                </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Contact Number</TextComponent>
-                                <TextInput
-                                    style={styles.inputContent}
-                                    keyboardType="numeric"
-                                    maxLength={10}
-                                    placeholder='Enter your contact number'
-                                    onChangeText={text => this.setState({ contact: text })}
-                                    value={this.state.contact}
-                                />
+                                <View>
+                                    <TextInput
+                                        style={styles.inputContent}
+                                        keyboardType="numeric"
+                                        maxLength={10}
+                                        placeholder='Enter your contact number'
+                                        onChangeText={text => this.setState({ contact: text, contactError: false, contactError2: false })}
+                                        value={this.state.contact}
+                                    />
+                                    {this.state.contactError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Contact Number.
+                                        </TextComponent>
+                                    }
+                                    {this.state.contactError2 === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter 10 Digits of Contact Number.
+                                        </TextComponent>
+                                    }
+                                </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Email</TextComponent>
-                                <TextInput
-                                    style={styles.inputContent}
-                                    placeholder='Enter your email id'
-                                    onChangeText={text => this.setState({ email: text })}
-                                    value={this.state.email}
-                                />
+                                <View>
+                                    <TextInput
+                                        style={styles.inputContent}
+                                        placeholder='Enter your email id'
+                                        onChangeText={text => this.setState({ email: text, emailError: false, emailError2: false })}
+                                        value={this.state.email}
+                                    />
+                                    {this.state.emailError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Email Address.
+                                        </TextComponent>
+                                    }
+                                    {this.state.emailError2 === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Valid Email Address.
+                                        </TextComponent>
+                                    }
+                                </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Health Concern ?</TextComponent>
@@ -140,7 +287,8 @@ export default class ConnectAdvisor extends Component {
                                         dropdownIconPosition="right"
                                         onSelect={(selectedItem, index) => {
                                             this.setState({
-                                                healthConcernValue: selectedItem
+                                                healthConcernValue: selectedItem,
+                                                healthError: false
                                             })
                                         }}
                                         renderDropdownIcon={isOpened => {
@@ -159,6 +307,11 @@ export default class ConnectAdvisor extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.healthError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please select Health Concern.
+                                        </TextComponent>
+                                    }
                                 </View>
                             </View>
                             <View className="gap-2">
@@ -173,7 +326,8 @@ export default class ConnectAdvisor extends Component {
                                         dropdownIconPosition="right"
                                         onSelect={(selectedItem, index) => {
                                             this.setState({
-                                                therapyValue: selectedItem
+                                                therapyValue: selectedItem,
+                                                therapyError: false
                                             })
                                         }}
                                         renderDropdownIcon={isOpened => {
@@ -192,27 +346,46 @@ export default class ConnectAdvisor extends Component {
                                             );
                                         }}
                                     />
+                                    {this.state.therapyError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please select Therapy.
+                                        </TextComponent>
+                                    }
                                 </View>
                             </View>
                             <View className="gap-2">
                                 <TextComponent className1={"ml-2"}>Message</TextComponent>
-                                <TextInput
-                                    style={styles.inputContent}
-                                    placeholder='Write something...'
-                                    onChangeText={text => this.setState({ message: text })}
-                                    value={this.state.message}
-                                />
+                                <View>
+                                    <TextInput
+                                        style={styles.inputContent}
+                                        placeholder='Write something...'
+                                        onChangeText={text => this.setState({ message: text, messageError: false })}
+                                        value={this.state.message}
+                                    />
+                                    {this.state.messageError === true &&
+                                        <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                            Please Enter Message.
+                                        </TextComponent>
+                                    }
+                                </View>
                             </View>
-                            <View className="flex flex-row gap-5 items-center">
-                                <Checkbox
-                                    style={styles.checkbox}
-                                    value={this.state.isChecked}
-                                    onValueChange={() => onCheck()}
-                                    color={this.state.isChecked ? '#5ba273' : undefined}
-                                />
-                                <TextComponent className1={"text-md"}>
-                                    I agreed to this terms & conditions
-                                </TextComponent>
+                            <View>
+                                <View className="flex flex-row gap-5 items-center">
+                                    <Checkbox
+                                        style={styles.checkbox}
+                                        value={this.state.isChecked}
+                                        onValueChange={() => { onCheck(), this.setState({ checkError: false }) }}
+                                        color={this.state.isChecked ? '#5ba273' : undefined}
+                                    />
+                                    <TextComponent className1={"text-md"}>
+                                        I agreed to this terms & conditions
+                                    </TextComponent>
+                                </View>
+                                {this.state.checkError === true &&
+                                    <TextComponent className1={"text-left mt-0.5 ml-1 text-red-500"}>
+                                        Please select Terms & Conditions.
+                                    </TextComponent>
+                                }
                             </View>
                             <TouchableOpacity
                                 className="p-4 mt-5 bg-red-500 items-center justify-center rounded-lg"
@@ -230,6 +403,7 @@ export default class ConnectAdvisor extends Component {
 
 const styles = StyleSheet.create({
     inputContent: {
+        fontFamily: "Poppins_400Regular",
         borderWidth: 1,
         borderColor: Colors.black,
         borderRadius: 10,
@@ -237,13 +411,11 @@ const styles = StyleSheet.create({
         paddingVertical: getHeight("1.5%")
     },
     dropContent: {
-        marginTop: getHeight("1%"),
         borderWidth: 1,
         borderColor: Colors.black,
         borderRadius: 10,
         width: getWidth("86%"),
         height: getHeight("7%"),
         backgroundColor: Colors.white,
-        // padding: 5
     },
 })

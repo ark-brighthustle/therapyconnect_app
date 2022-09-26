@@ -31,9 +31,7 @@ export default class MoreTherapists extends Component {
     }
 
     render() {
-
         const { navigation } = this.props
-
         const onSelectTherapists = async (i, value) => {
             await this.setState({
                 searchTherapistsIndex: i,

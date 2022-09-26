@@ -9,14 +9,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Checkbox from 'expo-checkbox';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TextComponent from '../../../components/TextComponent'
-
-import {
-    useFonts,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-} from '@expo-google-fonts/poppins';
 import axios from 'axios'
 import config from '../../../config'
 
@@ -76,7 +68,9 @@ const Signup = ({ navigation }) => {
                     console.log("username", response.data.user.username);
                     console.log("email", response.data.user.email);
                     console.log("password", response.data.user.password);
-                    alert("Successfully Registered." + " username is: " + response.data.user.username + " email is: " + response.data.user.email)
+                    alert("Successfully Registered." + " username is: " +
+                        response.data.user.username + " email is: " +
+                        response.data.user.email)
                     navigation.navigate('Login');
                 })
                 .catch(function (error) {
@@ -86,182 +80,173 @@ const Signup = ({ navigation }) => {
         }
     }
 
-
-    let [fontsLoaded] = useFonts({
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_600SemiBold,
-        Poppins_700Bold,
-    });
-    if (fontsLoaded) {
-        return (
-            <KeyboardAwareScrollView
-                style={{ backgroundColor: '#4c69a5' }}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                // contentContainerStyle={styles.container}
-                scrollEnabled={false}
-            >
-                <View className="w-full h-full bg-[#5ba273]">
-                    <ImageBackground source={ImagesContent.splashBack} resizeMode="cover" className="w-full h-full">
-                        <View className="overflow-hidden ml-3 mt-6 items-end justify-end" style={styles.container}>
-                            <View style={styles.layoutView} />
+    return (
+        <KeyboardAwareScrollView
+            style={{ backgroundColor: '#4c69a5' }}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            // contentContainerStyle={styles.container}
+            scrollEnabled={false}
+        >
+            <View className="w-full h-full bg-[#5ba273]">
+                <ImageBackground source={ImagesContent.splashBack} resizeMode="cover" className="w-full h-full">
+                    <View className="overflow-hidden ml-3 mt-6 items-end justify-end" style={styles.container}>
+                        <View style={styles.layoutView} />
+                    </View>
+                    <View style={styles.mainView}>
+                        <Image source={ImagesContent.Logo1} resizeMode="contain" className="w-52 h-52" />
+                        <View className="items-end mr-5" style={{ marginTop: getHeight("-8%") }}>
+                            <TextComponent className1={"text-2xl"} isBold={true}>Signup</TextComponent>
                         </View>
-                        <View style={styles.mainView}>
-                            <Image source={ImagesContent.Logo1} resizeMode="contain" className="w-52 h-52" />
-                            <View className="items-end mr-5" style={{ marginTop: getHeight("-8%") }}>
-                                <TextComponent className1={"text-2xl"} isBold={true}>Signup</TextComponent>
+                        <View className="h-2/3 w-full justify-center gap-4" style={styles.common}>
+                            <View>
+                                <TextInput
+                                    style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
+                                    placeholder='Enter Full Name'
+                                    onChangeText={text => { setName(text), setNameError(false) }}
+                                    value={name}
+                                />
+                                {nameError === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter Your Full Name.
+                                    </TextComponent>
+                                }
                             </View>
-                            <View className="h-2/3 w-full justify-center gap-4" style={styles.common}>
-                                <View>
-                                    <TextInput
-                                        style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
-                                        placeholder='Enter Full Name'
-                                        onChangeText={text => { setName(text), setNameError(false) }}
-                                        value={name}
-                                    />
-                                    {nameError === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter Your Full Name.
-                                        </TextComponent>
-                                    }
-                                </View>
-                                <View>
-                                    <TextInput
-                                        style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
-                                        keyboardType="number-pad"
-                                        maxLength={10}
-                                        placeholder='Enter Mobile Number'
-                                        onChangeText={text => { setMobile(text), setMobileError1(false), setMobileError2(false) }}
-                                        value={mobile}
-                                    />
-                                    {mobileError1 === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter Phone Number.
-                                        </TextComponent>
-                                    }
-                                    {mobileError2 === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter 10 Digit of Phone Number.
-                                        </TextComponent>
-                                    }
-                                </View>
-                                <View>
-                                    <TextInput
-                                        style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
-                                        placeholder='Enter Email Address'
-                                        keyboardType='email-address'
-                                        onChangeText={text => { setEmail(text), setEmailError1(false), setEmailError2(false) }}
-                                        value={email}
-                                    />
-                                    {emailError1 === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter Email Address.
-                                        </TextComponent>
-                                    }
-                                    {emailError2 === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter Valid Email Address.
-                                        </TextComponent>
-                                    }
-                                </View>
-                                <View>
-                                    <View className="flex flex-row justify-between items-center">
-                                        <TextInput
-                                            style={{ borderBottomWidth: 1, width: getWidth("70%"), fontFamily: "Poppins_400Regular" }}
-                                            secureTextEntry={visible}
-                                            placeholder='Enter Your Password'
-                                            onChangeText={text => { setPassword(text), setPasswordError(false) }}
-                                            value={password}
-                                        />
-                                        <TouchableOpacity style={{ marginLeft: getWidth("-15%") }} onPress={() => setVisible(!visible)}>
-                                            <Entypo name={visible === false ? 'eye-with-line' : 'eye'} size={15} />
-                                        </TouchableOpacity>
-                                    </View>
-                                    {passwordError === true &&
-                                        <TextComponent className1={"text-left text-red-500"}>
-                                            Please Enter Valid Password.
-                                        </TextComponent>
-                                    }
-                                </View>
-                                <View>
-                                    <TextInput
-                                        style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
-                                        keyboardType="numeric"
-                                        maxLength={6}
-                                        placeholder='Enter Reference Code (optional)'
-                                        onChangeText={text => { setCode(text) }}
-                                        value={code}
-                                    />
-                                </View>
-                                <View>
-                                    <TextComponent className1={"text-sm"}>
-                                        Would you like to nominate yourself for economically weaker section benefit scheme (optional)
+                            <View>
+                                <TextInput
+                                    style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
+                                    keyboardType="number-pad"
+                                    maxLength={10}
+                                    placeholder='Enter Mobile Number'
+                                    onChangeText={text => { setMobile(text), setMobileError1(false), setMobileError2(false) }}
+                                    value={mobile}
+                                />
+                                {mobileError1 === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter Phone Number.
                                     </TextComponent>
-                                    <SelectDropdown
-                                        // defaultValue={'Select'}
-                                        buttonStyle={styles.dropContent}
-                                        buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("-2%"), fontSize: 14, fontFamily: "Poppins_400Regular" }}
-                                        data={countries}
-                                        dropdownStyle={{ marginTop: getHeight("-3%"), borderRadius: 10 }}
-                                        dropdownIconPosition="right"
-                                        onSelect={(selectedItem, index) => {
-                                            console.log(selectedItem, index)
-                                        }}
-                                        renderDropdownIcon={isOpened => {
-                                            return (
-                                                <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={13} />
-                                            );
-                                        }}
-                                        buttonTextAfterSelection={(selectedItem, index) => {
-                                            return (
-                                                <TextComponent className1={"text-left text-md text-black"} isBold={true}>{selectedItem}</TextComponent>
-                                            )
-                                        }}
-                                        rowTextForSelection={(item, index) => {
-                                            return (
-                                                <TextComponent>{item}</TextComponent>
-                                            );
-                                        }}
-                                    />
-                                </View>
-                                <View className="flex flex-row gap-2 justify-end mt-3 items-center">
-                                    <Checkbox
-                                        // style={styles.checkbox}
-                                        value={isChecked}
-                                        onValueChange={setChecked}
-                                        color={isChecked ? '#5ba273' : undefined}
-                                    />
-                                    <TextComponent className1={"text-md"}>
-                                        Agree with Terms & Conditions
+                                }
+                                {mobileError2 === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter 10 Digit of Phone Number.
                                     </TextComponent>
-                                </View>
-                                <View style={{ alignItems: "flex-end" }}>
-                                    <TouchableOpacity
-                                        className="items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
-                                        onPress={() => onClick()}>
-                                        <TextComponent className1={"text-md text-white"} isBold={true}>Signup</TextComponent>
+                                }
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
+                                    placeholder='Enter Email Address'
+                                    keyboardType='email-address'
+                                    onChangeText={text => { setEmail(text), setEmailError1(false), setEmailError2(false) }}
+                                    value={email}
+                                />
+                                {emailError1 === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter Email Address.
+                                    </TextComponent>
+                                }
+                                {emailError2 === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter Valid Email Address.
+                                    </TextComponent>
+                                }
+                            </View>
+                            <View>
+                                <View className="flex flex-row justify-between items-center">
+                                    <TextInput
+                                        style={{ borderBottomWidth: 1, width: getWidth("70%"), fontFamily: "Poppins_400Regular" }}
+                                        secureTextEntry={visible}
+                                        placeholder='Enter Your Password'
+                                        onChangeText={text => { setPassword(text), setPasswordError(false) }}
+                                        value={password}
+                                    />
+                                    <TouchableOpacity style={{ marginLeft: getWidth("-15%") }} onPress={() => setVisible(!visible)}>
+                                        <Entypo name={visible === false ? 'eye-with-line' : 'eye'} size={15} />
                                     </TouchableOpacity>
                                 </View>
-                                <View className="flex flex-row items-center justify-end gap-2">
-                                    <TextComponent className1={"text-sm"}>
-                                        Already have an account?
+                                {passwordError === true &&
+                                    <TextComponent className1={"text-left text-red-500"}>
+                                        Please Enter Valid Password.
                                     </TextComponent>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                                        <TextComponent
-                                            className1={"ml-1 text-sm underline text-[#5ba273]"}
-                                            isBold={true}
-                                        >
-                                            Login
-                                        </TextComponent>
-                                    </TouchableOpacity>
-                                </View>
+                                }
+                            </View>
+                            <View>
+                                <TextInput
+                                    style={{ borderBottomWidth: 1, fontFamily: "Poppins_400Regular" }}
+                                    keyboardType="numeric"
+                                    maxLength={6}
+                                    placeholder='Enter Reference Code (optional)'
+                                    onChangeText={text => { setCode(text) }}
+                                    value={code}
+                                />
+                            </View>
+                            <View>
+                                <TextComponent className1={"text-sm"}>
+                                    Would you like to nominate yourself for economically weaker section benefit scheme (optional)
+                                </TextComponent>
+                                <SelectDropdown
+                                    // defaultValue={'Select'}
+                                    buttonStyle={styles.dropContent}
+                                    buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("-2%"), fontSize: 14, fontFamily: "Poppins_400Regular" }}
+                                    data={countries}
+                                    dropdownStyle={{ marginTop: getHeight("-3%"), borderRadius: 10 }}
+                                    dropdownIconPosition="right"
+                                    onSelect={(selectedItem, index) => {
+                                        console.log(selectedItem, index)
+                                    }}
+                                    renderDropdownIcon={isOpened => {
+                                        return (
+                                            <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={13} />
+                                        );
+                                    }}
+                                    buttonTextAfterSelection={(selectedItem, index) => {
+                                        return (
+                                            <TextComponent className1={"text-left text-md text-black"} isBold={true}>{selectedItem}</TextComponent>
+                                        )
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                        return (
+                                            <TextComponent>{item}</TextComponent>
+                                        );
+                                    }}
+                                />
+                            </View>
+                            <View className="flex flex-row gap-2 justify-end mt-3 items-center">
+                                <Checkbox
+                                    // style={styles.checkbox}
+                                    value={isChecked}
+                                    onValueChange={setChecked}
+                                    color={isChecked ? '#5ba273' : undefined}
+                                />
+                                <TextComponent className1={"text-md"}>
+                                    Agree with Terms & Conditions
+                                </TextComponent>
+                            </View>
+                            <View style={{ alignItems: "flex-end" }}>
+                                <TouchableOpacity
+                                    className="items-center h-10 w-20 rounded-3xl bg-[#5ba273] justify-center"
+                                    onPress={() => onClick()}>
+                                    <TextComponent className1={"text-md text-white"} isBold={true}>Signup</TextComponent>
+                                </TouchableOpacity>
+                            </View>
+                            <View className="flex flex-row items-center justify-end gap-2">
+                                <TextComponent className1={"text-sm"}>
+                                    Already have an account?
+                                </TextComponent>
+                                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                    <TextComponent
+                                        className1={"ml-1 text-sm underline text-[#5ba273]"}
+                                        isBold={true}
+                                    >
+                                        Login
+                                    </TextComponent>
+                                </TouchableOpacity>
                             </View>
                         </View>
-                    </ImageBackground>
-                </View>
-            </KeyboardAwareScrollView>
-        )
-    }
+                    </View>
+                </ImageBackground>
+            </View>
+        </KeyboardAwareScrollView>
+    )
 }
 
 export default Signup
@@ -293,12 +278,10 @@ const styles = StyleSheet.create({
         textAlign: 'left'
     },
     dropContent: {
-        // marginTop: getHeight("1%"),
         width: getWidth("70%"),
         height: getHeight("5%"),
         backgroundColor: Colors.white,
         borderBottomWidth: 1,
         borderBottomColor: Colors.black,
-        // padding: 5
     },
 })

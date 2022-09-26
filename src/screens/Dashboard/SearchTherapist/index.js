@@ -72,7 +72,6 @@ export default class SearchTherapist extends Component {
     }
 
     componentDidMount = () => {
-        // this.uploadComment();
         axios.get(config.BASE_URL + '/locations?sort=id:desc&populate=*')
             .then(async (response) => {
                 var count = Object.keys(response.data.data).length;
@@ -269,7 +268,10 @@ export default class SearchTherapist extends Component {
 
         return (
             <View>
-                <StatusBar barStyle="light-content" />
+                <StatusBar
+                    barStyle="light-content"
+                    backgroundColor={Colors.headerColor}
+                />
                 {
                     this.state.isLoading ?
                         <View style={styles.container}>
@@ -458,7 +460,7 @@ export default class SearchTherapist extends Component {
                                                                         <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
                                                                     </View>
                                                                     <TouchableOpacity
-                                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
+                                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-48 ml-2 h-12 p-3"
                                                                         onPress={() => navigation.navigate('Slot Patient')}
                                                                     >
                                                                         <TextComponent className1="text-md text-white" isSemiBold={true}>STARTING FROM</TextComponent>

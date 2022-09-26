@@ -37,4 +37,7 @@ export const ImagesContent = {
     Loader: require('../../assets/animations/loader.json'),
     Loader1: require('../../assets/animations/loader1.json'),
     Loader2: require('../../assets/animations/loader2.json'),
+
+    //blog
+    blogImg: require('../../assets/images/blog_bgImg.webp'),
 };

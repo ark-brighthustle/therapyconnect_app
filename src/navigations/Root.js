@@ -1,4 +1,4 @@
-import { StyleSheet, Image } from 'react-native'
+import { StyleSheet, Image, View, Text } from 'react-native'
 import React from 'react'
 
 import CustomDrawer from '../components/CustomDrawer';
@@ -12,6 +12,7 @@ import OnlineConsult from '../screens/Dashboard/OnlineConsult';
 import OfflineConsult from '../screens/Dashboard/OfflineConsult';
 import HealthPackage from '../screens/Dashboard/HealthPackage';
 import TextComponent from '../components/TextComponent';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Drawer = createDrawerNavigator();
 
@@ -29,14 +30,17 @@ const Root = () => {
                 name="HomeScreen"
                 component={HomeScreen}
                 options={{
-                    title: () => <TextComponent>Home</TextComponent>,
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Home
+                        </Text>,
                     headerShown: false,
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2">
+                            <AntDesign name='home' color={color} size={25} />
+                        </View>
                     )
                 }}
             />
@@ -45,16 +49,19 @@ const Root = () => {
                 component={HealthPackage}
                 options={{
                     // title: 'Health Package',
-                    title: () => <TextComponent>Health Package</TextComponent>,
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Health Package
+                        </Text>,
                     headerStyle: { backgroundColor: '#5aa272' },
                     headerTitleStyle: { color: 'white' },
                     headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2">
+                            <AntDesign name='home' color={color} size={25} />
+                        </View>
                     )
                 }}
             />
@@ -63,16 +70,19 @@ const Root = () => {
                 component={OnlineConsult}
                 options={{
                     // title: 'Online Consultation',
-                    title: () => <TextComponent>Online Consultation</TextComponent>,
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Online Consultation
+                        </Text>,
                     headerStyle: { backgroundColor: '#5aa272' },
                     headerTitleStyle: { color: 'white' },
                     headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2">
+                            <AntDesign name='home' color={color} size={25} />
+                        </View>
                     )
                 }}
             />
@@ -81,16 +91,19 @@ const Root = () => {
                 component={OfflineConsult}
                 options={{
                     // title: 'Offline Consultation',
-                    title: () => <TextComponent>Offline Consultation</TextComponent>,
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Offline Consultation
+                        </Text>,
                     headerStyle: { backgroundColor: '#5aa272' },
                     headerTitleStyle: { color: 'white' },
                     headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2">
+                            <AntDesign name='home' color={color} size={25} />
+                        </View>
                     )
                 }}
             />
@@ -99,16 +112,19 @@ const Root = () => {
                 component={OfflineConsult}
                 options={{
                     // title: 'Settings',
-                    title: () => <TextComponent>Settings</TextComponent>,
-                    // headerStyle: { backgroundColor: '#5aa272' },
-                    // headerTitleStyle: { color: 'white' },
-                    // headerTintColor: 'white',
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Settings
+                        </Text>,
+                    headerStyle: { backgroundColor: '#5aa272' },
+                    headerTitleStyle: { color: 'white' },
+                    headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2">
+                            <AntDesign name='setting' color={color} size={25} />
+                        </View>
                     )
                 }}
             />
@@ -117,16 +133,19 @@ const Root = () => {
                 component={OfflineConsult}
                 options={{
                     // title: 'Logout',
-                    title: () => <TextComponent>Logout</TextComponent>,
-                    // headerStyle: { backgroundColor: '#5aa272' },
-                    // headerTitleStyle: { color: 'white' },
-                    // headerTintColor: 'white',
+                    title: ({ color }) =>
+                        <Text
+                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            className={"text-md"}>
+                            Signout
+                        </Text>,
+                    headerStyle: { backgroundColor: '#5aa272' },
+                    headerTitleStyle: { color: 'white' },
+                    headerTintColor: 'white',
                     drawerIcon: ({ color }) => (
-                        <Image
-                            source={ImagesContent.search}
-                            tintColor={color}
-                            className="w-6 h-6 ml-2"
-                        />
+                        <View className="ml-2.5">
+                            <AntDesign name='logout' color={color} size={22} />
+                        </View>
                     )
                 }}
             />

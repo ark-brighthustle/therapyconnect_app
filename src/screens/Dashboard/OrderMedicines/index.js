@@ -7,7 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import AnimatedLoader from 'react-native-animated-loader'
 import { ImagesContent } from '../../../constants/images'
 
-class OrderMedicines extends Component {
+export default class OrderMedicines extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -111,8 +111,6 @@ class OrderMedicines extends Component {
         )
     }
 }
-
-export default OrderMedicines
 
 const styles = StyleSheet.create({
     lottie: {
