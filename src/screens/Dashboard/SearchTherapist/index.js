@@ -438,7 +438,7 @@ export default class SearchTherapist extends Component {
                                                                         <View className="w-24 h-24 rounded-full">
                                                                             <Image source={ImagesContent.Logo2} className="w-24 h-24 rounded-full" resizeMode="contain" />
                                                                         </View>
-                                                                        <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
+                                                                        <TouchableOpacity onPress={() => navigation.navigate('Doctor Info', { key: data.id })}>
                                                                             <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
                                                                         </TouchableOpacity>
                                                                     </View>
@@ -454,17 +454,16 @@ export default class SearchTherapist extends Component {
                                                                         <TextComponent className1="mt-2 text-md">{data.degree.label}</TextComponent>
                                                                     </View>
                                                                 </View>
-                                                                <View className="flex flex-row items-center justify-between mt-8">
+                                                                <View className="flex flex-row items-center ml-1.5 justify-between mt-8">
                                                                     <View>
-                                                                        <TextComponent className1="text-sm">Next Available</TextComponent>
-                                                                        <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
+                                                                        <TextComponent className1="text-sm">Starting from</TextComponent>
+                                                                        <TextComponent className1="text-lg" isSemiBold={true}>₹{data.deliveryModesFee[2]}</TextComponent>
                                                                     </View>
                                                                     <TouchableOpacity
-                                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-48 ml-2 h-12 p-3"
-                                                                        onPress={() => navigation.navigate('Slot Patient')}
+                                                                        className="flex justify-center items-center rounded-lg bg-red-500 w-48 mr-4 h-12 p-3"
+                                                                        onPress={() => navigation.navigate('Slot Patient', { key: data.id })}
                                                                     >
-                                                                        <TextComponent className1="text-md text-white" isSemiBold={true}>STARTING FROM</TextComponent>
-                                                                        <TextComponent className1="text-md text-white" isSemiBold={true}>₹{data.deliveryModesFee[2]}</TextComponent>
+                                                                        <TextComponent className1="text-md text-white" isSemiBold={true}>CONSULT NOW</TextComponent>
                                                                     </TouchableOpacity>
                                                                 </View>
                                                             </View>

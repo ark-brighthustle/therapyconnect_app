@@ -38,7 +38,7 @@ export default class HomeScreen extends Component {
     componentDidMount = () => {
         axios.get(config.BASE_URL + '/locations?sort=id:desc&populate=*')
             .then((response) => {
-                var count = Object.keys(response.data.data).length;
+                var count = response.data.data.length;
                 for (var i = 0; i < count; i++) {
                     this.state.selectLocation.push(response.data.data[i].label);
                 }
@@ -229,6 +229,7 @@ export default class HomeScreen extends Component {
                                 <View className="w-full flex pl-4 pr-4 flex-row items-center rounded-lg bg-white p-4">
                                     <Image source={ImagesContent.search} className="w-4 h-4 ml-2 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
                                     <TextInput
+                                        style={{ fontFamily: "Poppins_400Regular", width: getWidth("70%") }}
                                         underlineColorAndroid="transparent"
                                         placeholder="Search health isuue, doctor..."
                                         placeholderTextColor="grey"

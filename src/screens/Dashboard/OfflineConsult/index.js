@@ -10,7 +10,21 @@ export default class OfflineConsult extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: false
+            isLoading: false,
+            arr: [
+                {
+                    img: ImagesContent.Clinic,
+                    title: "At Clinic",
+                    disc: "Connect with health specialist one to one",
+                    value: "At Clinic"
+                },
+                {
+                    img: ImagesContent.Home,
+                    title: "Home Visit",
+                    disc: "Consult with doctors on call or audio note",
+                    value: "Home Visit"
+                }
+            ]
         }
     }
     render() {
@@ -31,28 +45,40 @@ export default class OfflineConsult extends Component {
                         :
                         <ScrollView showsVerticalScrollIndicator={false} >
                             <View className="flex items-center justify-center">
-                                <View style={styles.cardView}>
-                                    <Image className="w-40 h-40" source={ImagesContent.Clinic} />
-                                    <TextComponent className1="text-2xl text-center" isSemiBold={true}>At Clinic</TextComponent>
-                                    <TextComponent className1="text-md text-center mt-4">Connect with health specialist one to one</TextComponent>
-                                    <TouchableOpacity
-                                        className="p-3 bg-red-500 rounded-xl mt-4"
-                                        onPress={() => navigation.navigate('Consultant Physician')}
-                                    >
-                                        <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.cardView}>
-                                    <Image className="w-40 h-40" source={ImagesContent.Home} />
-                                    <TextComponent className1="text-2xl text-center" isSemiBold={true}>Home Visit</TextComponent>
-                                    <TextComponent className1="text-md text-center mt-4">Consult with doctors on call or audio note</TextComponent>
-                                    <TouchableOpacity
-                                        className="p-3 bg-red-500 rounded-xl mt-4"
-                                        onPress={() => navigation.navigate('Consultant Physician')}
-                                    >
-                                        <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
-                                    </TouchableOpacity>
-                                </View>
+                                {
+                                    this.state.arr.map((data) => {
+                                        return (
+                                            <View style={styles.cardView}>
+                                                <Image
+                                                    className="w-40 h-40"
+                                                    source={data.img}
+                                                />
+                                                <TextComponent
+                                                    className1="text-2xl text-center"
+                                                    isSemiBold={true}
+                                                >
+                                                    {data.title}
+                                                </TextComponent>
+                                                <TextComponent
+                                                    className1="text-md text-center mt-4"
+                                                >
+                                                    {data.disc}
+                                                </TextComponent>
+                                                <TouchableOpacity
+                                                    className="p-3 bg-red-500 rounded-xl mt-4"
+                                                    onPress={() => navigation.navigate('Consultant Physician', { name: data.value, key: data.title })}
+                                                >
+                                                    <TextComponent
+                                                        className1="text-md text-white"
+                                                        isSemiBold={true}
+                                                    >
+                                                        Find Doctor
+                                                    </TextComponent>
+                                                </TouchableOpacity>
+                                            </View>
+                                        )
+                                    })
+                                }
                             </View>
                         </ScrollView>
                 }

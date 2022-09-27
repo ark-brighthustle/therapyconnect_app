@@ -11,6 +11,26 @@ export default class OnlineConsult extends Component {
         super(props)
         this.state = {
             isLoading: false,
+            arr: [
+                {
+                    img: ImagesContent.Video,
+                    title: "Video Consultation",
+                    disc: "Connect with health specialist one to one",
+                    value: "Video"
+                },
+                {
+                    img: ImagesContent.Audio,
+                    title: "Audio Consultation",
+                    disc: "Consult with doctors on call or audio note",
+                    value: "Audio"
+                },
+                {
+                    img: ImagesContent.Chat,
+                    title: "Chat Consultation",
+                    disc: "Experience the ease of textual conversation",
+                    value: "Chat"
+                }
+            ]
         }
     }
     render() {
@@ -30,39 +50,40 @@ export default class OnlineConsult extends Component {
                     :
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View className="flex items-center justify-center">
-                            <View style={styles.cardView}>
-                                <Image className="w-40 h-40" source={ImagesContent.Video} />
-                                <TextComponent className1="text-2xl text-center" isMedium={true}>Video Consultation</TextComponent>
-                                <TextComponent className1="text-md mt-4 text-center">Connect with health specialist one to one</TextComponent>
-                                <TouchableOpacity
-                                    className="p-3 bg-red-500 rounded-xl mt-4"
-                                    onPress={() => navigation.navigate('Consultant Physician')}
-                                >
-                                    <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.cardView}>
-                                <Image className="w-40 h-40" source={ImagesContent.Audio} />
-                                <TextComponent className1="text-2xl text-center" isMedium={true}>Audio Consultation</TextComponent>
-                                <TextComponent className1="text-md mt-4 text-center">Consult with doctors on call or audio note</TextComponent>
-                                <TouchableOpacity
-                                    className="p-3 bg-red-500 rounded-xl mt-4"
-                                    onPress={() => navigation.navigate('Consultant Physician')}
-                                >
-                                    <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.cardView}>
-                                <Image className="w-40 h-40" source={ImagesContent.Chat} />
-                                <TextComponent className1="text-2xl text-center" isMedium={true}>Chat Consultation</TextComponent>
-                                <TextComponent className1="text-md mt-4 text-center">Experience the ease of textual conversation</TextComponent>
-                                <TouchableOpacity
-                                    className="p-3 bg-red-500 rounded-xl mt-4"
-                                    onPress={() => navigation.navigate('Consultant Physician')}
-                                >
-                                    <TextComponent className1="text-md text-white" isSemiBold={true}>Find Doctor</TextComponent>
-                                </TouchableOpacity>
-                            </View>
+                            {
+                                this.state.arr.map((data) => {
+                                    return (
+                                        <View style={styles.cardView}>
+                                            <Image
+                                                className="w-40 h-40"
+                                                source={data.img}
+                                            />
+                                            <TextComponent
+                                                className1="text-2xl text-center"
+                                                isMedium={true}
+                                            >
+                                                {data.title}
+                                            </TextComponent>
+                                            <TextComponent
+                                                className1="text-md mt-4 text-center"
+                                            >
+                                                {data.disc}
+                                            </TextComponent>
+                                            <TouchableOpacity
+                                                className="p-3 bg-red-500 rounded-xl mt-4"
+                                                onPress={() => navigation.navigate('Consultant Physician', { name: data.value, key: data.title })}
+                                            >
+                                                <TextComponent
+                                                    className1="text-md text-white"
+                                                    isSemiBold={true}
+                                                >
+                                                    Find Doctor
+                                                </TextComponent>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )
+                                })
+                            }
                         </View>
                     </ScrollView>
                 }

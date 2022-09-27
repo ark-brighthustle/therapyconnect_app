@@ -1,93 +1,190 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { getHeight, getWidth } from '../../../components/Dimensions'
+import { StyleSheet, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import React, { Component } from 'react'
 import { Colors } from '../../../constants/colors'
 import Entypo from 'react-native-vector-icons/Entypo'
-import Octicons from 'react-native-vector-icons/Octicons'
 import BottomSheet from "react-native-gesture-bottom-sheet";
-import { useNavigation } from '@react-navigation/native'
 import TextComponent from '../../../components/TextComponent'
+import { ImagesContent } from '../../../constants/images'
+import axios from 'axios'
+import config from '../../../config'
+import AnimatedLoader from 'react-native-animated-loader';
+import { getHeight, getWidth } from '../../../components/Dimensions';
 
-const ConsultantPhysician = () => {
+export default class ConsultantPhysician extends Component {
 
-    const navigation = useNavigation()
-    const arr = [0, 1, 2, 3]
-    const arr1 = [0, 1, 2, 3, 4, 5, 6, 7]
+    constructor(props) {
+        super(props)
+        this.state = {
+            totalCount: 0,
+            isLoading: true,
+            value: props.route.params.name,
+            valueType: props.route.params.key,
+            dynamicArray: []
+        }
+        console.log("my prop", this.state.value);
+    }
 
-    return (
-        <View>
-            <View className="h-full w-full">
-                {/* <View style={styles.main}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        {
-                            arr.map((data) => {
-                                return (
-                                    <View style={styles.body}>
-                                        <Text className="text-md font-bold text-white">Next available online</Text>
+    componentDidMount() {
+        axios.get(config.BASE_URL + "/doctor-registerations?populate=*&filters[deliveryModes][label][$eq]=" + this.state.value)
+            .then((response) => {
+                // console.log("response", response.data.data);
+                var count = response.data.data.length;
+                console.log("My Count", count);
+                this.setState({
+                    totalCount: count,
+                    dynamicArray: response.data.data,
+                    isLoading: false,
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    render() {
+        const { navigation } = this.props;
+
+        return (
+            <View>
+                {
+                    this.state.isLoading ?
+                        <View style={styles.container}>
+                            <AnimatedLoader
+                                visible={this.state.isLoading}
+                                overlayColor="rgba(255,255,255,0.75)"
+                                animationStyle={styles.lottie}
+                                source={ImagesContent.Loader1}
+                                speed={1}
+                            />
+                        </View>
+                        :
+                        <View className="h-full w-full">
+                            <View className="h-full pt-2 bg-[#E5E7E9]">
+                                <View className="p-4">
+                                    <View className="flex flex-row items-center gap-2">
+                                        <TextComponent
+                                            className1="text-xl mr-1 text-[#5aa272]"
+                                            isSemiBold={true}
+                                        >
+                                            {this.state.totalCount} doctor(s)
+                                        </TextComponent>
+                                        <TextComponent
+                                            className1="text-xl text-black"
+                                            isSemiBold={true}
+                                        >
+                                            found
+                                        </TextComponent>
                                     </View>
-                                )
-                            })
-                        }
-                    </ScrollView>
-                </View> */}
-                <View className="h-full pt-2 bg-[#E5E7E9]">
-                    <View className="p-4">
-                        <View className="flex flex-row items-center gap-2">
-                            <TextComponent className1="text-xl text-[#5aa272]" isSemiBold={true}>53 doctor(s)</TextComponent>
-                            <TextComponent className1="text-xl text-black" isSemiBold={true}>found</TextComponent>
-                        </View>
-                        <TextComponent className1="text-sm mt-0.5 text-[#99A3A4]" isSemiBold={true}>109+ doctors available for online consulatation</TextComponent>
-                    </View>
-                    <ScrollView>
-                        <View className="flex w-full h-full mb-36">
-                            {
-                                arr1.map((data) => {
-                                    return (
-                                        <View>
-                                            <View className="flex bg-white p-5 h-62">
-                                                <View className="flex flex-row items-center gap-10">
-                                                    <View className="items-center">
-                                                        <View className="w-24 h-24 rounded-full bg-red-500" />
-                                                        <TouchableOpacity onPress={() => navigation.navigate('Doctor Info')}>
-                                                            <TextComponent className1="mt-2 text-md text-red-500" isSemiBold={true}>View Profile</TextComponent>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                    <View className="w-2/4">
-                                                        <TextComponent className1="text-xl" isSemiBold={true}>Dr. Mariam Garcia</TextComponent>
-                                                        <TouchableOpacity className="mt-1 w-24 rounded-lg h-7 items-center justify-center bg-[#5aa272]">
-                                                            <TextComponent className1="text-sm text-white" isMedium={true}>Allopathic</TextComponent>
-                                                        </TouchableOpacity>
-                                                        <View className="flex flex-row items-center gap-1 mt-1">
-                                                            <Entypo name="location-pin" size={25} color={Colors.headerColor} />
-                                                            <TextComponent className1="text-md" isSemiBold={true}>4A, SSG Vadodara, Guj.</TextComponent>
-                                                        </View>
-                                                        <TextComponent className1="mt-1 text-md">Allopathic BHMS (Hons), DHMS(Hons), MBBS, MD</TextComponent>
-                                                    </View>
-                                                </View>
-                                                <View className="flex flex-row items-center justify-between mt-8">
+                                    <TextComponent
+                                        className1="text-sm mt-0.5 text-[#99A3A4]"
+                                        isSemiBold={true}
+                                    >
+                                        {this.state.totalCount}+ doctors available for {this.state.valueType}
+                                    </TextComponent>
+                                </View>
+                                <ScrollView>
+                                    <View className="flex w-full h-full">
+                                        {
+                                            this.state.dynamicArray.map((data) => {
+                                                return (
                                                     <View>
-                                                        <TextComponent className1="text-sm">Next Available</TextComponent>
-                                                        <TextComponent className1="text-lg" isSemiBold={true}>10:00 PM, Today</TextComponent>
+                                                        <View className="flex bg-white p-5">
+                                                            <View className="flex flex-row items-center gap-10">
+                                                                <View className="items-center">
+                                                                    <View className="w-24 h-24 rounded-full">
+                                                                        <Image
+                                                                            source={ImagesContent.Logo2}
+                                                                            className="w-24 h-24 rounded-full"
+                                                                            resizeMode="contain"
+                                                                        />
+                                                                    </View>
+                                                                    <TouchableOpacity
+                                                                        onPress={() => navigation.navigate('Doctor Info', { key: data.id })}
+                                                                    >
+                                                                        <TextComponent
+                                                                            className1="mt-2 text-md text-red-500"
+                                                                            isSemiBold={true}
+                                                                        >
+                                                                            View Profile
+                                                                        </TextComponent>
+                                                                    </TouchableOpacity>
+                                                                </View>
+                                                                <View className="w-2/4">
+                                                                    <TextComponent
+                                                                        className1="text-xl"
+                                                                        isSemiBold={true}
+                                                                    >
+                                                                        {data.firstName}
+                                                                    </TextComponent>
+                                                                    <TouchableOpacity
+                                                                        className="mt-1 rounded-lg p-1 items-center justify-center bg-[#5aa272]"
+                                                                    >
+                                                                        <TextComponent
+                                                                            className1="text-sm text-white"
+                                                                            isMedium={true}
+                                                                        >
+                                                                            {data.therapy.label}
+                                                                        </TextComponent>
+                                                                    </TouchableOpacity>
+                                                                    <View className="flex flex-row items-center gap-1 mt-1">
+                                                                        <Entypo
+                                                                            name="location-pin"
+                                                                            size={25}
+                                                                            color={Colors.headerColor}
+                                                                        />
+                                                                        <TextComponent
+                                                                            className1="text-md"
+                                                                            isSemiBold={true}
+                                                                        >
+                                                                            {data.city}, {data.state}
+                                                                        </TextComponent>
+                                                                    </View>
+                                                                    <TextComponent
+                                                                        className1="mt-1 text-md"
+                                                                    >
+                                                                        {data.degree.label}
+                                                                    </TextComponent>
+                                                                </View>
+                                                            </View>
+                                                            <View className="flex flex-row ml-1.5 items-center justify-between mt-8">
+                                                                <View>
+                                                                    <TextComponent
+                                                                        className1="text-sm"
+                                                                    >
+                                                                        Starting from
+                                                                    </TextComponent>
+                                                                    <TextComponent
+                                                                        className1="text-lg"
+                                                                        isSemiBold={true}
+                                                                    >
+                                                                        ₹{data.deliveryModesFee[2]}
+                                                                    </TextComponent>
+                                                                </View>
+                                                                <TouchableOpacity
+                                                                    className="flex justify-center items-center rounded-lg bg-red-500 w-48 mr-4 h-12 p-3"
+                                                                    // onPress={() => { this.BottomSheet.show() }}
+                                                                    onPress={() => navigation.navigate("Slot Patient", { key: data.id })}
+                                                                >
+                                                                    <TextComponent
+                                                                        className1="text-md text-white"
+                                                                        isBold={true}
+                                                                    >
+                                                                        CONSULT NOW
+                                                                    </TextComponent>
+                                                                </TouchableOpacity>
+                                                            </View>
+                                                        </View>
+                                                        <View className="h-3" />
                                                     </View>
-                                                    <TouchableOpacity
-                                                        className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-52 ml-2 h-12 p-3"
-                                                    // onPress={() => { this.BottomSheet.show() }}
-                                                    >
-                                                        <TextComponent className1="text-md text-white" isBold={true}>CONSULT NOW</TextComponent>
-                                                        <TextComponent className1="text-md text-white" isBold={true}>₹400</TextComponent>
-                                                    </TouchableOpacity>
-                                                </View>
-                                            </View>
-                                            <View className="h-3" />
-                                        </View>
-                                    )
-                                })
-                            }
+                                                )
+                                            })
+                                        }
+                                    </View>
+                                </ScrollView>
+                            </View>
                         </View>
-                    </ScrollView>
-                </View>
-            </View>
-            {/* <BottomSheet
+                }
+                {/* <BottomSheet
                 draggable={false}
                 // hasDraggableIcon
                 radius={20}
@@ -124,26 +221,20 @@ const ConsultantPhysician = () => {
                     </TouchableOpacity>
                 </View>
             </BottomSheet> */}
-        </View>
-    )
+            </View >
+        )
+    }
 }
 
-export default ConsultantPhysician
-
 const styles = StyleSheet.create({
-    main: {
-        flexDirection: "row",
-        alignItems: 'center',
-        marginRight: getWidth("2%"),
-        paddingTop: getHeight("3%"),
-        padding: 15,
-        backgroundColor: Colors.white
+    container: {
+        backgroundColor: Colors.white,
+        width: getWidth("100%"),
+        height: getHeight("100%"),
     },
-    body: {
-        backgroundColor: Colors.headerColor,
-        paddingHorizontal: getWidth("5%"),
-        paddingVertical: getHeight("1.2%"),
-        borderRadius: 20,
-        marginRight: getWidth("1.5%")
+    lottie: {
+        width: getWidth("50%"),
+        height: getHeight("50%"),
+        resizeMode: "cover",
     },
 })
