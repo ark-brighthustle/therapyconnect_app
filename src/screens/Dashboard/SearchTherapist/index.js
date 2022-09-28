@@ -23,6 +23,7 @@ export default class SearchTherapist extends Component {
 
         this.state = {
             isLoading: true,
+            valueType: "",
             selectLocation: [],
             selectTabLocation: "",
             searchLocationValue: "Select an option.",
@@ -218,7 +219,34 @@ export default class SearchTherapist extends Component {
                 await this.setState({
                     selectTabConsult: i,
                     searchConsultValue: value,
+
                 })
+                console.log("my b", value);
+                if (value === "Video") {
+                    this.setState({
+                        valueType: "Video Consultation"
+                    })
+                }
+                else if (value === "Audio") {
+                    this.setState({
+                        valueType: "Audio Consultation"
+                    })
+                }
+                else if (value === "Chat") {
+                    this.setState({
+                        valueType: "Chat Consultation"
+                    })
+                }
+                else if (value === "At Clinic") {
+                    this.setState({
+                        valueType: "At Clinic"
+                    })
+                }
+                else if (value === "Home Visit") {
+                    this.setState({
+                        valueType: "Home Visit"
+                    })
+                }
             }
             else if (filterName === "HEALTH") {
                 await this.setState({
@@ -304,7 +332,7 @@ export default class SearchTherapist extends Component {
                                     </View>
                                     <SelectDropdown
                                         ref={this.SelectRef}
-                                        defaultButtonText={<TextComponent className1={"text-left text-md text-black"}>{this.state.searchLocationValue}</TextComponent>}
+                                        defaultButtonText={this.state.searchLocationValue != "" && <TextComponent className1={"text-left text-md text-black"}>{this.state.searchLocationValue}</TextComponent>}
                                         buttonStyle={styles.dropContent}
                                         buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
                                         // data={countries}
@@ -395,7 +423,7 @@ export default class SearchTherapist extends Component {
                                     <TextComponent className1="text-lg" isSemiBold={true}>Select health concern</TextComponent>
                                     <SelectDropdown
                                         ref={this.SelectRef1}
-                                        defaultButtonText={<TextComponent>{this.state.searchHealthValue}</TextComponent>}
+                                        defaultButtonText={this.state.searchHealthValue != "" && <TextComponent>{this.state.searchHealthValue}</TextComponent>}
                                         // defaultValue={'Skin Problems'}
                                         buttonStyle={styles.dropContent}
                                         buttonTextStyle={{ textAlign: 'left', marginLeft: getWidth("5%"), fontSize: 16 }}
@@ -461,7 +489,14 @@ export default class SearchTherapist extends Component {
                                                                     </View>
                                                                     <TouchableOpacity
                                                                         className="flex justify-center items-center rounded-lg bg-red-500 w-48 mr-4 h-12 p-3"
-                                                                        onPress={() => navigation.navigate('Slot Patient', { key: data.id })}
+                                                                        onPress={() => navigation.navigate('Slot Patient',
+                                                                            {
+                                                                                key: data.id,
+                                                                                type: this.state.valueType,
+                                                                                health: this.state.searchHealthValue,
+                                                                                mode: this.state.searchConsultValue
+                                                                            }
+                                                                        )}
                                                                     >
                                                                         <TextComponent className1="text-md text-white" isSemiBold={true}>CONSULT NOW</TextComponent>
                                                                     </TouchableOpacity>

@@ -163,7 +163,7 @@ export default class ConsultantPhysician extends Component {
                                                                 <TouchableOpacity
                                                                     className="flex justify-center items-center rounded-lg bg-red-500 w-48 mr-4 h-12 p-3"
                                                                     // onPress={() => { this.BottomSheet.show() }}
-                                                                    onPress={() => navigation.navigate("Slot Patient", { key: data.id })}
+                                                                    onPress={() => navigation.navigate("Slot Patient", { key: data.id, type: this.state.valueType, health: "", mode: this.state.value })}
                                                                 >
                                                                     <TextComponent
                                                                         className1="text-md text-white"
