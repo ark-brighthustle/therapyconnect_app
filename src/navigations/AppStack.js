@@ -22,6 +22,8 @@ import SplashScreen from '../screens/Auth/SplashScreen';
 import Signup from '../screens/Auth/Signup';
 import Login from '../screens/Auth/Login';
 import ConnectAdvisor from '../screens/Dashboard/ConnectAdvisor';
+import ChatScreen1 from '../screens/Dashboard/ChatScreen1';
+import VideoScreen from '../screens/Dashboard/VideoScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -253,6 +255,16 @@ const AppStack = () => {
       <Stack.Screen
         name="Chat Screen"
         component={ChatScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Chat Screen1"
+        component={ChatScreen1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="VideoScreen"
+        component={VideoScreen}
         options={{ headerShown: false }}
       />
       {/* headerBackground: { backgroundColor: '#5aa272' } */}

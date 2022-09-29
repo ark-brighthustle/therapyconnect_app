@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.evilrat_technologies.Therapy_connect"
     },
     "web": {
       "favicon": ""

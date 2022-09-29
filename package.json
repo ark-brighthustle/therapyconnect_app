@@ -1,11 +1,10 @@
 {
   "name": "therapy_connect",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
@@ -14,12 +13,15 @@
     "@react-navigation/drawer": "^6.4.3",
     "@react-navigation/native": "^6.0.11",
     "@react-navigation/native-stack": "^6.7.0",
+    "@videosdk.live/react-native-sdk": "^0.0.35",
     "axios": "^0.27.2",
-    "expo": "~46.0.7",
+    "expo": "~46.0.13",
     "expo-checkbox": "~2.2.0",
+    "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
-    "react-native": "0.69.5",
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
     "react-native-animated-loader": "^1.0.0",
     "react-native-calendars": "^1.1275.0",
     "react-native-gesture-bottom-sheet": "^1.1.0",
@@ -31,6 +33,8 @@
     "react-native-select-dropdown": "^2.0.4",
     "react-native-svg": "12.3.0",
     "react-native-vector-icons": "^9.2.0",
+    "react-native-video": "^5.2.1",
+    "react-native-web": "~0.18.7",
     "tailwindcss-react-native": "^1.7.10"
   },
   "devDependencies": {

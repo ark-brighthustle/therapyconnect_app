@@ -8,6 +8,7 @@ export default function App() {
     <NavigationContainer>
       <TailwindProvider>
         <AppStack />
+        {/* <ChatScreen1 /> */}
       </TailwindProvider>
     </NavigationContainer>
   );
