@@ -14,3 +14,4 @@ export const createMeeting = async ({ token }) => {
     console.log("meeting", meetingId);
     return meetingId;
 };
+

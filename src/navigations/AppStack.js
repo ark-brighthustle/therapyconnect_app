@@ -24,6 +24,8 @@ import Login from '../screens/Auth/Login';
 import ConnectAdvisor from '../screens/Dashboard/ConnectAdvisor';
 import ChatScreen1 from '../screens/Dashboard/ChatScreen1';
 import VideoScreen from '../screens/Dashboard/VideoScreen';
+import VideoScreen1 from '../screens/Dashboard/VideoScreen1';
+// import Demo from '../screens/Dashboard/Demo';
 
 const Stack = createNativeStackNavigator();
 
@@ -267,6 +269,16 @@ const AppStack = () => {
         component={VideoScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="VideoScreen1"
+        component={VideoScreen1}
+        options={{ headerShown: false }}
+      />
+      {/* <Stack.Screen
+        name="Demo"
+        component={Demo}
+        options={{ headerShown: false }}
+      /> */}
       {/* headerBackground: { backgroundColor: '#5aa272' } */}
     </Stack.Navigator>
   )
