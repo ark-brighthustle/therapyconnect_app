@@ -13,7 +13,7 @@ class MainComponentsRegistry
  public:
   // Adapt it to the package you used for your Java class.
   constexpr static auto kJavaDescriptor =
-      "Lcom/evilrat_technologies/Therapy_connect/newarchitecture/components/MainComponentsRegistry;";
+      "Lcom/therapyconnect/newarchitecture/components/MainComponentsRegistry;";
 
   static void registerNatives();
 

@@ -23,8 +23,7 @@ import Signup from '../screens/Auth/Signup';
 import Login from '../screens/Auth/Login';
 import ConnectAdvisor from '../screens/Dashboard/ConnectAdvisor';
 import ChatScreen1 from '../screens/Dashboard/ChatScreen1';
-import VideoScreen from '../screens/Dashboard/VideoScreen';
-import VideoScreen1 from '../screens/Dashboard/VideoScreen1';
+// import VideoScreen from '../screens/Dashboard/VideoScreen';
 // import Demo from '../screens/Dashboard/Demo';
 
 const Stack = createNativeStackNavigator();
@@ -264,16 +263,11 @@ const AppStack = () => {
         component={ChatScreen1}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="VideoScreen"
         component={VideoScreen}
         options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="VideoScreen1"
-        component={VideoScreen1}
-        options={{ headerShown: false }}
-      />
+      /> */}
       {/* <Stack.Screen
         name="Demo"
         component={Demo}

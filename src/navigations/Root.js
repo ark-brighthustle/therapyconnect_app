@@ -1,17 +1,13 @@
-import { StyleSheet, Image, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 
 import CustomDrawer from '../components/CustomDrawer';
-
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { ImagesContent } from '../constants/images';
-import { getHeight, getWidth } from '../components/Dimensions';
 import HomeScreen from '../screens/Dashboard/HomeScreen';
 import { Colors } from '../constants/colors';
 import OnlineConsult from '../screens/Dashboard/OnlineConsult';
 import OfflineConsult from '../screens/Dashboard/OfflineConsult';
 import HealthPackage from '../screens/Dashboard/HealthPackage';
-import TextComponent from '../components/TextComponent';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Drawer = createDrawerNavigator();
@@ -32,7 +28,7 @@ const Root = () => {
                 options={{
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Home
                         </Text>,
@@ -51,7 +47,7 @@ const Root = () => {
                     // title: 'Health Package',
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Health Package
                         </Text>,
@@ -72,7 +68,7 @@ const Root = () => {
                     // title: 'Online Consultation',
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Online Consultation
                         </Text>,
@@ -93,7 +89,7 @@ const Root = () => {
                     // title: 'Offline Consultation',
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Offline Consultation
                         </Text>,
@@ -114,7 +110,7 @@ const Root = () => {
                     // title: 'Settings',
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Settings
                         </Text>,
@@ -135,7 +131,7 @@ const Root = () => {
                     // title: 'Logout',
                     title: ({ color }) =>
                         <Text
-                            style={{ color: color, fontFamily: "Poppins_600SemiBold" }}
+                            style={{ color: color, fontFamily: "Poppins-SemiBold" }}
                             className={"text-md"}>
                             Signout
                         </Text>,

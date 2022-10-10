@@ -1,8 +1,9 @@
-import { View, StatusBar, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { View, StatusBar, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+// import { Feather, Ionicons, FontAwesome } from '@expo/vector-icons'
 import { ImagesContent } from '../../../constants/images'
 import axios from 'axios'
 import config from '../../../config'
@@ -226,10 +227,10 @@ export default class HomeScreen extends Component {
                                 </View>
                             </View>
                             <View className="w-full flex bg-[#5aa272] pl-4 pr-4 flex-row items-center p-4">
-                                <View className="w-full flex pl-4 pr-4 flex-row items-center rounded-lg bg-white p-4">
-                                    <Image source={ImagesContent.search} className="w-4 h-4 ml-2 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
+                                <View className="w-full flex pl-4 pr-4 flex-row items-center rounded-lg bg-white p-2">
+                                    <Image source={ImagesContent.search} className="w-4 h-4 ml-4 mr-5" style={{ tintColor: "black" }} resizeMode='contain' />
                                     <TextInput
-                                        style={{ fontFamily: "Poppins_400Regular", width: getWidth("70%") }}
+                                        style={{ fontFamily: "Poppins-Regular", width: getWidth("70%") }}
                                         underlineColorAndroid="transparent"
                                         placeholder="Search health isuue, doctor..."
                                         placeholderTextColor="grey"

@@ -56,7 +56,9 @@ const ChatScreen1 = () => {
                         </TextComponent>
                     </View>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('VideoScreen1')}>
+                <TouchableOpacity
+                    // onPress={() => navigation.navigate('VideoScreen')}
+                >
                     <FontAwesome5
                         name="video"
                         size={22}

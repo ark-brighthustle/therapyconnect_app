@@ -29,6 +29,7 @@ export default class SlotPatient extends Component {
             isLoading: true,
             tabId: "",
             selectedDate: moment().format("YYYY-MM-DD"),
+            // selectedDate: "",
             selectMode: [],
             selectModeValue: props.route.params.mode,
             selectHealth: [],
@@ -185,7 +186,7 @@ export default class SlotPatient extends Component {
                                             </View>
                                         </View>
                                         {
-                                            this.state.selectModeValue != "" ?
+                                            this.state.selectModeValue != null ?
                                                 <View className="mt-8">
                                                     <TouchableOpacity
                                                         style={{ borderWidth: 1, borderColor: Colors.borderColor }}
@@ -250,7 +251,7 @@ export default class SlotPatient extends Component {
                                                 data={this.state.selectMode}
                                                 dropdownStyle={{ borderRadius: 10 }}
                                                 dropdownIconPosition="right"
-                                                disabled={this.state.selectModeValue != "" && "false"}
+                                                disabled={this.state.selectModeValue != "" && false}
                                                 onSelect={(selectedItem, index) => onClickPress(selectedItem)}
                                                 renderDropdownIcon={isOpened => {
                                                     return (
@@ -314,7 +315,7 @@ export default class SlotPatient extends Component {
                                         horizontal={true}
                                         pagingEnabled={true}
                                         disableAllTouchEventsForDisabledDays={true}
-                                        minDate={new Date()}
+                                        // minDate={new Date()}
                                         hideArrows={false}
                                     />
                                 </View>

@@ -1,15 +1,30 @@
-import 'react-native-gesture-handler';
-import { TailwindProvider } from 'tailwindcss-react-native';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+// import 'react-native-gesture-handler';
+
+import React from 'react';
+import {
+  Text,
+  View,
+} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/navigations/AppStack';
 
-export default function App() {
+const App = () => {
   return (
     <NavigationContainer>
-      <TailwindProvider>
-        <AppStack />
-        {/* <ChatScreen1 /> */}
-      </TailwindProvider>
+      <AppStack />
     </NavigationContainer>
+    // <View className="bg-red-500">
+    //   <Text className="text-white">hii</Text>
+    // </View>
   );
-}
+};
+
+export default App;
