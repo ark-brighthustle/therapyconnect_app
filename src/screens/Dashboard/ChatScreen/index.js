@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StatusBar, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'

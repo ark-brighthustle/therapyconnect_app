@@ -16,6 +16,7 @@
     "@videosdk.live/react-native-incallmanager": "^0.0.5",
     "@videosdk.live/react-native-sdk": "^0.0.32",
     "axios": "^0.27.2",
+    "deprecated-react-native-prop-types": "^2.3.0",
     "expo-checkbox": "^2.2.0",
     "lottie-react-native": "^5.1.4",
     "moment": "^2.29.4",

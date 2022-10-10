@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StyleSheet, View, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { Component } from 'react'
 import { Colors } from '../../../constants/colors'

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StatusBar, StyleSheet, TouchableOpacity, View, } from 'react-native'
 import React, { useState } from 'react'
 import { Colors } from '../../../constants/colors'
@@ -57,7 +58,7 @@ const ChatScreen1 = () => {
                     </View>
                 </View>
                 <TouchableOpacity
-                    // onPress={() => navigation.navigate('VideoScreen')}
+                    onPress={() => navigation.navigate('VideoScreen')}
                 >
                     <FontAwesome5
                         name="video"

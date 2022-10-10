@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { Component } from 'react'
 import { getHeight, getWidth } from '../../../components/Dimensions'
