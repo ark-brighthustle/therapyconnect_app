@@ -9,6 +9,7 @@ import axios from 'axios'
 import config from '../../../config'
 import TextComponent from '../../../components/TextComponent'
 import AnimatedLoader from 'react-native-animated-loader'
+import RazorpayCheckout from 'react-native-razorpay'
 
 export default class PackageDetails extends Component {
 
@@ -63,6 +64,37 @@ export default class PackageDetails extends Component {
         }
       }
     }
+
+    const onClickOnRazorPay = () => {
+      var options = {
+        description: 'Credits towards consultation',
+        image: 'https://i.imgur.com/3g7nmJC.png',
+        currency: 'INR',
+        key: 'rzp_test_3vUVwCBoWB2iuP',
+        amount: this.state.price_amount,
+        // external: {
+        //   wallets: ['paytm']
+        // },
+        name: 'foo',
+        prefill: {
+          email: 'evilratdeveloper@gmail.com',
+          contact: '8955806560',
+          name: 'Evilrat Technologies'
+        },
+        theme: {color: '#F37254'}
+      }
+      RazorpayCheckout.open(options).then((data) => {
+        console.log("my success", data);
+        alert(`Success: ${data.razorpay_payment_id}`);
+      }).catch((error) => {
+        console.log("my error", error);
+        alert(`Error: ${error.code} | ${error.description}`);
+      })
+      // RazorpayCheckout.onExternalWalletSelection(data => {
+      //   alert(`External Wallet Selected: ${data.external_wallet} `);
+      // });
+    }
+
     return (
       <View>
         {
@@ -167,6 +199,7 @@ export default class PackageDetails extends Component {
                 <View className="p-6">
                   <TouchableOpacity
                     className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-full p-4"
+                    onPress={() => onClickOnRazorPay()}
                   // onPress={() => { this.BottomSheet.show() }}
                   >
                     <TextComponent className1="text-lg text-white" isSemiBold={true}>₹{this.state.price_amount}</TextComponent>

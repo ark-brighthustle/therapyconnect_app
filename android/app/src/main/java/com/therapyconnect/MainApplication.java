@@ -16,6 +16,7 @@ import java.util.List;
 import live.videosdk.rnfgservice.ForegroundServicePackage;
 import live.videosdk.rnincallmanager.InCallManagerPackage;
 import live.videosdk.rnwebrtc.WebRTCModulePackage;
+// import com.razorpay.rn.RazorpayPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -35,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
           packages.add(new ForegroundServicePackage());
           packages.add(new InCallManagerPackage());
           packages.add(new WebRTCModulePackage());
+          // packages.add(new RazorpayPackage());
           return packages;
         }
 

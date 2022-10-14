@@ -132,12 +132,12 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.therapyconnect"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 22
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
@@ -262,13 +262,14 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"
     implementation 'com.facebook.fresco:animated-gif:2.5.0' 
-    implementation "androidx.multidex:multidex:2.0.1"
-    
-    implementation project(':rnfgservice')
-    implementation project(':rnwebrtc')
-    implementation project(':rnincallmanager') // From node_modules
+    implementation "androidx.multidex:multidex:2.0.1"// From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation project(':rnfgservice')
+    implementation project(':rnwebrtc')
+    implementation project(':rnincallmanager') 
+    implementation project(':react-native-razorpay')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

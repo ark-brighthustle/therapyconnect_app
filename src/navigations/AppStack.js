@@ -22,7 +22,7 @@ import SplashScreen from '../screens/Auth/SplashScreen';
 import Signup from '../screens/Auth/Signup';
 import Login from '../screens/Auth/Login';
 import ConnectAdvisor from '../screens/Dashboard/ConnectAdvisor';
-import ChatScreen1 from '../screens/Dashboard/ChatScreen1';
+// import ChatScreen1 from '../screens/Dashboard/ChatScreen1';
 import VideoScreen from '../screens/Dashboard/VideoScreen';
 // import Demo from '../screens/Dashboard/Demo';
 
@@ -258,11 +258,11 @@ const AppStack = () => {
         component={ChatScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Chat Screen1"
         component={ChatScreen1}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="VideoScreen"
         component={VideoScreen}

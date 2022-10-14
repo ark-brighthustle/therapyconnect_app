@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+// 'use strict';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     SafeAreaView,
     TouchableOpacity,
@@ -8,6 +9,7 @@ import {
     TextInput,
     View,
     FlatList,
+    PermissionsAndroid
 } from 'react-native';
 import {
     MeetingProvider,
@@ -94,6 +96,30 @@ const Button = ({ onPress, buttonText, backgroundColor }) => {
     );
 };
 
+const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "Cool Photo App Camera Permission",
+          message:
+            "Cool Photo App needs access to your camera " +
+            "so you can take awesome pictures.",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the camera");
+      } else {
+        console.log("Camera permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
 const ControlsContainer = ({ join, leave, toggleWebcam, toggleMic }) => {
     return (
         <View
@@ -176,7 +202,24 @@ const ParticipantList = ({ participants }) => {
 };
 
 const ParticipantView = ({ participantId }) => {
-    const { webcamStream, webcamOn } = useParticipant(participantId);
+    console.log("partici", participantId);
+    const { webcamStream, webcamOn, enableWebcam, } = useParticipant(participantId, {});
+
+    useEffect(() => {
+        if(webcamOn) {
+            console.log("webcam is on");
+            const mediaStream = new MediaStream();
+            mediaStream.addTrack(webcamStream.track.kind);
+            console.log("media stream", mediaStream);
+        }
+        else {
+            console.log("webcam is off");
+            webcamEnabled: true
+        }
+    }, [webcamOn])
+
+    console.log("web stream", webcamStream);
+    console.log("web cam", webcamOn);
     return webcamOn ? (
         <RTCView
             streamURL={new MediaStream([webcamStream.track]).toURL()}
@@ -186,7 +229,7 @@ const ParticipantView = ({ participantId }) => {
                 marginVertical: 8,
                 marginHorizontal: 8,
             }}
-        />
+        />        
     ) : (
         <View
             style={{
@@ -197,10 +240,69 @@ const ParticipantView = ({ participantId }) => {
             }}
         >
             <Text style={{ fontSize: 16 }}>NO MEDIA</Text>
-        </View>
+        </View>        
     );
-
 };
+
+// const ParticipantView = ({ participantId }) => {
+//     /** Define Refs*/
+//     const webcamRef = useRef(null);
+//     const micRef = useRef(null);
+  
+//     /** useParticipant Hooks which accept `participantId`
+//       as parameter then return participant properties such as displayName, webcamOn, micOn etc.  */
+//     const {
+//       displayName,
+//       webcamStream,
+//       micStream,
+//       webcamOn,
+//       micOn,
+//       isActiveSpeaker,
+//     } = useParticipant(participantId);
+  
+//     useEffect(() => {
+//       if (webcamRef.current) {
+//         if (webcamOn) {
+//           const mediaStream = new MediaStream();
+//           mediaStream.addTrack(webcamStream.track);
+  
+//           webcamRef.current.srcObject = mediaStream;
+//           webcamRef.current
+//             .play()
+//             .catch((error) =>
+//               console.error("videoElem.current.play() failed", error)
+//             );
+//         } else {
+//           webcamRef.current.srcObject = null;
+//         }
+//       }
+//     }, [webcamStream, webcamOn]);
+  
+//     useEffect(() => {
+//       if (micRef.current) {
+//         if (micOn) {
+//           const mediaStream = new MediaStream();
+//           mediaStream.addTrack(micStream.track);
+  
+//           micRef.current.srcObject = mediaStream;
+//           micRef.current
+//             .play()
+//             .catch((error) =>
+//               console.error("videoElem.current.play() failed", error)
+//             );
+//         } else {
+//           micRef.current.srcObject = null;
+//         }
+//       }
+//     }, [micStream, micOn]);
+  
+//     return (
+//       <>
+//         <View ref={micRef} autoPlay />
+//         <View height={"50%"} width={"50%"} ref={webcamRef} autoPlay />
+//       </>
+//     );
+//   };
 
 
 const VideoScreen = () => {
@@ -211,14 +313,25 @@ const VideoScreen = () => {
         setMeetingId(meetingId);
     };
 
+    useEffect (() => {
+        requestCameraPermission()
+    }, []);
+
+
     return meetingId ? (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#F6F6FF' }}>
             <MeetingProvider
                 config={{
                     meetingId,
                     micEnabled: false,
+                    // participantCanToggleSelfMic: true,
                     webcamEnabled: true,
+                    // participantCanToggleSelfWebcam: true,
+                    // participantCanLeave: true,
+                    // redirectOnLeave: "https://www.videosdk.live/",
+                    // screenShareEnabled: true,
                     name: 'Test User',
+
                 }}
                 token={token}>
                 <MeetingView />

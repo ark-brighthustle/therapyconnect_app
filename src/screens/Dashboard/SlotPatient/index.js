@@ -444,7 +444,7 @@ export default class SlotPatient extends Component {
                                     <View className="bg-white p-5">
                                         <TouchableOpacity
                                             className="flex flex-row justify-between items-center rounded-lg bg-red-500 w-full h-15 p-5"
-                                            onPress={() => navigation.navigate('Chat Screen1')}
+                                            onPress={() => navigation.navigate('Chat Screen')}
                                         >
                                             <TextComponent
                                                 className1="text-md text-white"
