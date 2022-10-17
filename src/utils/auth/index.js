@@ -1,4 +1,5 @@
 // import { isEmpty } from 'lodash';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const TOKEN_KEY = 'jwtToken';
 // const USER_INFO = 'userInfo';
@@ -12,8 +13,8 @@
 //      * @param  {String} key [description]
 //      */
 //     clear(key) {
-//         if (localStorage && localStorage.getItem(key)) {
-//             return localStorage.removeItem(key);
+//         if (AsyncStorage && AsyncStorage.getItem(key)) {
+//             return AsyncStorage.removeItem(key);
 //         }
 
 //         if (sessionStorage && sessionStorage.getItem(key)) {
@@ -26,15 +27,15 @@
 //     /**
 //      * Clear all app storage
 //      */
-//     clearAppStorage() {
-//         if (localStorage) {
-//             localStorage.clear();
-//         }
+//     // clearAppStorage() {
+//     //     if (AsyncStorage) {
+//     //         AsyncStorage.clear();
+//     //     }
 
-//         if (sessionStorage) {
-//             sessionStorage.clear();
-//         }
-//     },
+//     //     if (sessionStorage) {
+//     //         sessionStorage.clear();
+//     //     }
+//     // },
 
 //     clearToken(tokenKey = TOKEN_KEY) {
 //         return auth.clear(tokenKey);
@@ -50,8 +51,8 @@
 //      * @return {String|Object}     Data from the storage
 //      */
 //     get(key) {
-//         if (localStorage && localStorage.getItem(key)) {
-//             return parse(localStorage.getItem(key)) || null;
+//         if (AsyncStorage && AsyncStorage.getItem(key)) {
+//             return parse(AsyncStorage.getItem(key)) || null;
 //         }
 
 //         if (sessionStorage && sessionStorage.getItem(key)) {
@@ -73,15 +74,15 @@
 //      * Set data in storage
 //      * @param {String|Object}  value    The data to store
 //      * @param {String}  key
-//      * @param {Boolean} isLocalStorage  Defines if we need to store in localStorage or sessionStorage
+//      * @param {Boolean} isAsyncStorage  Defines if we need to store in localStorage or sessionStorage
 //      */
-//     set(value, key, isLocalStorage) {
+//     set(value, key, isAsyncStorage) {
 //         if (isEmpty(value)) {
 //             return null;
 //         }
 
-//         if (isLocalStorage && localStorage) {
-//             return localStorage.setItem(key, stringify(value));
+//         if (isAsyncStorage && AsyncStorage) {
+//             return AsyncStorage.setItem(key, stringify(value));
 //         }
 
 //         if (sessionStorage) {
@@ -91,12 +92,12 @@
 //         return null;
 //     },
 
-//     setToken(value = '', isLocalStorage = false, tokenKey = TOKEN_KEY) {
-//         return auth.set(value, tokenKey, isLocalStorage);
+//     setToken(value = '', isAsyncStorage = false, tokenKey = TOKEN_KEY) {
+//         return auth.set(value, tokenKey, isAsyncStorage);
 //     },
 
-//     setUserInfo(value = '', isLocalStorage = false, userInfo = USER_INFO) {
-//         return auth.set(value, userInfo, isLocalStorage);
+//     setUserInfo(value = '', isAsyncStorage = false, userInfo = USER_INFO) {
+//         return auth.set(value, userInfo, isAsyncStorage);
 //     },
 // };
 
