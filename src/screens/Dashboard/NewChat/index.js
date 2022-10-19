@@ -18,20 +18,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import TextComponent from '../../../components/TextComponent';
 import {getHeight, getWidth} from '../../../components/Dimensions';
 import {useNavigation} from '@react-navigation/native';
-import socketServices from '../../../utils/socketService';
 
 import {GiftedChat, InputToolbar} from 'react-native-gifted-chat';
+import firestore from '@react-native-firebase/firestore';
 
 const NewChat = () => {
   const navigation = useNavigation();
-  const [click, setClick] = useState(false);
+  // const [click, setClick] = useState(false);
 
-  const [msg, setMsg] = useState('');
+  // const [msg, setMsg] = useState('');
   const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    socketServices.initializeSocket();
-  }, []);
 
   useEffect(() => {
     setMessages([
@@ -48,11 +44,24 @@ const NewChat = () => {
     ]);
   }, []);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
+  const onSend = messageArray => {
+    const msg = messageArray[0];
+    const mymsg = {
+      ...msg,
+      sentBy: 1,
+      sentTo: 2,
+      createdAt: new Date(),
+    };
+    setMessages(previousMessages => GiftedChat.append(previousMessages, mymsg));
+    const user1 = 1;
+    const user2 = 2;
+    const docid = user2 > user1 ? user1 + '-' + user2 : user2 + '-' + user1;
+    firestore()
+      .collection('chatrooms')
+      .doc(docid)
+      .collection('messages')
+      .add({...mymsg, createdAt: firestore.FieldValue.serverTimeStamp()});
+  };
 
   const renderActions = useCallback(() => {
     return (
@@ -103,7 +112,7 @@ const NewChat = () => {
         {/* source */}
         <GiftedChat
           messages={messages}
-          onSend={messages => onSend(messages)}
+          onSend={text => onSend(text)}
           user={{
             _id: 1,
           }}

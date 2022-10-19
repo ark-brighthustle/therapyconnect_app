@@ -9,13 +9,13 @@
 // import 'react-native-gesture-handler';
 
 import React from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import {Text, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import AppStack from './src/navigations/AppStack';
+import * as firebase from '@react-native-firebase/app';
+import {firebaseConfig} from './config';
 
+firebase.default.initializeApp(firebaseConfig);
 const App = () => {
   return (
     <NavigationContainer>
