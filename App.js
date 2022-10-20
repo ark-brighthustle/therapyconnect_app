@@ -9,21 +9,28 @@
 // import 'react-native-gesture-handler';
 
 import React from 'react';
-import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AppStack from './src/navigations/AppStack';
 import * as firebase from '@react-native-firebase/app';
-import {firebaseConfig} from './config';
 
-firebase.default.initializeApp(firebaseConfig);
+const firebaseConfig = {
+  apiKey: 'AIzaSyAvcCF63ACbciUmM3-JMo3jCSBoZjMdMZQ',
+  authDomain: 'chat-app-62326.firebaseapp.com',
+  databaseURL: 'https://chat-app-62326-default-rtdb.firebaseio.com',
+  projectId: 'chat-app-62326',
+  storageBucket: 'chat-app-62326.appspot.com',
+  messagingSenderId: '306354353495',
+  appId: '1:306354353495:web:01dcccb829a873554b7a12',
+  measurementId: 'G-XM4JDQ0TXG',
+};
+const fireApp = firebase.default.initializeApp(firebaseConfig);
+// console.log(fireApp);
+
 const App = () => {
   return (
     <NavigationContainer>
       <AppStack />
     </NavigationContainer>
-    // <View className="bg-red-500">
-    //   <Text className="text-white">hii</Text>
-    // </View>
   );
 };
 
