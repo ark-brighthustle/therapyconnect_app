@@ -34,6 +34,7 @@
     "react-native-gesture-bottom-sheet": "^1.1.0",
     "react-native-gesture-handler": "^2.7.0",
     "react-native-gifted-chat": "^1.0.4",
+    "react-native-image-crop-picker": "^0.38.0",
     "react-native-image-slider-show": "^1.0.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-razorpay": "^2.2.9",
